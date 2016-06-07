@@ -14,7 +14,25 @@ namespace TimesheetUserInterface
     {
         public TSButton()
         {
-            InitializeComponent();
+            this.SetStyle(ControlStyles.StandardDoubleClick, false);
+            InitializeComponent();            
+        }
+
+
+
+        
+        void PaintText(Graphics g)
+        {
+            //using (Pen P = new Pen(MainColor,1))
+            //{
+                g.DrawString(Text, DefaultFont, new SolidBrush(MainColor), new PointF(5, 5));
+            //}
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            PaintText(e.Graphics);
         }
 
         protected override void OnMouseEnter(EventArgs e)

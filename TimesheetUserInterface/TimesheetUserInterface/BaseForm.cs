@@ -25,7 +25,7 @@ namespace TimesheetUserInterface
         [DefaultValue("DarkBlue")]
         public Color MainColor { get; set; }
 
-        [DefaultValue("CornflowerBlue")]
+        [DefaultValue("Color.FromArgb(163, 213, 255)")]
         public Color AccentColor { get; set; }
 
         [DefaultValue("AliceBlue")]

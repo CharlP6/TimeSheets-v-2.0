@@ -104,7 +104,7 @@ namespace TimesheetUserInterface
                 return (Color)this.FindForm().GetType()
                                    .GetProperty("AccentColor").GetValue(this.FindForm());
             else
-                return Color.Red;
+                return Color.FromArgb(163, 213, 255);
         }
         private bool ShouldSerializeAccentColor()
         {
@@ -143,7 +143,7 @@ namespace TimesheetUserInterface
                 return (Color)this.FindForm().GetType()
                                    .GetProperty("SecondaryColor").GetValue(this.FindForm());
             else
-                return Color.Red;
+                return Color.AliceBlue;
         }
         private bool ShouldSerializeSecondaryColor()
         {

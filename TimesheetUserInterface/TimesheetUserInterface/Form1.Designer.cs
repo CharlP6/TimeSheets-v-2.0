@@ -33,11 +33,12 @@
             // 
             // tsButton1
             // 
-            this.tsButton1.Location = new System.Drawing.Point(12, 38);
+            this.tsButton1.Location = new System.Drawing.Point(263, 62);
+            this.tsButton1.MainColor = System.Drawing.Color.DarkBlue;
             this.tsButton1.Name = "tsButton1";
             this.tsButton1.Size = new System.Drawing.Size(85, 30);
             this.tsButton1.TabIndex = 3;
-            this.tsButton1.Text = "tsButton1";
+            this.tsButton1.Text = "abc";
             this.tsButton1.Click += new System.EventHandler(this.tsButton1_Click);
             // 
             // Form1
@@ -58,6 +59,7 @@
         #endregion
 
         private TSButton tsButton1;
+
 
 
     }
