@@ -23,15 +23,28 @@ namespace TimesheetUserInterface
 
 
         [DefaultValue("DarkBlue")]
-        public Color BorderColor { get; set; }
+        public Color MainColor { get; set; }
+
+        [DefaultValue("CornflowerBlue")]
+        public Color AccentColor { get; set; }
+
+        [DefaultValue("AliceBlue")]
+        public Color SecondaryColor { get; set; }
 
         [DefaultValue(25)]
         public int TitleHeight { get; set; }
 
+        [DefaultValue(1)]
+        public int BorderWidth { get; set; }
+
         public BaseForm()
         {
-            this.BorderColor = Color.DarkBlue;
+            MainColor = Color.DarkBlue;
+            AccentColor = Color.FromArgb(163, 213, 255);
+            SecondaryColor = Color.AliceBlue;
+
             TitleHeight = 25;
+            BorderWidth = 1;
 
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MouseDown += fMouseDown;
@@ -54,7 +67,7 @@ namespace TimesheetUserInterface
         
         void PaintBorder(Graphics g)
         {
-            using(Pen P = new Pen (this.BorderColor,1))
+            using(Pen P = new Pen (this.MainColor,BorderWidth))
             {
                 g.DrawRectangle(P, new Rectangle((int)(P.Width / 2), (int)(P.Width / 2), this.Width - (int)(P.Width), this.Height - (int)(P.Width)));
                 g.DrawRectangle(P, new Rectangle((int)(P.Width / 2), (int)(P.Width / 2), this.Width - (int)(P.Width), TitleHeight));
