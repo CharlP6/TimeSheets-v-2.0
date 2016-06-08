@@ -1,6 +1,6 @@
 ﻿namespace TimesheetUserInterface
 {
-    partial class Form1
+    partial class MainTimesheetForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,40 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tsButton1 = new TimesheetUserInterface.TSButton();
             this.SuspendLayout();
             // 
-            // tsButton1
-            // 
-            this.tsButton1.Location = new System.Drawing.Point(263, 62);
-            this.tsButton1.MainColor = System.Drawing.Color.DarkBlue;
-            this.tsButton1.Name = "tsButton1";
-            this.tsButton1.Size = new System.Drawing.Size(85, 30);
-            this.tsButton1.TabIndex = 3;
-            this.tsButton1.Text = "abc";
-            this.tsButton1.Click += new System.EventHandler(this.tsButton1_Click);
-            // 
-            // Form1
+            // MainTimesheetForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(423, 361);
-            this.Controls.Add(this.tsButton1);
-            this.MainColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.ClientSize = new System.Drawing.Size(576, 399);
+            this.Name = "MainTimesheetForm";
+            this.Text = "MainTimesheetForm";
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private TSButton tsButton1;
-
-
-
     }
 }
-

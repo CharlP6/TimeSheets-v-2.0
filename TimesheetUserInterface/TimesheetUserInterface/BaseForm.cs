@@ -37,6 +37,23 @@ namespace TimesheetUserInterface
         [DefaultValue(1)]
         public int BorderWidth { get; set; }
 
+        [DefaultValue("Regular")]
+        public FontStyle fStyle
+        {
+            get;
+            set;
+        }
+
+        [DefaultValue(12)]
+        public float FontSize
+        {
+            get;
+            set;
+        }
+
+        Font tsFont;
+        FontLoader fl = new FontLoader();
+
         public BaseForm()
         {
             MainColor = Color.DarkBlue;
@@ -63,6 +80,8 @@ namespace TimesheetUserInterface
         {
             base.OnPaint(e);
             PaintBorder(e.Graphics);
+            e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+            PaintTitle(e.Graphics);
         }
         
         void PaintBorder(Graphics g)
@@ -75,6 +94,34 @@ namespace TimesheetUserInterface
             }
         }
 
-        
+        void PaintTitle(Graphics g)
+        {
+
+            tsFont = fl.LoadCustomFont(FontSize, fStyle);
+
+            float length = g.MeasureString(this.Text, tsFont).Width;
+            float height = g.MeasureString(this.Text, tsFont).Height;
+
+            g.DrawString(Text, tsFont, new SolidBrush(MainColor), new PointF((this.Width - length) / 2, (this.TitleHeight - height) / 2+2));
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // BaseForm
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Name = "BaseForm";
+            this.Load += new System.EventHandler(this.BaseForm_Load);
+            this.ResumeLayout(false);
+
+        }
+
+        private void BaseForm_Load(object sender, EventArgs e)
+        {
+
+        }        
     }
 }

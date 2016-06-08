@@ -15,6 +15,7 @@ namespace TimesheetUserInterface
         public BaseControl()
         {
             mainColor = Color.Empty;
+            //Font = fl.LoadCustomFont(15, FontStyle.Bold);
         }
 
         protected override void OnPaint(PaintEventArgs e)

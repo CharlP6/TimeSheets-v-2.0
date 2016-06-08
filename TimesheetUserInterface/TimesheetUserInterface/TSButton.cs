@@ -12,21 +12,41 @@ namespace TimesheetUserInterface
 {
     public partial class TSButton : BaseControl
     {
+        Font tsFont;
+        FontLoader fl = new FontLoader();
+
+
+        [DefaultValue("Regular")]
+        public FontStyle fStyle
+        {
+            get;
+            set;
+        }
+
+        [DefaultValue(12)]
+        public float FontSize
+        {
+            get;
+            set;
+        }
+
         public TSButton()
         {
             this.SetStyle(ControlStyles.StandardDoubleClick, false);
-            InitializeComponent();            
+            InitializeComponent();
         }
 
 
 
-        
+
         void PaintText(Graphics g)
         {
-            //using (Pen P = new Pen(MainColor,1))
-            //{
-                g.DrawString(Text, DefaultFont, new SolidBrush(MainColor), new PointF(5, 5));
-            //}
+            tsFont = fl.LoadCustomFont(FontSize, fStyle);
+
+            float length = g.MeasureString(this.Text, tsFont).Width;
+            float height = g.MeasureString(this.Text, tsFont).Height;
+
+            g.DrawString(Text, tsFont, new SolidBrush(MainColor), new PointF((this.Width - length) / 2, (this.Height - height) / 2));
         }
 
         protected override void OnPaint(PaintEventArgs e)
