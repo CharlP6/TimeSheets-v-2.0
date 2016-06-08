@@ -17,10 +17,6 @@ namespace TimesheetUserInterface
         public TSBorderlessForm()
         {
             InitializeComponent();
-            //tsClose.Height = this.TitleHeight;
-            //tsClose.Width = this.TitleHeight;
-            //tsClose.Top = TitleHeight / 2;
-            //tsClose.Left = this.Width - (TitleHeight / 2)-tsClose.Width;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -28,14 +24,6 @@ namespace TimesheetUserInterface
             
         }
 
-        private void tsButton1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
 
-        private void tsMinimize_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
     }
 }

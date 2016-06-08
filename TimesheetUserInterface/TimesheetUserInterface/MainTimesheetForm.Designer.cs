@@ -28,19 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.tsListBox1 = new TimesheetUserInterface.TSListBox();
             this.SuspendLayout();
+            // 
+            // tsListBox1
+            // 
+            this.tsListBox1.Location = new System.Drawing.Point(12, 227);
+            this.tsListBox1.Name = "tsListBox1";
+            this.tsListBox1.Size = new System.Drawing.Size(982, 286);
+            this.tsListBox1.TabIndex = 0;
+            this.tsListBox1.Text = "tsListBox1";
             // 
             // MainTimesheetForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(576, 399);
+            this.ClientSize = new System.Drawing.Size(1006, 525);
+            this.Controls.Add(this.tsListBox1);
+            this.FontSize = 15F;
+            this.MainColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.Name = "MainTimesheetForm";
-            this.Text = "MainTimesheetForm";
+            this.Text = "G5 Engineering Timesheets";
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private TSListBox tsListBox1;
+
     }
 }

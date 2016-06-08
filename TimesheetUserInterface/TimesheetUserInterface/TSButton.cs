@@ -34,10 +34,9 @@ namespace TimesheetUserInterface
         {
             this.SetStyle(ControlStyles.StandardDoubleClick, false);
             InitializeComponent();
+            fStyle = FontStyle.Regular;
+            FontSize = 12;
         }
-
-
-
 
         void PaintText(Graphics g)
         {

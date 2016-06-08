@@ -17,7 +17,7 @@ namespace TimesheetUserInterface
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TSBorderlessForm());
+            Application.Run(new MainTimesheetForm());
         }
     }
 }

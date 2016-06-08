@@ -10,11 +10,13 @@ using System.Windows.Forms;
 
 namespace TimesheetUserInterface
 {
-    public partial class MainTimesheetForm : TSBorderlessForm
+    public partial class MainTimesheetForm : BaseForm
     {
         public MainTimesheetForm()
         {
             InitializeComponent();
+            
         }
+
     }
 }
