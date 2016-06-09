@@ -15,6 +15,8 @@ namespace TimesheetUserInterface
         public BaseControl()
         {
             mainColor = Color.Empty;
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            this.SetStyle(ControlStyles.ResizeRedraw, true);
             //Font = fl.LoadCustomFont(15, FontStyle.Bold);
         }
 
@@ -51,6 +53,8 @@ namespace TimesheetUserInterface
             set
             {
                 mainColor = value;
+                this.Invalidate();
+                this.Update();
             }
         }
         private bool ParentHasMainColor()
@@ -92,6 +96,8 @@ namespace TimesheetUserInterface
             {
                 if (accentColor != value)
                     accentColor = value;
+                this.Invalidate();
+                this.Update();
             }
         }
         private bool ParentHasAccentColor()
@@ -131,6 +137,8 @@ namespace TimesheetUserInterface
             {
                 if (secondaryColor != value)
                     secondaryColor = value;
+                this.Invalidate();
+                this.Update();
             }
         }
         private bool ParentHasSecondaryColor()

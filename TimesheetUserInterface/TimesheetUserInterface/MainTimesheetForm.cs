@@ -12,10 +12,19 @@ namespace TimesheetUserInterface
 {
     public partial class MainTimesheetForm : BaseForm
     {
+
+        ColorOperations co = new ColorOperations();
+
         public MainTimesheetForm()
         {
             InitializeComponent();
-            
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+        }
+
+        private void tsButton1_Click(object sender, EventArgs e)
+        {
+
+
         }
 
     }

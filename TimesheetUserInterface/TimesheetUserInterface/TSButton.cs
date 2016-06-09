@@ -42,10 +42,10 @@ namespace TimesheetUserInterface
         {
             tsFont = fl.LoadCustomFont(FontSize, fStyle);
 
-            float length = g.MeasureString(this.Text, tsFont).Width;
-            float height = g.MeasureString(this.Text, tsFont).Height;
+            float length = g.MeasureString(this.Text, Font).Width;
+            float height = g.MeasureString(this.Text, Font).Height;
 
-            g.DrawString(Text, tsFont, new SolidBrush(MainColor), new PointF((this.Width - length) / 2, (this.Height - height) / 2));
+            g.DrawString(Text, Font, new SolidBrush(MainColor), new PointF((this.Width - length) / 2, (this.Height - height) / 2));
         }
 
         protected override void OnPaint(PaintEventArgs e)
