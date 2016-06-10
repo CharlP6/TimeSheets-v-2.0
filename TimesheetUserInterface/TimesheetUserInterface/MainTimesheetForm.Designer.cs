@@ -60,7 +60,7 @@
             // 
             // MainTimesheetForm
             // 
-            this.AccentColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(165)))), ((int)(((byte)(166)))));
+            this.AccentColor = System.Drawing.Color.DodgerBlue;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.BorderWidth = 2;
@@ -69,10 +69,10 @@
             this.Controls.Add(this.tsButton1);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FontSize = 15F;
-            this.MainColor = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(101)))), ((int)(((byte)(102)))));
+            this.MainColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(89)))), ((int)(((byte)(158)))));
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "MainTimesheetForm";
-            this.SecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(220)))), ((int)(((byte)(221)))));
+            this.SecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(212)))), ((int)(((byte)(255)))));
             this.Text = "G5 Engineering Timesheets";
             this.ResumeLayout(false);
 
