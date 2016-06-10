@@ -32,6 +32,9 @@
             // 
             // TSButton
             // 
+            this.BackColor = System.Drawing.Color.DodgerBlue;
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ForeColor = System.Drawing.Color.White;
             this.Size = new System.Drawing.Size(85, 30);
             this.ResumeLayout(false);
 

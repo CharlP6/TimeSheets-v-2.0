@@ -34,10 +34,14 @@
             // 
             // tsButton1
             // 
-            this.tsButton1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsButton1.FontSize = 12F;
-            this.tsButton1.fStyle = System.Drawing.FontStyle.Regular;
-            this.tsButton1.Location = new System.Drawing.Point(14, 196);
+            this.tsButton1.BackColor = System.Drawing.Color.DodgerBlue;
+            this.tsButton1.BackColorSwatch = TimesheetUserInterface.Swatch.Shade1;
+            this.tsButton1.BorderSwatch = TimesheetUserInterface.Swatch.Shade2;
+            this.tsButton1.ClickSwatch = TimesheetUserInterface.Swatch.Tint1;
+            this.tsButton1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsButton1.ForeColor = System.Drawing.Color.White;
+            this.tsButton1.HoverSwatch = TimesheetUserInterface.Swatch.Primary;
+            this.tsButton1.Location = new System.Drawing.Point(12, 196);
             this.tsButton1.Name = "tsButton1";
             this.tsButton1.Size = new System.Drawing.Size(85, 30);
             this.tsButton1.TabIndex = 1;
@@ -49,9 +53,10 @@
             this.tsListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tsListBox1.BorderSwatch = TimesheetUserInterface.Swatch.Shade1;
             this.tsListBox1.Columns = null;
-            this.tsListBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsListBox1.ItemHeight = 18;
+            this.tsListBox1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsListBox1.ItemHeight = 17;
             this.tsListBox1.Location = new System.Drawing.Point(12, 232);
             this.tsListBox1.Name = "tsListBox1";
             this.tsListBox1.Size = new System.Drawing.Size(896, 341);
@@ -67,8 +72,7 @@
             this.ClientSize = new System.Drawing.Size(920, 585);
             this.Controls.Add(this.tsListBox1);
             this.Controls.Add(this.tsButton1);
-            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FontSize = 15F;
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(89)))), ((int)(((byte)(158)))));
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "MainTimesheetForm";

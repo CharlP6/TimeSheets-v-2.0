@@ -36,7 +36,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(248)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(429, 352);
-            this.FontSize = 16F;
             this.MainColor = System.Drawing.Color.Navy;
             this.Name = "TSBorderlessForm";
             this.TitleHeight = 24;

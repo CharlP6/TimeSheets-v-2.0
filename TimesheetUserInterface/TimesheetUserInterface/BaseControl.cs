@@ -12,9 +12,25 @@ namespace TimesheetUserInterface
 {
     public class BaseControl : Control
     {
+        private int borderSwatch = 1;
+        [Category("Appearance")]
+        public Swatch BorderSwatch
+        {
+            get
+            {
+                return (Swatch)borderSwatch;
+            }
+            set
+            {
+                borderSwatch = (int)value;
+                this.Invalidate();
+                this.Update();
+            }
+        }
+
         public BaseControl()
         {
-            mainColor = Color.Empty;
+            palette = null;
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             this.SetStyle(ControlStyles.ResizeRedraw, true);
             //Font = fl.LoadCustomFont(15, FontStyle.Bold);
@@ -28,13 +44,60 @@ namespace TimesheetUserInterface
 
         void PaintBorder(Graphics g)
         {
-            using (Pen P = new Pen(this.MainColor, 1))
+            using (Pen P = new Pen(Palette.Palette[borderSwatch], 1))
             {
                 g.DrawRectangle(P, new Rectangle((int)(P.Width / 2), (int)(P.Width / 2), this.Width - (int)(P.Width), this.Height - (int)(P.Width)));
             }
         }
 
 
+        #region Pallete
+
+        private ColorPalette palette;
+
+        public ColorPalette Palette
+        {
+            get
+            {
+                if(ParentHasPalette() && palette == null)
+                {
+                    return GetParentPalette();
+                }
+                return palette;
+            }
+            set
+            {
+                palette = value;
+                this.Invalidate();
+                this.Update();
+            }
+        }
+
+        private bool ParentHasPalette()
+        {
+            return this.FindForm() != null && this.FindForm().GetType().GetProperty("Palette") != null;
+        }
+
+        private ColorPalette GetParentPalette()
+        {
+            if (ParentHasPalette())
+                return (ColorPalette)this.FindForm().GetType().GetProperty("Palette").GetValue(this.FindForm());
+            else
+                return new ColorPalette();
+        }
+
+        private bool ShouldSerializePalette()
+        {
+            return this.Palette != GetParentPalette();
+        }
+
+        private void ResetPalette()
+        {
+            this.Palette = GetParentPalette();
+        }
+
+        #endregion
+        
         #region MainColor
         private Color mainColor;
         public Color MainColor
