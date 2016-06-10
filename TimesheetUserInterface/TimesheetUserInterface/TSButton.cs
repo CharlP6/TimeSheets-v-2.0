@@ -84,8 +84,7 @@ namespace TimesheetUserInterface
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
-            
+            base.OnPaint(e);            
             PaintText(e.Graphics);
         }
 

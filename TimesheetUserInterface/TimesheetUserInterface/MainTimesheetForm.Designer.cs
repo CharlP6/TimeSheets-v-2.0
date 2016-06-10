@@ -30,11 +30,12 @@
         {
             this.tsButton1 = new TimesheetUserInterface.TSButton();
             this.tsListBox1 = new TimesheetUserInterface.TSListBox();
+            this.tsCalendar1 = new TimesheetUserInterface.TSCalendar();
             this.SuspendLayout();
             // 
             // tsButton1
             // 
-            this.tsButton1.BackColor = System.Drawing.Color.DodgerBlue;
+            this.tsButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.tsButton1.BackColorSwatch = TimesheetUserInterface.Swatch.Shade1;
             this.tsButton1.BorderSwatch = TimesheetUserInterface.Swatch.Shade2;
             this.tsButton1.ClickSwatch = TimesheetUserInterface.Swatch.Tint1;
@@ -63,6 +64,17 @@
             this.tsListBox1.TabIndex = 2;
             this.tsListBox1.Text = "tsListBox1";
             // 
+            // tsCalendar1
+            // 
+            this.tsCalendar1.BorderSwatch = TimesheetUserInterface.Swatch.Shade1;
+            this.tsCalendar1.CurrentDate = new System.DateTime(2016, 6, 10, 0, 0, 0, 0);
+            this.tsCalendar1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsCalendar1.Location = new System.Drawing.Point(684, 38);
+            this.tsCalendar1.Name = "tsCalendar1";
+            this.tsCalendar1.Size = new System.Drawing.Size(224, 137);
+            this.tsCalendar1.TabIndex = 3;
+            this.tsCalendar1.Text = "tsCalendar1";
+            // 
             // MainTimesheetForm
             // 
             this.AccentColor = System.Drawing.Color.DodgerBlue;
@@ -70,6 +82,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.BorderWidth = 2;
             this.ClientSize = new System.Drawing.Size(920, 585);
+            this.Controls.Add(this.tsCalendar1);
             this.Controls.Add(this.tsListBox1);
             this.Controls.Add(this.tsButton1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -86,6 +99,7 @@
 
         private TSButton tsButton1;
         private TSListBox tsListBox1;
+        private TSCalendar tsCalendar1;
 
     }
 }

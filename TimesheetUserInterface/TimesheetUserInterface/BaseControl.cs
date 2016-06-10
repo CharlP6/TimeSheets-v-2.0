@@ -33,7 +33,6 @@ namespace TimesheetUserInterface
             palette = null;
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             this.SetStyle(ControlStyles.ResizeRedraw, true);
-            //Font = fl.LoadCustomFont(15, FontStyle.Bold);
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -49,8 +48,7 @@ namespace TimesheetUserInterface
                 g.DrawRectangle(P, new Rectangle((int)(P.Width / 2), (int)(P.Width / 2), this.Width - (int)(P.Width), this.Height - (int)(P.Width)));
             }
         }
-
-
+        
         #region Pallete
 
         private ColorPalette palette;
@@ -135,6 +133,7 @@ namespace TimesheetUserInterface
                 return Color.DarkBlue;
             }
         }
+
         private bool ShouldSerializeMainColor()
         {
             return this.MainColor != GetParentMainColor();

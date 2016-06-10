@@ -23,6 +23,14 @@ namespace TimesheetUserInterface
 
         private void tsButton1_Click(object sender, EventArgs e)
         {
+            Color s2 = Color.FromArgb(108, 41, 0);
+            Color s1 = Color.FromArgb(156, 60, 0);
+            Color p = Color.FromArgb(242, 93, 0);
+            Color t1 = Color.FromArgb(255, 121, 37);
+            Color t2 = Color.FromArgb(255, 210, 182);
+
+            this.Palette = new ColorPalette(s2,s1,p,t1,t2);
+
 
 
         }

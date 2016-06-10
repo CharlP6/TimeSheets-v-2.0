@@ -38,6 +38,11 @@ namespace TimesheetUserInterface
                 palette = value;
                 this.Invalidate();
                 this.Update();
+                foreach (Control c in this.Controls)
+                {
+                    c.Invalidate();
+                    c.Update();
+                }
             }
         }
 

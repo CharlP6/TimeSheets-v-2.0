@@ -46,10 +46,8 @@ namespace TimesheetUserInterface
         {
             ItemHeight = this.Font.Height + 2;
             DisplayedItems = (this.Height / ItemHeight) + 1;
-            using (Pen brush = new Pen(co.Tint(this.SecondaryColor, 0.3f), 1))
+            using (Pen brush = new Pen(Palette.Palette[4], 1))
             {
-                float[] dash = { 1, 1 };
-                brush.DashPattern = dash;
                 for (int i = 1; i <= DisplayedItems; i += 1)
                 {
                     g.DrawLine(brush, 0, i * ItemHeight, this.Width, i * ItemHeight);
