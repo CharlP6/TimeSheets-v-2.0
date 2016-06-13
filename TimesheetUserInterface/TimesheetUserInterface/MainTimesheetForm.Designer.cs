@@ -55,12 +55,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tsListBox1.BorderSwatch = TimesheetUserInterface.Swatch.Shade1;
-            this.tsListBox1.Columns = null;
             this.tsListBox1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsListBox1.ItemHeight = 17;
             this.tsListBox1.Location = new System.Drawing.Point(12, 232);
             this.tsListBox1.Name = "tsListBox1";
-            this.tsListBox1.Size = new System.Drawing.Size(896, 341);
+            this.tsListBox1.Size = new System.Drawing.Size(1135, 341);
             this.tsListBox1.TabIndex = 2;
             this.tsListBox1.Text = "tsListBox1";
             // 
@@ -81,7 +80,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.BorderWidth = 2;
-            this.ClientSize = new System.Drawing.Size(920, 585);
+            this.ClientSize = new System.Drawing.Size(1159, 585);
             this.Controls.Add(this.tsCalendar1);
             this.Controls.Add(this.tsListBox1);
             this.Controls.Add(this.tsButton1);

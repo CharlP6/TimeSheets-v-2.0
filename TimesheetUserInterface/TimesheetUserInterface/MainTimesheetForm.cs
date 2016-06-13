@@ -29,8 +29,11 @@ namespace TimesheetUserInterface
             Color t1 = Color.FromArgb(255, 121, 37);
             Color t2 = Color.FromArgb(255, 210, 182);
 
-            this.Palette = new ColorPalette(s2,s1,p,t1,t2);
+            //this.Palette = new ColorPalette(s2,s1,p,t1,t2);
 
+            string[] test = { "a", "b", "c" };
+
+            tsListBox1.AddItem(test);
 
 
         }
