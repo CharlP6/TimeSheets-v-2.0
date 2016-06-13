@@ -185,7 +185,7 @@ namespace TimesheetUserInterface
             const UInt32 HTBOTTOMLEFT = 16;
             const UInt32 HTBOTTOMRIGHT = 17;
 
-            const UInt32 HTCLOSE = 8;
+            //const UInt32 HTCLOSE = 8;
 
 
             const int RESIZE_HANDLE_SIZE = 6;

@@ -17,13 +17,17 @@ namespace TimesheetUserInterface
         private Rectangle HeaderRectangle = new Rectangle(0, 0, 224, 17);
         private Rectangle DaysRectangle = new Rectangle(0, 17, 224, 20);
 
-        private Rectangle CalendarRectangle = new Rectangle(0, 37, 224, 100);
+        private Rectangle CalendarRectangle = new Rectangle(0, 37, 224, 120);
 
         private Rectangle[] DayButtons = new Rectangle[42];
         private Size DayButtonSize = new Size(32, 20);
+        private DateTime[] DisplayDays = new DateTime[42];
 
-        private List<int> DraggedDays = new List<int>();
-        private List<int> SelectedDays = new List<int>();
+        private List<DateTime> DraggedDays = new List<DateTime>();
+        public List<DateTime> SelectedDays = new List<DateTime>();
+
+        private Rectangle currentRect;
+        private int currentButton = -1;
 
         private DateTime initDate;
         private DateTime date;
@@ -39,6 +43,9 @@ namespace TimesheetUserInterface
             set
             {
                 date = value;
+                fillDays();
+                this.Invalidate();
+                this.Update();
             }
         }
 
@@ -56,7 +63,126 @@ namespace TimesheetUserInterface
                 int row = (i - column) / 7;
                 DayButtons[i] = new Rectangle(new Point(column * DayButtonSize.Width, row * DayButtonSize.Height+CalendarRectangle.Top), DayButtonSize);
             }
+            fillDays();
+
         }
+
+        private void fillDays()
+        {
+            DateTime day1 = new DateTime(CurrentDate.Year, CurrentDate.Month, 1);
+            DateTime monday1 = day1.StartOfWeek(DayOfWeek.Monday);
+
+            for(int i = 0; i <= 41; i++)
+            {
+                DisplayDays[i] = monday1.AddDays(i);
+            }
+        }
+
+        protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs e)
+        {
+            try
+            {
+                DraggedDays.Clear();
+                DraggedDays.Add(DisplayDays[currentButton]);
+                DraggedDays.Add(DisplayDays[currentButton]);
+
+                SelectedDays.Clear();
+                SelectedDays.Add(DisplayDays[currentButton]);
+            }
+            catch
+            {
+
+            }
+
+            base.OnMouseDown(e);
+        }
+
+        protected override void OnMouseUp(System.Windows.Forms.MouseEventArgs e)
+        {
+            SelectedDays.Clear();
+
+            DateTime sDate = DraggedDays.Min();
+            DateTime eDate = DraggedDays.Max();
+
+            SelectedDays.Add(sDate);
+            while(sDate < eDate)
+            {
+                SelectedDays.Add(sDate.AddDays(1));
+                sDate = sDate.AddDays(1);
+            }
+            
+            DraggedDays.Clear();
+            this.Invalidate();
+            this.Update();
+            base.OnMouseUp(e);
+        }
+
+        protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
+        {
+            Rectangle cRect = DayButtons.Where(db => db.Contains(e.Location)).FirstOrDefault();
+
+            if(cRect != currentRect)
+            {
+                currentRect = cRect;
+                int row = (((e.Y - CalendarRectangle.Y) * 6) / (CalendarRectangle.Height));
+                int col = ((e.X * 7) / width);
+                currentButton = row * 7 + col;
+                if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                {
+                    try
+                    {
+                        DraggedDays[1] = DisplayDays[currentButton];
+                    }
+                    catch
+                    {
+
+                    }
+
+                }
+                this.Invalidate();
+                this.Update();
+            }
+            if (!CalendarRectangle.Contains(e.Location))
+            {
+                currentButton = -1;
+                this.Invalidate();
+                this.Update();
+            }
+
+            base.OnMouseMove(e);
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            currentButton = -1;
+            this.Invalidate();
+            this.Update();
+            base.OnMouseLeave(e);
+        }
+
+        protected override void OnClick(EventArgs e)
+        {
+            if (currentButton != -1)
+            {
+                try
+                {
+                    SelectedDays.Clear();
+                    SelectedDays.Add(DisplayDays[currentButton]);
+                    CurrentDate = DisplayDays[currentButton];
+                    fillDays();
+                    this.Invalidate();
+                    this.Update();
+                }
+                catch
+                {
+
+                }
+            }
+
+            base.OnClick(e);
+        }
+
+        
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
@@ -71,7 +197,7 @@ namespace TimesheetUserInterface
                 g.FillRectangle(B, HeaderRectangle);
                 
                 //Prepare to paint month name
-                string HeaderText = CurrentDate.ToString("MMMM");
+                string HeaderText = CurrentDate.ToString("MMMM") + " " + CurrentDate.Year.ToString();
                 int sLen = (int)g.MeasureString(HeaderText, this.Font).Width;
                 int sHeight = (int)g.MeasureString(HeaderText, this.Font).Height;
 
@@ -81,28 +207,71 @@ namespace TimesheetUserInterface
                 B.Color = Palette.Shade2;
 
                 g.DrawString(HeaderText, this.Font, B, new PointF(sX, sY));
+
+                for (int i = 0; i <= 6; i++)
+                {
+                    string day = string.Join("", ((DaysOfTheWeek)i).ToString().Take(3));
+                    sLen = (int)g.MeasureString(day, this.Font).Width;
+                    sHeight = (int)g.MeasureString(day, this.Font).Height;
+                    sX = (i * width) / 7 - sLen / 2 + DayButtonSize.Width/2;
+                    sY = DaysRectangle.Y + DaysRectangle.Height / 2 - sHeight / 2;
+                    g.DrawString(day, this.Font, B, new PointF(sX, sY));
+                }
+
             }
         }
 
         private void PaintButtons(Graphics g)
         {
-            int i = 0;
-            DateTime day1 = new DateTime(CurrentDate.Year, CurrentDate.Month, 1);
 
-            DateTime monday1 = day1.StartOfWeek(DayOfWeek.Monday);
+            Font btnFont = new System.Drawing.Font(this.Font.FontFamily, this.Font.Size, FontStyle.Regular);
+
+            int i = 0;
 
             using (SolidBrush B = new SolidBrush(Palette.Shade2))
             {
                 foreach (Rectangle db in DayButtons)
                 {
                     Point centre = new Point(db.X + db.Width / 2, db.Y + db.Height / 2);
-                    string text = (monday1.AddDays(i)).Day.ToString();
+                    string text = DisplayDays[i].Day.ToString();
 
-                    int sLen = (int)g.MeasureString(text, this.Font).Width;
-                    int sHeight = (int)g.MeasureString(text, this.Font).Height;
-
+                    int sLen = (int)g.MeasureString(text, btnFont).Width;
+                    int sHeight = (int)g.MeasureString(text, btnFont).Height;
                     Point drawPoint = new Point(centre.X - sLen / 2, centre.Y - sHeight / 2);
-                    g.DrawString(text, this.Font, B, drawPoint);
+
+                    if (DisplayDays[i] != DateTime.Today)
+                    {
+                        if(SelectedDays.Contains(DisplayDays[i]))
+                        {
+                            g.FillRectangle(new SolidBrush(Palette.Tint1), db);
+                        }
+                        else if(currentButton == i)
+                        {
+                            g.FillRectangle(new SolidBrush(Palette.Tint2), db);                            
+                        }
+                        else if(DraggedDays.Count > 0)
+                        {
+                            if(DisplayDays[i] >= DraggedDays.Min() && DisplayDays[i] <= DraggedDays.Max())
+                            {
+                                g.FillRectangle(new SolidBrush(Palette.Tint2), db);
+                            }
+                        }
+                        g.DrawString(text, btnFont, B, drawPoint);
+                    }
+                    else
+                    {
+                        if (currentButton == i)
+                        {
+                            g.FillRectangle(new SolidBrush(Palette.Tint2), db);
+                            g.DrawString(text, btnFont, B, drawPoint);
+                        }
+                        else
+                        {
+                            g.FillRectangle(new SolidBrush(Palette.Shade1), db);
+                            g.DrawString(text, btnFont, new SolidBrush(this.Palette.Tint2), drawPoint);
+                        }
+
+                    }
 
                     i++;
                 }
@@ -134,4 +303,16 @@ namespace TimesheetUserInterface
             return dt.AddDays(-1 * diff).Date;
         }
     }
+
+    public enum DaysOfTheWeek
+    {
+        Mon = 0,
+        Tue,
+        Wed,
+        Thu,
+        Fri,
+        Sat,
+        Sun,
+    }
+
 }

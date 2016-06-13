@@ -69,9 +69,9 @@
             this.tsCalendar1.BorderSwatch = TimesheetUserInterface.Swatch.Shade1;
             this.tsCalendar1.CurrentDate = new System.DateTime(2016, 6, 10, 0, 0, 0, 0);
             this.tsCalendar1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsCalendar1.Location = new System.Drawing.Point(684, 38);
+            this.tsCalendar1.Location = new System.Drawing.Point(12, 33);
             this.tsCalendar1.Name = "tsCalendar1";
-            this.tsCalendar1.Size = new System.Drawing.Size(224, 137);
+            this.tsCalendar1.Size = new System.Drawing.Size(224, 157);
             this.tsCalendar1.TabIndex = 3;
             this.tsCalendar1.Text = "tsCalendar1";
             // 
