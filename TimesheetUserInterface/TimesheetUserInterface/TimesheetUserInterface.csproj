@@ -50,7 +50,6 @@
     <Compile Include="BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ColorOperations.cs" />
     <Compile Include="FontLoader.cs" />
     <Compile Include="MainTimesheetForm.cs">
       <SubType>Form</SubType>
