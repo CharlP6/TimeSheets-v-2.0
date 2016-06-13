@@ -46,11 +46,11 @@ namespace TimesheetUserInterface
         {
             ItemHeight = this.Font.Height + 2;
             DisplayedItems = (this.Height / ItemHeight) + 1;
-            using (SolidBrush brush = new SolidBrush(co.Tint(this.SecondaryColor,0.618f)))
+            using (Pen brush = new Pen(Palette.Palette[4], 1))
             {
-                for (int i = 0; i <= DisplayedItems; i += 2)
+                for (int i = 1; i <= DisplayedItems; i += 1)
                 {
-                    g.FillRectangle(brush, new Rectangle(1, i * ItemHeight+1, this.Width-2, ItemHeight));
+                    g.DrawLine(brush, 0, i * ItemHeight, this.Width, i * ItemHeight);
                 }
             }
         }

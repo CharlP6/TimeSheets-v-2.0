@@ -24,6 +24,45 @@ namespace TimesheetUserInterface
         [DllImportAttribute("user32.dll")]
         public static extern bool ReleaseCapture();
 
+        private ColorPalette palette;
+
+        [Category("Appearance"), Browsable(false)]
+        public ColorPalette Palette
+        {
+            get
+            {
+                return palette;
+            }
+            set
+            {
+                palette = value;
+                this.Invalidate();
+                this.Update();
+                foreach (Control c in this.Controls)
+                {
+                    c.Invalidate();
+                    c.Update();
+                }
+            }
+        }
+
+        private int borderSwatch = 1;
+        [Category("Appearance")]
+        public Swatch BorderSwatch
+        {
+            get
+            {
+                return (Swatch)borderSwatch;
+            }
+            set
+            {
+                borderSwatch = (int)value;
+                this.Invalidate();
+                this.Update();
+            }
+        }
+
+
         [DefaultValue("DarkBlue")]
         public Color MainColor { get; set; }
 
@@ -72,15 +111,6 @@ namespace TimesheetUserInterface
         [DefaultValue(0)]
         public int BorderOffset{ get; set; }
 
-        [DefaultValue("Regular")]
-        public FontStyle fStyle { get; set; }
-
-        [DefaultValue(12)]
-        public float FontSize { get; set; }
-
-        Font tsFont;
-        FontLoader fl = new FontLoader();
-
         int cornerButtonHeight = 25;
         int cornerButtonWidth = 25;
 
@@ -110,6 +140,8 @@ namespace TimesheetUserInterface
             colClose = Color.LightCoral;
             colMax = Color.LightGray;
             colMin = Color.LightGray;
+
+            this.Palette = new ColorPalette();
 
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MouseDown += fMouseDown;
@@ -244,14 +276,11 @@ namespace TimesheetUserInterface
         protected override void OnTextChanged(EventArgs e)
         {
             base.OnTextChanged(e);
-            if (tsFont != null)
-            {
+
                 Graphics g = this.CreateGraphics();
-                Size tS = g.MeasureString(this.Text, this.tsFont).ToSize();
+                Size tS = g.MeasureString(this.Text, this.Font).ToSize();
                 this.Invalidate(new Rectangle(0,0,this.Width,this.titleHeight));
                 this.Update();
-            }
-
         }
 
         protected override void OnResize(EventArgs e)
@@ -332,12 +361,12 @@ namespace TimesheetUserInterface
         void PaintBorder(Graphics g)
         {
 
-            using (SolidBrush B = new SolidBrush(this.AccentColor))
+            using (SolidBrush B = new SolidBrush(Palette.Palette[borderSwatch]))
             {
                 g.FillRectangle(B, new Rectangle((int)(BorderWidth / 2), (int)(BorderWidth / 2), this.Width - (int)(BorderWidth), TitleHeight + BorderWidth));
             }
 
-            using(Pen P = new Pen (this.MainColor,BorderWidth))
+            using(Pen P = new Pen (Palette.Palette[borderSwatch],BorderWidth))
             {
                 g.DrawRectangle(P, new Rectangle((int)(P.Width / 2), (int)(P.Width / 2), this.Width - (int)(P.Width), this.Height - (int)(P.Width)));
                 //g.DrawRectangle(P, new Rectangle((int)(P.Width / 2), (int)(P.Width / 2), this.Width - (int)(P.Width), TitleHeight));
@@ -347,8 +376,6 @@ namespace TimesheetUserInterface
 
         void PaintTitle(Graphics g)
         {
-            //tsFont = fl.LoadCustomFont(FontSize, fStyle);
-
             float length = g.MeasureString(this.Text, Font).Width;
             float height = g.MeasureString(this.Text, Font).Height;
 
@@ -357,9 +384,6 @@ namespace TimesheetUserInterface
 
         void PaintCornerButtons(Graphics g)
         {
-
-            tsFont = fl.LoadCustomFont(10, FontStyle.Bold);
-
             if (closeHover)
                 g.FillRectangle(new SolidBrush(colClose), closeBtn);
             if (maxHover)

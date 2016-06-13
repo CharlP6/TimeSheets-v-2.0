@@ -50,6 +50,8 @@
     <Compile Include="BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ColorOperations.cs" />
+    <Compile Include="ColorPalette.cs" />
     <Compile Include="FontLoader.cs" />
     <Compile Include="MainTimesheetForm.cs">
       <SubType>Form</SubType>
@@ -76,6 +78,9 @@
     <Compile Include="TSButton.Designer.cs">
       <DependentUpon>TSButton.cs</DependentUpon>
     </Compile>
+    <Compile Include="TSCalendar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="TSListBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -95,6 +100,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TSButton.resx">
       <DependentUpon>TSButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TSCalendar.resx">
+      <DependentUpon>TSCalendar.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
