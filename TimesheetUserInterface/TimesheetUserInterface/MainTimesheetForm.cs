@@ -13,14 +13,9 @@ namespace TimesheetUserInterface
 {
     public partial class MainTimesheetForm : BaseForm
     {
-
-
-        
-
         public MainTimesheetForm()
         {
             InitializeComponent();
-           //this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
         private void tsButton1_Click(object sender, EventArgs e)

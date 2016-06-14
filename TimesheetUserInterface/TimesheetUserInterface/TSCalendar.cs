@@ -9,7 +9,6 @@ namespace TimesheetUserInterface
 {
     class TSCalendar : BaseControl
     {
-
         private int headerHeight = 17;
         private int width = 224;
         private int height = 137;

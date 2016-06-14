@@ -35,6 +35,36 @@ namespace TimesheetUserInterface
             SetStyle(ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         }
 
+        protected override void OnClick(EventArgs e)
+        {
+            base.OnClick(e);
+            this.Invalidate();
+            this.Refresh();
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            this.Invalidate();
+            this.Update();
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                this.Invalidate();
+                this.Update();
+            }
+        }
+
+        protected override void OnDrawItem(DrawItemEventArgs e)
+        {
+            
+            base.OnDrawItem(e);
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.Clear(BackColor);
