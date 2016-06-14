@@ -31,6 +31,7 @@
             this.tsButton1 = new TimesheetUserInterface.TSButton();
             this.tsListBox1 = new TimesheetUserInterface.TSListBox();
             this.tsCalendar1 = new TimesheetUserInterface.TSCalendar();
+            this.gListBox1 = new TimesheetUserInterface.GListBox();
             this.SuspendLayout();
             // 
             // tsButton1
@@ -74,6 +75,17 @@
             this.tsCalendar1.TabIndex = 3;
             this.tsCalendar1.Text = "tsCalendar1";
             // 
+            // gListBox1
+            // 
+            this.gListBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gListBox1.BorderSwatch = TimesheetUserInterface.Swatch.Shade1;
+            this.gListBox1.FormattingEnabled = true;
+            this.gListBox1.ItemHeight = 16;
+            this.gListBox1.Location = new System.Drawing.Point(430, 33);
+            this.gListBox1.Name = "gListBox1";
+            this.gListBox1.Size = new System.Drawing.Size(630, 96);
+            this.gListBox1.TabIndex = 4;
+            // 
             // MainTimesheetForm
             // 
             this.AccentColor = System.Drawing.Color.DodgerBlue;
@@ -81,6 +93,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.BorderWidth = 2;
             this.ClientSize = new System.Drawing.Size(1159, 585);
+            this.Controls.Add(this.gListBox1);
             this.Controls.Add(this.tsCalendar1);
             this.Controls.Add(this.tsListBox1);
             this.Controls.Add(this.tsButton1);
@@ -99,6 +112,7 @@
         private TSButton tsButton1;
         private TSListBox tsListBox1;
         private TSCalendar tsCalendar1;
+        private GListBox gListBox1;
 
     }
 }

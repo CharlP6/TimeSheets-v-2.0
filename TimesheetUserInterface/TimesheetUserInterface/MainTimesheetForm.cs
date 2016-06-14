@@ -27,6 +27,11 @@ namespace TimesheetUserInterface
         {
             TSDataBaseAdapter dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
 
+            tsListBox1.DataSource = dba.TimeSheetData;
+
+            gListBox1.DataSource = dba.Domains;
+            gListBox1.DisplayMember = "Name";
+            gListBox1.ValueMember = "ID";
         }
 
     }

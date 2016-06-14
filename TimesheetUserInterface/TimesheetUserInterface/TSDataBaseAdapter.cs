@@ -20,10 +20,14 @@ namespace TimesheetUserInterface
 
         public List<string[]> UserData = new List<string[]>();
 
-
+        public List<RolesTable> Roles = new List<RolesTable>();
+        public List<ActivitiesTable> Activities = new List<ActivitiesTable>();
         public List<FunctionTable> Functions = new List<FunctionTable>();
-        public List<DomainTable> Domains = new List<DomainTable>();
-        
+        public List<DomainTable> Domains = new List<DomainTable>();        
+        public List<ProjectTable> Projects = new List<ProjectTable>();
+
+        public List<string[]> TimeSheetData = new List<string[]>();
+
         private int userID = -1;
 
         public int UserID
@@ -41,6 +45,9 @@ namespace TimesheetUserInterface
             GetUserID();
             LoadDomains();
             LoadFunctions();
+            LoadActivities();
+            LoadProjects();
+            LoadTimeSheets();
         }
 
         void GetUserID()
@@ -59,6 +66,85 @@ namespace TimesheetUserInterface
                     if(TimeSheetDataSet.Tables["Users"].Rows.Count > 0)
                     {
                         userID = (int)TimeSheetDataSet.Tables["Users"].Rows[0][0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        void LoadTimeSheets()
+        {
+            TimeSheetData.Clear();
+            if(userID != -1)
+            {
+
+                string TSDataQuery = "SELECT * FROM TimeSheets";
+
+                using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+                {
+                    OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(TSDataQuery, DBConnection);
+                    try
+                    {
+                        DBConnection.Open();
+                        UserDataAdapter.Fill(TimeSheetDataSet, "TimeSheets");
+                        if (TimeSheetDataSet.Tables["TimeSheets"].Rows.Count > 0)
+                        {
+                            foreach (DataRow DR in TimeSheetDataSet.Tables["TimeSheets"].Rows)
+                            {
+                                string ID = ((int)DR["ID"]).ToString();
+                                string Date = ((DateTime)DR["Work Date"]).ToShortDateString(); ;
+                                string Time = ((float)DR["Time"]).ToString();
+                                string Project = Projects.Where(w => w.ID == (int)DR["Project ID"]).Select(s => s.Name).First();
+                                string Domain = Domains.Where(w => w.ID == (int)DR["Domain ID"]).Select(s => s.Name).First();
+                                string Function = Functions.Where(w => w.ID == (int)DR["Function ID"]).Select(s => s.Name).First();
+                                string Activity = Activities.Where(w => w.ID == (int)DR["Activity ID"]).Select(s => s.Name).First();
+                                string Role = "rrr"; // = Activities.Where(w => w.ID == (int)DR[7]).Select(s => s.Name).First();
+                                string Comments = "ccc"; // = Activities.Where(w => w.ID == (int)DR[7]).Select(s => s.Name).First();
+
+                                string[] output = { Date, Time, Project, Domain, Function, Activity, Role, Comments, ID };
+
+                                TimeSheetData.Add(output);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+            }
+        }
+
+        void LoadActivities()
+        {
+            Activities.Clear();
+
+            string ActivitiesDataQuery = "SELECT * FROM Activities";
+
+            using(OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            {
+                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(ActivitiesDataQuery, DBConnection);
+                try
+                {
+                    DBConnection.Open();
+                    UserDataAdapter.Fill(TimeSheetDataSet, "Activities");
+                    if (TimeSheetDataSet.Tables["Activities"].Rows.Count > 0)
+                    {
+                        foreach (DataRow DR in TimeSheetDataSet.Tables["Activities"].Rows)
+                        {
+                            if (DR[3] ==  DBNull.Value)
+                            {
+                                Activities.Add(new ActivitiesTable((int)DR[0], (string)DR[1], (int)DR[2], ""));
+
+                            }
+                            else
+                            {
+                                Activities.Add(new ActivitiesTable((int)DR[0], (string)DR[1], (int)DR[2], (string)DR[3]));
+                            }
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -98,6 +184,7 @@ namespace TimesheetUserInterface
 
         void LoadDomains()
         {
+            Domains.Clear();
             string DomainDataQuery = "SELECT * FROM Domains";
 
             using(OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
@@ -112,6 +199,33 @@ namespace TimesheetUserInterface
                         foreach (DataRow DR in TimeSheetDataSet.Tables["Domains"].Rows)
                         {
                             Domains.Add(new DomainTable((int)DR[0], (string)DR[1]));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        void LoadProjects()
+        {
+            Projects.Clear();
+            string ProjectDataQuery = "SELECT * FROM Projects";
+
+            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            {
+                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(ProjectDataQuery, DBConnection);
+                try
+                {
+                    DBConnection.Open();
+                    UserDataAdapter.Fill(TimeSheetDataSet, "Projects");
+                    if (TimeSheetDataSet.Tables["Projects"].Rows.Count > 0)
+                    {
+                        foreach (DataRow DR in TimeSheetDataSet.Tables["Projects"].Rows)
+                        {
+                            Projects.Add(new ProjectTable((int)DR[0], (string)DR[1], (string)DR[2]));
                         }
                     }
                 }
@@ -158,8 +272,8 @@ namespace TimesheetUserInterface
 
     public class DomainTable
     {
-        public int ID;
-        public string Name;
+        public int ID { get; set; }
+        public string Name { get; set; }
 
         public DomainTable(int id, string name)
         {
@@ -197,5 +311,32 @@ namespace TimesheetUserInterface
             AddTable = addtable;
         }        
     }
+
+    public class RolesTable
+    {
+        public int ID;
+        public string Name;
+
+        public RolesTable(int id, string name)
+        {
+            ID = id;
+            Name = name;
+        }        
+    }
+
+    public class ProjectTable
+    {
+        public int ID;
+        public string Name;
+        public string ProjectNumber;
+      
+        public ProjectTable(int id, string name, string projectnum)
+        {
+            ID = id;
+            Name = name;
+            ProjectNumber = projectnum;
+        }
+    }
+       
 
 }

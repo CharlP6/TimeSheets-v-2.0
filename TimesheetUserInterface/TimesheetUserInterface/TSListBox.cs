@@ -12,19 +12,14 @@ using System.Runtime.InteropServices;
 
 namespace TimesheetUserInterface
 {
-    class TSListBox : BaseControl
+    class TSListBox : ListBox
     {
 
         ColorOperations co = new ColorOperations();
 
         private List<Rectangle> HeaderRects = new List<Rectangle>();
 
-        private List<string[]> items = new List<string[]>();
-
-        public List<string[]> Items
-        {
-            get { return items; }
-        }
+        public List<string[]> items = new List<string[]>();
 
         Rectangle DateRect = new Rectangle(0, 0, 75, 18);
         Rectangle TimeRect = new Rectangle(75, 0, 35, 18);
@@ -47,7 +42,10 @@ namespace TimesheetUserInterface
         public int ItemHeight { get; set; }
 
         public TSListBox()
-        {   
+        {
+            this.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
+
             HeaderRects.Clear();
 
             HeaderRects.Add(DateRect);
@@ -66,25 +64,44 @@ namespace TimesheetUserInterface
             DisplayedItems = (DataRect.Height / ItemHeight) + 1;            
         }
 
-        public void AddItem(string[] Entry)
+        protected override void OnClick(EventArgs e)
         {
-            items.Add(Entry);
+            base.OnClick(e);
+            this.Invalidate();
+            this.Refresh();
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
             this.Invalidate();
             this.Update();
         }
 
-        public void AddItems(List<string[]> Entries)
+        protected override void OnMouseMove(MouseEventArgs e)
         {
-            items.AddRange(Entries);
+            base.OnMouseMove(e);
+            if(e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                this.Invalidate();
+                this.Update();
+            }
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
-
+            e.Graphics.Clear(BackColor);
             PaintLines(e.Graphics);
             PaintHeaders(e.Graphics);
             PaintItems(e.Graphics);
-            base.OnPaint(e);
+            PaintBorder(e.Graphics);
+            //base.OnPaint(e);
+        }
+
+        protected override void OnDrawItem(DrawItemEventArgs e)
+        {
+            //base.OnDrawItem(e);
+            e.Graphics.Clear(BackColor);
         }
 
         void PaintLines(Graphics g)
@@ -126,6 +143,14 @@ namespace TimesheetUserInterface
             }
         }
 
+        void PaintBorder(Graphics g)
+        {
+            using (Pen P = new Pen(Palette.Palette[borderSwatch], 1))
+            {
+                g.DrawRectangle(P, new Rectangle((int)(P.Width / 2), (int)(P.Width / 2), this.Width - (int)(P.Width), this.Height - (int)(P.Width)));
+            }
+        }
+
         void PaintItems(Graphics g)
         {
             Font StringFont = new Font(this.Font.FontFamily, this.Font.Size, FontStyle.Regular);
@@ -135,8 +160,11 @@ namespace TimesheetUserInterface
             int f = 0;
             string printString = "";
 
-            foreach (string[] s in items)
+            foreach (object o in Items)
             {
+                string[] s = ToStringArray(o);
+                //string[] s = ((IEnumerable<string>)o).Select(x => x).ToArray();
+
                 for(int i = 0; i< HeaderRects.Count; i++)
                 {
                     if (i < s.Length)
@@ -165,6 +193,75 @@ namespace TimesheetUserInterface
                 j += ItemHeight;
             }
         }
+
+        static string[] ToStringArray(object arg)
+        {
+            return arg as string[];
+        }
+        
+        private int borderSwatch = 1;
+        [Category("Appearance")]
+        public Swatch BorderSwatch
+        {
+            get
+            {
+                return (Swatch)borderSwatch;
+            }
+            set
+            {
+                borderSwatch = (int)value;
+                this.Invalidate();
+                this.Update();
+            }
+        }
+        
+        #region Pallete
+
+        private ColorPalette palette;
+
+        public ColorPalette Palette
+        {
+            get
+            {
+                if (ParentHasPalette() && palette == null)
+                {
+                    return GetParentPalette();
+                }
+                return palette;
+            }
+            set
+            {
+                palette = value;
+                this.Invalidate();
+                this.Update();
+            }
+        }
+
+        private bool ParentHasPalette()
+        {
+            return this.FindForm() != null && this.FindForm().GetType().GetProperty("Palette") != null;
+        }
+
+        private ColorPalette GetParentPalette()
+        {
+            if (ParentHasPalette())
+                return (ColorPalette)this.FindForm().GetType().GetProperty("Palette").GetValue(this.FindForm());
+            else
+                return new ColorPalette();
+        }
+
+        private bool ShouldSerializePalette()
+        {
+            return this.Palette != GetParentPalette();
+        }
+
+        private void ResetPalette()
+        {
+            this.Palette = GetParentPalette();
+        }
+
+        #endregion
+
     }
 
 
