@@ -80,6 +80,7 @@ namespace TimesheetUserInterface
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
+
             PaintLines(e.Graphics);
             PaintHeaders(e.Graphics);
             PaintItems(e.Graphics);
@@ -131,6 +132,9 @@ namespace TimesheetUserInterface
 
             int j = ItemHeight;
 
+            int f = 0;
+            string printString = "";
+
             foreach (string[] s in items)
             {
                 for(int i = 0; i< HeaderRects.Count; i++)
@@ -138,12 +142,23 @@ namespace TimesheetUserInterface
                     if (i < s.Length)
                     {
                         int sLen = (int)g.MeasureString(s[i], StringFont).Width;
+                        f = s[i].Length;
+                        printString = new string(s[i].Take(f).ToArray());
+                        while(sLen > HeaderRects[i].Width)
+                        {                            
+                            sLen = (int)g.MeasureString(printString, StringFont).Width;
+                            printString = new string(s[i].Take(f).ToArray());
+                            f--;
+                        }
+                        
                         int sHgt = (int)g.MeasureString(s[i], StringFont).Height;
                         Point PaintPoint = new Point(HeaderRects[i].X + 2, (j + ItemHeight / 2) - sHgt / 2);
 
                         using(SolidBrush B = new SolidBrush(Palette.Palette[(int)BorderSwatch]))
                         {
-                            g.DrawString(s[i], StringFont, new SolidBrush(Palette.Shade2), PaintPoint);
+                            g.SetClip(HeaderRects[i].Translate(-1, j));
+                            g.DrawString(printString, StringFont, new SolidBrush(Palette.Shade2), PaintPoint);
+                            g.ResetClip();
                         }
                     }
                 }

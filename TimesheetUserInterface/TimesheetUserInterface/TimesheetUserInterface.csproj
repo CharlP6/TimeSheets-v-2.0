@@ -53,6 +53,9 @@
     <Compile Include="ColorOperations.cs" />
     <Compile Include="ColorPalette.cs" />
     <Compile Include="FontLoader.cs" />
+    <Compile Include="GListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MainTimesheetForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +84,7 @@
     <Compile Include="TSCalendar.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TSDataBaseAdapter.cs" />
     <Compile Include="TSListBox.cs">
       <SubType>Component</SubType>
     </Compile>
