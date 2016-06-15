@@ -86,7 +86,7 @@ namespace TimesheetUserInterface
 
         private void tsButton3_Click(object sender, EventArgs e)
         {
-            dba.AddTimeSheetEntry(DateTime.Today, 4.5f, (gListProjects.SelectedItem as ProjectTable).ID, (gListDomains.SelectedItem as DomainTable).ID, (gListFunctions.SelectedItem as FunctionTable).ID, (gListActivities.SelectedItem as ActivitiesTable).ID, (gListRole.SelectedItem as RSTable).ID, "test soft", "comments", DateTime.Now);
+            dba.AddTimeSheetEntry(tsCalendar2.CurrentDate, 4.5f, (gListProjects.SelectedItem as ProjectTable).ID, (gListDomains.SelectedItem as DomainTable).ID, (gListFunctions.SelectedItem as FunctionTable).ID, (gListActivities.SelectedItem as ActivitiesTable).ID, (gListRole.SelectedItem as RSTable).ID, "test soft", "comments", DateTime.Now);
             dba.RefreshTimeSheets();
             tsListBox1.DataSource = dba.TimeSheetData;
         }

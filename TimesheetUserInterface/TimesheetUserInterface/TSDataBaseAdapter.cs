@@ -177,9 +177,7 @@ namespace TimesheetUserInterface
                 using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
                 {
                     OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(TSDataQuery, DBConnection);
-
                     
-
                     UserDataAdapter.SelectCommand.Parameters.Add("@UserID", OleDbType.Integer).Value = userID;
                     try
                     {
@@ -196,8 +194,8 @@ namespace TimesheetUserInterface
                                 string Domain = Domains.Where(w => w.ID == (int)DR["Domain ID"]).Select(s => s.Name).First();
                                 string Function = Functions.Where(w => w.ID == (int)DR["Function ID"]).Select(s => s.Name).First();
                                 string Activity = Activities.Where(w => w.ID == (int)DR["Activity ID"]).Select(s => s.Name).First();
-                                string Role = "rrr"; // = Activities.Where(w => w.ID == (int)DR[7]).Select(s => s.Name).First();
-                                string Comments = "ccc"; // = Activities.Where(w => w.ID == (int)DR[7]).Select(s => s.Name).First();
+                                string Role = DR["Role ID"] == DBNull.Value ? "" : Roles.Where(w => w.ID == (int)DR["Role ID"]).Select(s => s.Name).First();
+                                string Comments = DR["Comments"] == DBNull.Value ? "" : (string)DR["Comments"];
 
                                 string[] output = { Date, Time, Project, Domain, Function, Activity, Role, Comments, ID };
 
@@ -463,6 +461,31 @@ namespace TimesheetUserInterface
             Name = name;
             ProjectNumber = projectnum;
         }
+    }
+
+    public class TimeSheetEntry
+    {
+        public int ID { get; set; }
+        public int UserID { get; set; }
+        public DateTime WorkDate { get; set; }
+        public DateTime Time { get; set; }
+        public int ProjectID { get; set; }
+        public int DomainID { get; set; }
+        public int FunctionID { get; set; }
+        public int ActivityID { get; set; }
+        public int AdditionalID { get; set; }
+        public int RoleID { get; set; }
+        public string SoftwarePackage { get; set; }
+        public string Comments { get; set; }
+        public DateTime TimeStamp { get; set; }
+
+        public TimeSheetEntry()
+        {
+
+        }
+
+
+
     }
        
 
