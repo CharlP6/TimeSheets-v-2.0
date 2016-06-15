@@ -28,12 +28,57 @@ namespace TimesheetUserInterface
             }
         }
 
+        protected override System.Windows.Forms.CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;                
+                cp.Style = cp.Style & ~0x200000;
+                return cp;
+            }
+        }
+
         public GListBox()
         {
             palette = null;
             this.BorderStyle = System.Windows.Forms.BorderStyle.None;
             SetStyle(ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         }
+
+        protected override void OnKeyPress(KeyPressEventArgs e)
+        {
+            base.OnKeyPress(e);
+            this.Invalidate();
+            this.Refresh();
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            this.Invalidate();
+            this.Refresh();
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+            this.Invalidate();
+            this.Refresh();
+        }
+
+        protected override void OnSelectedIndexChanged(EventArgs e)
+        {
+            base.OnSelectedIndexChanged(e);
+            this.Invalidate();
+            this.Refresh();
+        }
+
+        protected override void OnSelectedValueChanged(EventArgs e)
+        {
+            base.OnSelectedValueChanged(e);
+            this.Invalidate();
+            this.Refresh();
+        }            
 
         protected override void OnClick(EventArgs e)
         {
@@ -61,15 +106,18 @@ namespace TimesheetUserInterface
 
         protected override void OnDrawItem(DrawItemEventArgs e)
         {
-            
-            base.OnDrawItem(e);
+            Graphics g = e.Graphics;
+
+            //base.OnDrawItem(e);
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.Clear(BackColor);
+            
+            //e.Graphics.Clear(BackColor);
+            PaintItems(e.Graphics);
             PaintBorder(e.Graphics);
-            base.OnPaint(e);
+            //base.OnPaint(e);
         }        
 
         void PaintBorder(Graphics g)
@@ -83,10 +131,53 @@ namespace TimesheetUserInterface
         void PaintItems(Graphics g)
         {
             Font StringFont = new Font(this.Font.FontFamily, this.Font.Size, FontStyle.Regular);
-
-            foreach(object item in Items)
+            int j = 0;
+            using (SolidBrush b = new SolidBrush(Palette.Shade2))
             {
+                if (SelectedIndex >= 0)
+                {
+                    try
+                    {
+                        g.FillRectangle(new SolidBrush(Palette.Tint1), new Rectangle(0, ItemHeight * (SelectedIndex - TopIndex), this.Width, ItemHeight));
+                    }
+                    catch
+                    {
 
+                    }
+                }
+
+                IEnumerable<object> objs = Items.Cast<object>();
+                try
+                {
+                    foreach (object item in objs.Skip(TopIndex))
+                    {
+                        object o = item.GetType().GetProperty(DisplayMember).GetValue(item);
+                        string s = o.ToString();
+
+                        int sLen = (int)g.MeasureString(s, this.Font).Width;
+                        int f = s.Length;
+
+                        string printString = new string(s.Take(f).ToArray());
+                        while (sLen > Width)
+                        {
+                            sLen = (int)g.MeasureString(printString, Font).Width;
+                            printString = new string(s.Take(f).ToArray());
+                            f--;
+                        }
+
+                        int sHgt = (int)g.MeasureString(s, Font).Height;
+                        Point PaintPoint = new Point(2, (j + ItemHeight / 2) - sHgt / 2);
+
+                        g.DrawString(printString, Font, new SolidBrush(Palette.Shade2), PaintPoint);
+                        j += ItemHeight;
+                    }
+                }
+                catch
+                {
+
+                }
+
+                
             }
         }
         
@@ -144,6 +235,7 @@ namespace TimesheetUserInterface
             // GListBox
             // 
             this.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.ResumeLayout(false);
 
         }

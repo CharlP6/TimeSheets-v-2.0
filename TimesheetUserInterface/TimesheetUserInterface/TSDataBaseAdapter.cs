@@ -11,16 +11,15 @@ namespace TimesheetUserInterface
 {
     class TSDataBaseAdapter
     {
-        string dbConnectionString; // = @"provider=Microsoft.ACE.OLEDB.12.0; Data Source=\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\ProtoDB.accdb ";
-        OleDbConnection TimeSheetConnection;
+        string dbConnectionString;
 
         string UserName = "";
 
         DataSet TimeSheetDataSet = new DataSet();
 
         public List<string[]> UserData = new List<string[]>();
-
-        public List<RolesTable> Roles = new List<RolesTable>();
+        public List<RSTable> Software = new List<RSTable>();
+        public List<RSTable> Roles = new List<RSTable>();
         public List<ActivitiesTable> Activities = new List<ActivitiesTable>();
         public List<FunctionTable> Functions = new List<FunctionTable>();
         public List<DomainTable> Domains = new List<DomainTable>();        
@@ -40,25 +39,28 @@ namespace TimesheetUserInterface
 
         public TSDataBaseAdapter(string ConnectionString, string userName)
         {
+            TimeSheetDataSet = new DataSet();
             dbConnectionString = ConnectionString;
             UserName = userName;
             GetUserID();
             LoadDomains();
             LoadFunctions();
             LoadActivities();
+            LoadRoles();
+            LoadSoftware();
             LoadProjects();
             LoadTimeSheets();
         }
 
         void GetUserID()
         {
-            string UserDataQuery = "SELECT * FROM Users WHERE 'Login ID=@Login ID'";
+            string UserDataQuery = "SELECT * FROM Users WHERE [Login ID] = ?";
 
             using(OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
             {
                 OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(UserDataQuery, DBConnection);
 
-                UserDataAdapter.SelectCommand.Parameters.Add("@Login ID", OleDbType.VarChar).Value = Environment.UserName;
+                UserDataAdapter.SelectCommand.Parameters.Add("?", OleDbType.VarChar).Value = UserName;
                 try
                 {
                     DBConnection.Open();
@@ -75,17 +77,110 @@ namespace TimesheetUserInterface
             }
         }
 
+        public void AddUserParameters(string FirstName, string LastName)
+        {
+            string UserDataInsert = "INSERT INTO Users ([Login ID], [User Name], [Last Name]) VALUES (?, ?, ?)";
+            
+            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            {
+                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter("SELECT * FROM Users", DBConnection);
+
+                DataTable Table = new DataTable("Users");
+                UserDataAdapter.Fill(Table);
+
+                DataRow row = Table.NewRow();
+                Table.Rows.Add(row);
+
+                UserDataAdapter.InsertCommand = new OleDbCommand(UserDataInsert, DBConnection);
+
+                UserDataAdapter.InsertCommand.Parameters.Add("@Login ID", OleDbType.VarChar).Value = Environment.UserName;
+                UserDataAdapter.InsertCommand.Parameters.Add("@User Name", OleDbType.VarChar).Value = FirstName;
+                UserDataAdapter.InsertCommand.Parameters.Add("@Last Name", OleDbType.VarChar).Value = LastName;
+
+                try
+                {
+                    DBConnection.Open();
+                    UserDataAdapter.Update(Table);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        public void AddTimeSheetEntry(DateTime date, float hours,int project, int domain, int function, int activity, int role, string software, string comments, DateTime timestamp)
+        {
+            string insertString = "INSERT INTO TimeSheets ([User ID], [Work Date], [Time], [Project ID], [Domain ID], [Function ID], [Activity ID], [Role ID], [Software Package], [Comments], [Time Stamp]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            {
+                OleDbDataAdapter TSAdapter = new OleDbDataAdapter("SELECT * FROM TimeSheets WHERE [User ID] = ?", DBConnection);
+                TSAdapter.SelectCommand.Parameters.Add("@UserID", OleDbType.Integer).Value = userID;
+                try
+                {
+                    DataTable Table = new DataTable("TimeSheets");
+                    TSAdapter.Fill(Table);
+
+                    DataRow row = Table.NewRow();
+                    Table.Rows.Add(row);
+
+                    TSAdapter.InsertCommand = new OleDbCommand(insertString, DBConnection);
+
+                    TSAdapter.InsertCommand.Parameters.Add("@uid", OleDbType.Integer).Value = UserID;
+                    TSAdapter.InsertCommand.Parameters.Add("@wdate", OleDbType.Date).Value = date;
+                    TSAdapter.InsertCommand.Parameters.Add("@time", OleDbType.Single).Value = hours;
+                    TSAdapter.InsertCommand.Parameters.Add("@prj", OleDbType.Single).Value = project;
+                    TSAdapter.InsertCommand.Parameters.Add("@domain", OleDbType.Integer).Value = domain;
+                    TSAdapter.InsertCommand.Parameters.Add("@fun", OleDbType.Integer).Value = function;
+                    TSAdapter.InsertCommand.Parameters.Add("@act", OleDbType.Integer).Value = activity;
+                    TSAdapter.InsertCommand.Parameters.Add("@role", OleDbType.Integer).Value = role;
+                    TSAdapter.InsertCommand.Parameters.Add("@soft", OleDbType.VarChar).Value = software;
+                    TSAdapter.InsertCommand.Parameters.Add("@comm", OleDbType.VarChar).Value = comments;
+                    TSAdapter.InsertCommand.Parameters.Add("@ts", OleDbType.Date).Value = timestamp;
+
+                    try
+                    {
+                        DBConnection.Open();
+                        TSAdapter.Update(Table);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+
+                }
+                catch
+                {
+
+                }
+
+
+            }          
+        
+        }
+
+        public void RefreshTimeSheets()
+        {
+            TimeSheetDataSet.Tables["TimeSheets"].Clear();
+            LoadTimeSheets();
+        }
+
         void LoadTimeSheets()
         {
             TimeSheetData.Clear();
+            
             if(userID != -1)
             {
 
-                string TSDataQuery = "SELECT * FROM TimeSheets";
+                string TSDataQuery = "SELECT * FROM TimeSheets WHERE [User ID] = ?";
 
                 using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
                 {
                     OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(TSDataQuery, DBConnection);
+
+                    
+
+                    UserDataAdapter.SelectCommand.Parameters.Add("@UserID", OleDbType.Integer).Value = userID;
                     try
                     {
                         DBConnection.Open();
@@ -114,6 +209,62 @@ namespace TimesheetUserInterface
                     {
                         MessageBox.Show(ex.Message);
                     }
+                }
+            }
+        }
+
+        void LoadSoftware()
+        {
+            Software.Clear();
+
+            string RolesDataQuery = "SELECT * FROM Roles";
+
+            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            {
+                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(RolesDataQuery, DBConnection);
+                try
+                {
+                    DBConnection.Open();
+                    UserDataAdapter.Fill(TimeSheetDataSet, "Software");
+                    if (TimeSheetDataSet.Tables["Software"].Rows.Count > 0)
+                    {
+                        foreach (DataRow DR in TimeSheetDataSet.Tables["Software"].Rows)
+                        {
+                            Software.Add(new RSTable((int)DR[0], (string)DR[1]));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        void LoadRoles()
+        {
+            Roles.Clear();
+
+            string RolesDataQuery = "SELECT * FROM Roles";
+
+            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            {
+                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(RolesDataQuery, DBConnection);
+                try
+                {
+                    DBConnection.Open();
+                    UserDataAdapter.Fill(TimeSheetDataSet, "Roles");
+                    if (TimeSheetDataSet.Tables["Roles"].Rows.Count > 0)
+                    {
+                        foreach (DataRow DR in TimeSheetDataSet.Tables["Roles"].Rows)
+                        {
+                                Roles.Add(new RSTable((int)DR[0], (string)DR[1]));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
         }
@@ -236,37 +387,6 @@ namespace TimesheetUserInterface
             }
         }
 
-        public void AddUserParameters(string FirstName, string LastName)
-        {
-            string UserDataInsert = "INSERT INTO Users ([Login ID], [User Name], [Last Name]) VALUES (?, ?, ?)";
-            
-            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
-            {
-                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter("SELECT * FROM Users", DBConnection);
-
-                DataTable Table = new DataTable("Users");
-                UserDataAdapter.Fill(Table);
-
-                DataRow row = Table.NewRow();
-                Table.Rows.Add(row);
-
-                UserDataAdapter.InsertCommand = new OleDbCommand(UserDataInsert, DBConnection);
-
-                UserDataAdapter.InsertCommand.Parameters.Add("@Login ID", OleDbType.VarChar).Value = Environment.UserName;
-                UserDataAdapter.InsertCommand.Parameters.Add("@User Name", OleDbType.VarChar).Value = FirstName;
-                UserDataAdapter.InsertCommand.Parameters.Add("@Last Name", OleDbType.VarChar).Value = LastName;
-
-                try
-                {
-                    DBConnection.Open();
-                    UserDataAdapter.Update(Table);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-        }
     }
 
 
@@ -284,9 +404,9 @@ namespace TimesheetUserInterface
 
     public class FunctionTable
     {
-        public int ID;
-        public string Name;
-        public int DomainID;
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public int DomainID { get; set; }
 
         public FunctionTable(int id, string name, int domainid)
         {
@@ -298,10 +418,10 @@ namespace TimesheetUserInterface
 
     public class ActivitiesTable
     {
-        public int ID;
-        public string Name;
-        public int FunctionID;
-        public string AddTable;
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public int FunctionID { get; set; }
+        public string AddTable { get; set; }
 
         public ActivitiesTable(int id, string name, int functionID, string addtable)
         {
@@ -312,12 +432,12 @@ namespace TimesheetUserInterface
         }        
     }
 
-    public class RolesTable
+    public class RSTable
     {
-        public int ID;
-        public string Name;
+        public int ID { get; set; }
+        public string Name { get; set; }
 
-        public RolesTable(int id, string name)
+        public RSTable(int id, string name)
         {
             ID = id;
             Name = name;
@@ -326,9 +446,16 @@ namespace TimesheetUserInterface
 
     public class ProjectTable
     {
-        public int ID;
-        public string Name;
-        public string ProjectNumber;
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string ProjectNumber { get; set; }
+        public string PName
+        {
+            get
+            {
+                return ProjectNumber + " " + Name;
+            }
+        }
       
         public ProjectTable(int id, string name, string projectnum)
         {
