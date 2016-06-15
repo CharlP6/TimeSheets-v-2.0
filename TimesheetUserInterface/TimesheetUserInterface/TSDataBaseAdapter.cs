@@ -17,6 +17,7 @@ namespace TimesheetUserInterface
 
         DataSet TimeSheetDataSet = new DataSet();
 
+        public List<TimeSheetEntry> TimeSheetEntries = new List<TimeSheetEntry>();
         public List<string[]> UserData = new List<string[]>();
         public List<RSTable> Software = new List<RSTable>();
         public List<RSTable> Roles = new List<RSTable>();
@@ -187,19 +188,33 @@ namespace TimesheetUserInterface
                         {
                             foreach (DataRow DR in TimeSheetDataSet.Tables["TimeSheets"].Rows)
                             {
-                                string ID = ((int)DR["ID"]).ToString();
-                                string Date = ((DateTime)DR["Work Date"]).ToShortDateString(); ;
-                                string Time = ((float)DR["Time"]).ToString();
-                                string Project = Projects.Where(w => w.ID == (int)DR["Project ID"]).Select(s => s.Name).First();
-                                string Domain = Domains.Where(w => w.ID == (int)DR["Domain ID"]).Select(s => s.Name).First();
-                                string Function = Functions.Where(w => w.ID == (int)DR["Function ID"]).Select(s => s.Name).First();
-                                string Activity = Activities.Where(w => w.ID == (int)DR["Activity ID"]).Select(s => s.Name).First();
-                                string Role = DR["Role ID"] == DBNull.Value ? "" : Roles.Where(w => w.ID == (int)DR["Role ID"]).Select(s => s.Name).First();
+                                int ID = (int)DR["ID"];
+                                int UID = (int)DR["User ID"];
+                                DateTime Date = (DateTime)DR["Work Date"];
+                                float Time = (float)DR["Time"];
+                                int Project = (int)DR["Project ID"];
+                                int Domain = (int)DR["Domain ID"];
+                                int Function = (int)DR["Function ID"];
+                                int Activity = (int)DR["Activity ID"];
+                                int Additional = DR["Additional ID"] == DBNull.Value ? -1 : (int)DR["Additional ID"];
+                                int Role = (int)DR["Role ID"];
+                                string Software = DR["Software Package"] == DBNull.Value ? "" : (string)DR["Software Package"];
                                 string Comments = DR["Comments"] == DBNull.Value ? "" : (string)DR["Comments"];
-
-                                string[] output = { Date, Time, Project, Domain, Function, Activity, Role, Comments, ID };
-
-                                TimeSheetData.Add(output);
+                                DateTime TimeStamp = (DateTime)DR["Time Stamp"];
+                                TimeSheetEntries.Add(new TimeSheetEntry(
+                                            ID,
+                                            UID,
+                                            Date,
+                                            Time,
+                                            Project,
+                                            Domain,
+                                            Function,
+                                            Activity,
+                                            Additional,
+                                            Role,
+                                            Software,
+                                            Comments,
+                                            TimeStamp));
                             }
                         }
                     }
@@ -468,7 +483,7 @@ namespace TimesheetUserInterface
         public int ID { get; set; }
         public int UserID { get; set; }
         public DateTime WorkDate { get; set; }
-        public DateTime Time { get; set; }
+        public float Time { get; set; }
         public int ProjectID { get; set; }
         public int DomainID { get; set; }
         public int FunctionID { get; set; }
@@ -484,7 +499,24 @@ namespace TimesheetUserInterface
 
         }
 
-
+        public TimeSheetEntry(int id, int userid, DateTime workdate, float time, 
+            int projectid, int domainid, int functionid, int activityid, int additionalid, 
+            int roleid, string softwarepackage, string comments, DateTime timestamp)
+        {
+            ID = id;
+            UserID = userid;
+            WorkDate = workdate;
+            Time = time;
+            ProjectID = projectid;
+            DomainID = domainid;
+            FunctionID = functionid;
+            ActivityID = activityid;
+            AdditionalID = additionalid;
+            RoleID = roleid;
+            SoftwarePackage = softwarepackage;
+            Comments = comments;
+            TimeStamp = timestamp;
+        }
 
     }
        

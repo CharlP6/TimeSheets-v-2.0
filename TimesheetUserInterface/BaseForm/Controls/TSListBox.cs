@@ -193,7 +193,7 @@ namespace BaseForm
         }
 
         static string[] ToStringArray(object arg)
-        {
+        {            
             return arg as string[];
         }
         
