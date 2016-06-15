@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TimesheetUserInterface
+namespace BaseForm
 {
-    class TSCalendar : BaseControl
+    public class TSCalendar : BaseControl
     {
         private int headerHeight = 17;
         private int width = 224;

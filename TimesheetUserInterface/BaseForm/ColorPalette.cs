@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TimesheetUserInterface
+namespace BaseForm
 {
 
     public enum Swatch

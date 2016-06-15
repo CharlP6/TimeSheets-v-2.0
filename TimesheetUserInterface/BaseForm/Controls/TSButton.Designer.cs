@@ -1,6 +1,6 @@
-﻿namespace TimesheetUserInterface
+﻿namespace BaseForm
 {
-    partial class TSButton
+    partial class TSButton : BaseControl
     {
         /// <summary> 
         /// Required designer variable.

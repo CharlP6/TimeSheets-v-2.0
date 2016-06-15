@@ -10,12 +10,13 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace TimesheetUserInterface
+
+namespace BaseForm
 {
     public class BaseForm : Form
     {
 
-        ColorOperations co = new ColorOperations();
+        //ColorOperations co = new ColorOperations();
 
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -79,10 +80,10 @@ namespace TimesheetUserInterface
             set
             {
                 accentColor = value;
-                this.SecondaryColor = co.Tint(AccentColor, 0.618f);
-                this.MainColor = co.Shade(AccentColor, (1 - 0.618f));
-                this.Invalidate();
-                this.Update();
+                //this.SecondaryColor = co.Tint(AccentColor, 0.618f);
+                //this.MainColor = co.Shade(AccentColor, (1 - 0.618f));
+                //this.Invalidate();
+                //this.Update();
             }
         }
 

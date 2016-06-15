@@ -84,16 +84,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseControl.cs">
+    <Compile Include="Old\BaseControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="BaseForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ColorOperations.cs" />
-    <Compile Include="ColorPalette.cs" />
-    <Compile Include="FontLoader.cs" />
-    <Compile Include="GListBox.cs">
+    <Compile Include="Old\GListBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="MainTimesheetForm.cs">
@@ -102,12 +96,6 @@
     <Compile Include="MainTimesheetForm.Designer.cs">
       <DependentUpon>MainTimesheetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TSBorderlessForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TSBorderlessForm.Designer.cs">
-      <DependentUpon>TSBorderlessForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources1.Designer.cs">
@@ -115,40 +103,34 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TSButton.cs">
+    <Compile Include="Old\TSButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="TSButton.Designer.cs">
+    <Compile Include="Old\TSButton.Designer.cs">
       <DependentUpon>TSButton.cs</DependentUpon>
     </Compile>
-    <Compile Include="TSCalendar.cs">
+    <Compile Include="Old\TSCalendar.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="TSDataBaseAdapter.cs" />
-    <Compile Include="TSListBox.cs">
+    <Compile Include="Old\TSListBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <EmbeddedResource Include="BaseForm.resx">
-      <DependentUpon>BaseForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GListBox.resx">
+    <EmbeddedResource Include="Old\GListBox.resx">
       <DependentUpon>GListBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainTimesheetForm.resx">
       <DependentUpon>MainTimesheetForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TSBorderlessForm.resx">
-      <DependentUpon>TSBorderlessForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="TSButton.resx">
+    <EmbeddedResource Include="Old\TSButton.resx">
       <DependentUpon>TSButton.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TSCalendar.resx">
+    <EmbeddedResource Include="Old\TSCalendar.resx">
       <DependentUpon>TSCalendar.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
@@ -160,13 +142,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Quicksand-Regular.otf" />
-    <None Include="Resources\Quicksand-Bold.ttf" />
-    <None Include="Resources\Quicksand-Regular.ttf" />
-    <None Include="Resources\Quicksand_Dash.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseForm\BaseForm.csproj">
+      <Project>{5077ef53-3291-4a62-93b0-2d1fdedfa822}</Project>
+      <Name>BaseForm</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

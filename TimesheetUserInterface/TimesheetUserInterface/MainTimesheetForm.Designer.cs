@@ -28,35 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tsButton1 = new TimesheetUserInterface.TSButton();
-            this.tsListBox1 = new TimesheetUserInterface.TSListBox();
-            this.gListDomains = new TimesheetUserInterface.GListBox();
-            this.tsButton2 = new TimesheetUserInterface.TSButton();
-            this.gListFunctions = new TimesheetUserInterface.GListBox();
-            this.gListActivities = new TimesheetUserInterface.GListBox();
+            this.tsButton1 = new BaseForm.TSButton();
+            this.tsListBox1 = new BaseForm.TSListBox();
+            this.gListDomains = new BaseForm.GListBox();
+            this.tsButton2 = new BaseForm.TSButton();
+            this.gListFunctions = new BaseForm.GListBox();
+            this.gListActivities = new BaseForm.GListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.tsCalendar2 = new TimesheetUserInterface.TSCalendar();
+            this.tsCalendar2 = new BaseForm.TSCalendar();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
-            this.gListProjects = new TimesheetUserInterface.GListBox();
+            this.gListProjects = new BaseForm.GListBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.gListRole = new TimesheetUserInterface.GListBox();
-            this.gListBox3 = new TimesheetUserInterface.GListBox();
+            this.gListRole = new BaseForm.GListBox();
+            this.gListBox3 = new BaseForm.GListBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.tsButton3 = new TimesheetUserInterface.TSButton();
+            this.tsButton3 = new BaseForm.TSButton();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // tsButton1
             // 
             this.tsButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.tsButton1.BackColorSwatch = TimesheetUserInterface.Swatch.Shade1;
-            this.tsButton1.BorderSwatch = TimesheetUserInterface.Swatch.Shade2;
-            this.tsButton1.ClickSwatch = TimesheetUserInterface.Swatch.Tint1;
+            this.tsButton1.BackColorSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton1.BorderSwatch = BaseForm.Swatch.Shade2;
+            this.tsButton1.ClickSwatch = BaseForm.Swatch.Tint1;
             this.tsButton1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton1.ForeColor = System.Drawing.Color.White;
-            this.tsButton1.HoverSwatch = TimesheetUserInterface.Swatch.Primary;
+            this.tsButton1.HoverSwatch = BaseForm.Swatch.Primary;
             this.tsButton1.Location = new System.Drawing.Point(12, 236);
             this.tsButton1.Name = "tsButton1";
             this.tsButton1.Size = new System.Drawing.Size(85, 30);
@@ -70,7 +70,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tsListBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tsListBox1.BorderSwatch = TimesheetUserInterface.Swatch.Shade1;
+            this.tsListBox1.BorderSwatch = BaseForm.Swatch.Shade1;
             this.tsListBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.tsListBox1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsListBox1.IntegralHeight = false;
@@ -83,7 +83,7 @@
             // gListDomains
             // 
             this.gListDomains.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gListDomains.BorderSwatch = TimesheetUserInterface.Swatch.Shade1;
+            this.gListDomains.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListDomains.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.gListDomains.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gListDomains.FormattingEnabled = true;
@@ -97,12 +97,12 @@
             // tsButton2
             // 
             this.tsButton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.tsButton2.BackColorSwatch = TimesheetUserInterface.Swatch.Shade1;
-            this.tsButton2.BorderSwatch = TimesheetUserInterface.Swatch.Shade1;
-            this.tsButton2.ClickSwatch = TimesheetUserInterface.Swatch.Tint1;
+            this.tsButton2.BackColorSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton2.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton2.ClickSwatch = BaseForm.Swatch.Tint1;
             this.tsButton2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton2.ForeColor = System.Drawing.Color.White;
-            this.tsButton2.HoverSwatch = TimesheetUserInterface.Swatch.Primary;
+            this.tsButton2.HoverSwatch = BaseForm.Swatch.Primary;
             this.tsButton2.Location = new System.Drawing.Point(12, 315);
             this.tsButton2.Name = "tsButton2";
             this.tsButton2.Size = new System.Drawing.Size(85, 30);
@@ -113,7 +113,7 @@
             // gListFunctions
             // 
             this.gListFunctions.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gListFunctions.BorderSwatch = TimesheetUserInterface.Swatch.Shade1;
+            this.gListFunctions.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListFunctions.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.gListFunctions.FormattingEnabled = true;
             this.gListFunctions.ItemHeight = 16;
@@ -126,7 +126,7 @@
             // gListActivities
             // 
             this.gListActivities.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gListActivities.BorderSwatch = TimesheetUserInterface.Swatch.Shade1;
+            this.gListActivities.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListActivities.FormattingEnabled = true;
             this.gListActivities.ItemHeight = 16;
             this.gListActivities.Location = new System.Drawing.Point(649, 57);
@@ -156,7 +156,7 @@
             // 
             // tsCalendar2
             // 
-            this.tsCalendar2.BorderSwatch = TimesheetUserInterface.Swatch.Shade1;
+            this.tsCalendar2.BorderSwatch = BaseForm.Swatch.Shade1;
             this.tsCalendar2.CurrentDate = new System.DateTime(2016, 6, 14, 0, 0, 0, 0);
             this.tsCalendar2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsCalendar2.Location = new System.Drawing.Point(12, 73);
@@ -201,7 +201,7 @@
             // gListProjects
             // 
             this.gListProjects.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gListProjects.BorderSwatch = TimesheetUserInterface.Swatch.Shade1;
+            this.gListProjects.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListProjects.FormattingEnabled = true;
             this.gListProjects.ItemHeight = 16;
             this.gListProjects.Location = new System.Drawing.Point(258, 89);
@@ -222,7 +222,7 @@
             // gListRole
             // 
             this.gListRole.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gListRole.BorderSwatch = TimesheetUserInterface.Swatch.Shade1;
+            this.gListRole.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListRole.FormattingEnabled = true;
             this.gListRole.ItemHeight = 16;
             this.gListRole.Location = new System.Drawing.Point(258, 249);
@@ -233,7 +233,7 @@
             // gListBox3
             // 
             this.gListBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gListBox3.BorderSwatch = TimesheetUserInterface.Swatch.Shade1;
+            this.gListBox3.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListBox3.FormattingEnabled = true;
             this.gListBox3.ItemHeight = 16;
             this.gListBox3.Location = new System.Drawing.Point(829, 57);
@@ -251,12 +251,12 @@
             // tsButton3
             // 
             this.tsButton3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.tsButton3.BackColorSwatch = TimesheetUserInterface.Swatch.Shade1;
-            this.tsButton3.BorderSwatch = TimesheetUserInterface.Swatch.Shade1;
-            this.tsButton3.ClickSwatch = TimesheetUserInterface.Swatch.Tint1;
+            this.tsButton3.BackColorSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton3.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton3.ClickSwatch = BaseForm.Swatch.Tint1;
             this.tsButton3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton3.ForeColor = System.Drawing.Color.White;
-            this.tsButton3.HoverSwatch = TimesheetUserInterface.Swatch.Primary;
+            this.tsButton3.HoverSwatch = BaseForm.Swatch.Primary;
             this.tsButton3.Location = new System.Drawing.Point(151, 236);
             this.tsButton3.Name = "tsButton3";
             this.tsButton3.Size = new System.Drawing.Size(85, 30);
@@ -303,23 +303,23 @@
 
         #endregion
 
-        private TSButton tsButton1;
-        private TSListBox tsListBox1;
-        private GListBox gListDomains;
-        private TSButton tsButton2;
-        private GListBox gListFunctions;
-        private GListBox gListActivities;
+        private BaseForm.TSButton tsButton1;
+        private BaseForm.TSListBox tsListBox1;
+        private BaseForm.GListBox gListDomains;
+        private BaseForm.TSButton tsButton2;
+        private BaseForm.GListBox gListFunctions;
+        private BaseForm.GListBox gListActivities;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private TSCalendar tsCalendar2;
+        private BaseForm.TSCalendar tsCalendar2;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label4;
-        private GListBox gListProjects;
+        private BaseForm.GListBox gListProjects;
         private System.Windows.Forms.Label label5;
-        private GListBox gListRole;
-        private GListBox gListBox3;
+        private BaseForm.GListBox gListRole;
+        private BaseForm.GListBox gListBox3;
         private System.Windows.Forms.TextBox textBox1;
-        private TSButton tsButton3;
+        private BaseForm.TSButton tsButton3;
 
     }
 }

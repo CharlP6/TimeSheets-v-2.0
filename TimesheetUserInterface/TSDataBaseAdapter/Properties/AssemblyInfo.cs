@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Timesheets2_0FrontEnd")]
+[assembly: AssemblyTitle("TSDataBaseAdapter")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Timesheets2_0FrontEnd")]
+[assembly: AssemblyProduct("TSDataBaseAdapter")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0472460b-84fd-497c-bb7e-508e7786c6d0")]
+[assembly: Guid("afb70b1a-e878-4f19-bc5b-e69bb75a8c67")]
 
 // Version information for an assembly consists of the following four values:
 //

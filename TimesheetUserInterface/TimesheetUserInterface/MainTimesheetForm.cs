@@ -8,17 +8,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BaseForm;
 
 namespace TimesheetUserInterface
 {
-    public partial class MainTimesheetForm : BaseForm
+    public partial class MainTimesheetForm : BaseForm.BaseForm
     {
         TSDataBaseAdapter dba;
 
         public MainTimesheetForm()
         {
             InitializeComponent();
-            dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=E:\v2\Engineering Timesheets Dev Test.accdb", Environment.UserName); //\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
+            dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
         }
 
         private void tsButton1_Click(object sender, EventArgs e)

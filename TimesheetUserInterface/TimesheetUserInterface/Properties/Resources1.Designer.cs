@@ -59,35 +59,5 @@ namespace TimesheetUserInterface.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] Quicksand_Bold {
-            get {
-                object obj = ResourceManager.GetObject("Quicksand_Bold", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] Quicksand_Dash {
-            get {
-                object obj = ResourceManager.GetObject("Quicksand_Dash", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] Quicksand_Regular {
-            get {
-                object obj = ResourceManager.GetObject("Quicksand_Regular", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

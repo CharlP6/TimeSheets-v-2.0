@@ -9,14 +9,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using BaseForm;
 
-namespace TimesheetUserInterface
+namespace Other
 {
     class TSListBox : ListBox
     {
-
-        ColorOperations co = new ColorOperations();
-
         private List<Rectangle> HeaderRects = new List<Rectangle>();
 
         public List<string[]> items = new List<string[]>();
