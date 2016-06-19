@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BaseForm;
+using DataAdapter;
 
 namespace TimesheetUserInterface
 {
@@ -19,7 +20,7 @@ namespace TimesheetUserInterface
         public MainTimesheetForm()
         {
             InitializeComponent();
-            dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
+            //dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
         }
 
         private void tsButton1_Click(object sender, EventArgs e)
@@ -86,7 +87,18 @@ namespace TimesheetUserInterface
 
         private void tsButton3_Click(object sender, EventArgs e)
         {
-            dba.AddTimeSheetEntry(tsCalendar2.CurrentDate, 4.5f, (gListProjects.SelectedItem as ProjectTable).ID, (gListDomains.SelectedItem as DomainTable).ID, (gListFunctions.SelectedItem as FunctionTable).ID, (gListActivities.SelectedItem as ActivitiesTable).ID, (gListRole.SelectedItem as RSTable).ID, "test soft", "comments", DateTime.Now);
+            DateTime entryDate = tsCalendar2.CurrentDate;
+            float entryHours = (float)numericUpDown1.Value;
+            int prID = (gListProjects.SelectedItem as ProjectTable).ID;
+            int domID = (gListDomains.SelectedItem as DomainTable).ID;
+            int funcID = (gListFunctions.SelectedItem as FunctionTable).ID;
+            int actID = (gListActivities.SelectedItem as ActivitiesTable).ID;
+            int addID = (gListAdditional.SelectedItem as AdditionalTable).ID;
+            int roleID = (gListRole.SelectedItem as RSTable).ID;
+
+
+            dba.AddTimeSheetEntry(entryDate, entryHours, prID, domID, funcID, actID, addID, roleID, "", txtComments.Text, DateTime.Now);
+            
             dba.RefreshTimeSheets();
             tsListBox1.DataSource = dba.TimeSheetData;
         }

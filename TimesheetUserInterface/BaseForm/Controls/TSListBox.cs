@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using BaseForm;
+using DataAdapter;
 
 namespace BaseForm
 {
@@ -39,10 +40,23 @@ namespace BaseForm
 
         public int ItemHeight { get; set; }
 
+        TSDataBaseAdapter dba;
+
+        public List<string[]> UserData = new List<string[]>();
+        public List<RSTable> Software = new List<RSTable>();
+        public List<RSTable> Roles = new List<RSTable>();
+        public List<AdditionalTable> AdditionalTables = new List<AdditionalTable>();
+        public List<ActivitiesTable> Activities = new List<ActivitiesTable>();
+        public List<FunctionTable> Functions = new List<FunctionTable>();
+        public List<DomainTable> Domains = new List<DomainTable>();
+        public List<ProjectTable> Projects = new List<ProjectTable>();
+
         public TSListBox()
         {
             this.BorderStyle = System.Windows.Forms.BorderStyle.None;
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
+
+            
 
             HeaderRects.Clear();
 
@@ -59,7 +73,7 @@ namespace BaseForm
             DataRect = new Rectangle(0, DateRect.Height, this.Width, this.Height - DateRect.Height);
 
             ItemHeight = this.Font.Height + 2;
-            DisplayedItems = (DataRect.Height / ItemHeight) + 1;            
+            DisplayedItems = (DataRect.Height / ItemHeight) + 1;        
         }
 
         protected override void OnClick(EventArgs e)
@@ -160,6 +174,8 @@ namespace BaseForm
 
             foreach (object o in Items)
             {
+                
+
                 string[] s = ToStringArray(o);
                 //string[] s = ((IEnumerable<string>)o).Select(x => x).ToArray();
 
@@ -192,9 +208,33 @@ namespace BaseForm
             }
         }
 
-        static string[] ToStringArray(object arg)
-        {            
-            return arg as string[];
+        string[] ToStringArray(object arg)
+        {
+            TimeSheetEntry tse = arg as TimeSheetEntry;
+            List<string> str = new List<string>();
+
+            str.Add(tse.WorkDate.ToShortDateString());
+            str.Add(tse.Time.ToString());
+            str.Add(Projects.Where(w => w.ID == tse.ProjectID).First().PName);
+            str.Add(Domains.Where(w => w.ID == tse.DomainID).First().Name);
+            str.Add(Functions.Where(w => w.ID == tse.FunctionID).First().Name);
+
+            string act = Activities.Where(w => w.ID == tse.ActivityID).First().Name;
+            if(Activities.Where(w => w.ID == tse.ActivityID).First().AddTable != "")
+            {
+                string actadd = AdditionalTables.Where(w => w.ID == tse.AdditionalID).First().Name;
+                str.Add(act + " - " + actadd);            
+            }
+            else
+            {
+                str.Add(act);
+            }
+
+            str.Add(Roles.Where(w => w.ID == tse.RoleID).First().Name);
+            str.Add(tse.Comments);
+            str.Add(tse.ID.ToString());
+
+            return str.ToArray();
         }
         
         private int borderSwatch = 1;

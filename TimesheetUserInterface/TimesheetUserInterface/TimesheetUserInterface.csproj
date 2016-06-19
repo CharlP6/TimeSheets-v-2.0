@@ -112,7 +112,7 @@
     <Compile Include="Old\TSCalendar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="TSDataBaseAdapter.cs" />
+    <Compile Include="Old\TSDataBaseAdapter.cs" />
     <Compile Include="Old\TSListBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -150,6 +150,10 @@
     <ProjectReference Include="..\BaseForm\BaseForm.csproj">
       <Project>{5077ef53-3291-4a62-93b0-2d1fdedfa822}</Project>
       <Name>BaseForm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ClassLibrary1\DataAdapter.csproj">
+      <Project>{e068e3cd-0926-488c-9dee-49d7b6634fa5}</Project>
+      <Name>DataAdapter</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
