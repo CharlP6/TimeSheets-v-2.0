@@ -83,6 +83,7 @@
             this.tsListBox1.Location = new System.Drawing.Point(12, 360);
             this.tsListBox1.Name = "tsListBox1";
             this.tsListBox1.Size = new System.Drawing.Size(1136, 325);
+            this.tsListBox1.Sorted = true;
             this.tsListBox1.TabIndex = 2;
             // 
             // gListDomains
@@ -108,11 +109,11 @@
             this.tsButton2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton2.ForeColor = System.Drawing.Color.White;
             this.tsButton2.HoverSwatch = BaseForm.Swatch.Primary;
-            this.tsButton2.Location = new System.Drawing.Point(994, 279);
+            this.tsButton2.Location = new System.Drawing.Point(369, 200);
             this.tsButton2.Name = "tsButton2";
-            this.tsButton2.Size = new System.Drawing.Size(154, 30);
+            this.tsButton2.Size = new System.Drawing.Size(63, 23);
             this.tsButton2.TabIndex = 5;
-            this.tsButton2.Text = "tsButton2";
+            this.tsButton2.Text = "Add";
             this.tsButton2.Click += new System.EventHandler(this.tsButton2_Click);
             // 
             // gListFunctions
@@ -138,10 +139,11 @@
             this.gListActivities.Name = "gListActivities";
             this.gListActivities.Size = new System.Drawing.Size(174, 288);
             this.gListActivities.TabIndex = 8;
+            this.gListActivities.SelectedIndexChanged += new System.EventHandler(this.gListActivities_SelectedIndexChanged);
             // 
             // label2
             // 
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.label2.Location = new System.Drawing.Point(438, 41);
             this.label2.Name = "label2";
@@ -152,7 +154,7 @@
             // 
             // label3
             // 
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.label3.Location = new System.Drawing.Point(643, 41);
             this.label3.Name = "label3";
@@ -171,9 +173,11 @@
             this.tsCalendar2.Size = new System.Drawing.Size(224, 157);
             this.tsCalendar2.TabIndex = 9;
             this.tsCalendar2.Text = "tsCalendar2";
+            this.tsCalendar2.Click += new System.EventHandler(this.tsCalendar2_Click);
             // 
             // numericUpDown1
             // 
+            this.numericUpDown1.DecimalPlaces = 1;
             this.numericUpDown1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numericUpDown1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.numericUpDown1.Increment = new decimal(new int[] {
@@ -213,14 +217,15 @@
             this.gListProjects.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListProjects.FormattingEnabled = true;
             this.gListProjects.ItemHeight = 16;
-            this.gListProjects.Location = new System.Drawing.Point(258, 89);
+            this.gListProjects.Location = new System.Drawing.Point(258, 57);
             this.gListProjects.Name = "gListProjects";
             this.gListProjects.Size = new System.Drawing.Size(174, 144);
+            this.gListProjects.Sorted = true;
             this.gListProjects.TabIndex = 11;
             // 
             // label5
             // 
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.label5.Location = new System.Drawing.Point(258, 41);
             this.label5.Name = "label5";
@@ -253,9 +258,9 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(258, 57);
+            this.textBox1.Location = new System.Drawing.Point(258, 200);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(174, 23);
+            this.textBox1.Size = new System.Drawing.Size(112, 23);
             this.textBox1.TabIndex = 14;
             // 
             // tsButton3
@@ -276,7 +281,7 @@
             // 
             // label1
             // 
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.label1.Location = new System.Drawing.Point(258, 233);
             this.label1.Name = "label1";
@@ -287,13 +292,13 @@
             // 
             // label6
             // 
-            this.label6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.label6.Location = new System.Drawing.Point(438, 153);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(199, 13);
             this.label6.TabIndex = 6;
-            this.label6.Text = "Function";
+            this.label6.Text = "Function:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // txtComments
@@ -306,7 +311,7 @@
             // 
             // label7
             // 
-            this.label7.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.label7.Location = new System.Drawing.Point(15, 233);
             this.label7.Name = "label7";
@@ -317,7 +322,7 @@
             // 
             // label8
             // 
-            this.label8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.label8.Location = new System.Drawing.Point(823, 41);
             this.label8.Name = "label8";

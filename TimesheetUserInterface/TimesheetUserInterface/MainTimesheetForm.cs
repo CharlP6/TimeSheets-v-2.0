@@ -20,12 +20,40 @@ namespace TimesheetUserInterface
         public MainTimesheetForm()
         {
             InitializeComponent();
-            //dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
+            tsCalendar2.CurrentDate = DateTime.Today;
+            tsCalendar2.SelectedDays.Add(tsCalendar2.CurrentDate);
+            LoadDatabase();
+
+
         }
 
-        private void tsButton1_Click(object sender, EventArgs e)
-        {            
-            tsListBox1.DataSource = dba.TimeSheetData;
+        private void LoadDatabase()
+        {
+            dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=E:\V2\Engineering Timesheets Dev Test.accdb", Environment.UserName);//\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
+            if (dba.UserID == -1)
+            {
+                UserProfileForm upf = new UserProfileForm();
+                DialogResult fdr = upf.ShowDialog();
+                if (fdr == System.Windows.Forms.DialogResult.OK)
+                {
+                    dba.AddUserParameters(upf.uName, upf.sName);
+                    LoadDatabase();
+                }
+                else
+                {
+                    Application.Exit();
+                }
+            }
+
+            tsListBox1.Activities = dba.Activities;
+            tsListBox1.AdditionalTables = dba.AdditionalTables;
+            tsListBox1.Domains = dba.Domains;
+            tsListBox1.Functions = dba.Functions;
+            tsListBox1.Projects = dba.Projects;
+            tsListBox1.Roles = dba.Roles;
+
+            tsListBox1.DisplayMember = "WorkDate";
+            tsListBox1.DataSource = dba.TimeSheetEntries.Where(w => w.WorkDate == tsCalendar2.CurrentDate).ToList();
 
             gListDomains.DisplayMember = "Name";
             gListDomains.ValueMember = "ID";
@@ -53,11 +81,18 @@ namespace TimesheetUserInterface
             gListRole.ValueMember = "ID";
             gListRole.DataSource = dba.Roles;
 
+            tsCalendar2.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
+        }
+
+        private void tsButton1_Click(object sender, EventArgs e)
+        {
+
+
         }
 
         private void tsButton2_Click(object sender, EventArgs e)
         {
-            dba.AddUserParameters("Charl2", "Pretorius");
+
         }
 
         private void gListBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -93,14 +128,45 @@ namespace TimesheetUserInterface
             int domID = (gListDomains.SelectedItem as DomainTable).ID;
             int funcID = (gListFunctions.SelectedItem as FunctionTable).ID;
             int actID = (gListActivities.SelectedItem as ActivitiesTable).ID;
-            int addID = (gListAdditional.SelectedItem as AdditionalTable).ID;
+            int? addID = gListAdditional.SelectedIndex != -1 ? (gListAdditional.SelectedItem as AdditionalTable).ID : new int?();
+
             int roleID = (gListRole.SelectedItem as RSTable).ID;
 
 
             dba.AddTimeSheetEntry(entryDate, entryHours, prID, domID, funcID, actID, addID, roleID, "", txtComments.Text, DateTime.Now);
             
             dba.RefreshTimeSheets();
-            tsListBox1.DataSource = dba.TimeSheetData;
+
+
+            UpdateList();
+            //tsListBox1.Invalidate(); tsListBox1.Refresh();
+        }
+
+        private void gListActivities_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if((gListActivities.SelectedItem as ActivitiesTable).AddTable != "")
+            {
+                gListAdditional.DisplayMember = "Name";
+                gListAdditional.ValueMember = "ID";
+                gListAdditional.DataSource = dba.AdditionalTables.Where(w => w.TableName == (gListActivities.SelectedItem as ActivitiesTable).AddTable).ToList();
+            }
+            else
+            {
+                gListAdditional.DataSource = null;
+            }
+        }
+
+        private void tsCalendar2_Click(object sender, EventArgs e)
+        {
+            UpdateList();
+        }
+
+        void UpdateList()
+        {
+            tsListBox1.DataSource = null;
+            tsListBox1.DisplayMember = "WorkDate";
+            tsListBox1.DataSource = dba.TimeSheetEntries.Where(w => w.WorkDate >= tsCalendar2.SelectedDays.Min() && w.WorkDate <= tsCalendar2.SelectedDays.Max()).ToList();
+            tsCalendar2.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
         }
 
     }

@@ -48,6 +48,7 @@ namespace DataAdapter
             LoadDomains();
             LoadFunctions();
             LoadActivities();
+            LoadAdditionalTable();
             LoadRoles();
             LoadSoftware();
             LoadProjects();
@@ -111,7 +112,7 @@ namespace DataAdapter
             }
         }
 
-        public void AddTimeSheetEntry(DateTime date, float hours, int project, int domain, int function, int activity, int additional, int role, string software, string comments, DateTime timestamp)
+        public void AddTimeSheetEntry(DateTime date, float hours, int project, int domain, int function, int activity, int? additional, int role, string software, string comments, DateTime timestamp)
         {
             string insertString = "INSERT INTO TimeSheets ([User ID], [Work Date], [Time], [Project ID], [Domain ID], [Function ID], [Activity ID],[Additional ID] , [Role ID], [Software Package], [Comments], [Time Stamp]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
@@ -135,7 +136,16 @@ namespace DataAdapter
                     TSAdapter.InsertCommand.Parameters.Add("@domain", OleDbType.Integer).Value = domain;
                     TSAdapter.InsertCommand.Parameters.Add("@fun", OleDbType.Integer).Value = function;
                     TSAdapter.InsertCommand.Parameters.Add("@act", OleDbType.Integer).Value = activity;
-                    TSAdapter.InsertCommand.Parameters.Add("@add", OleDbType.Integer).Value = additional;
+
+                    if(additional.HasValue)
+                    {
+                        TSAdapter.InsertCommand.Parameters.Add("@add", OleDbType.Integer).Value = additional;
+                    }
+                    else
+                    {
+                        TSAdapter.InsertCommand.Parameters.Add("@add", OleDbType.Integer).Value = DBNull.Value;
+                    }
+
                     TSAdapter.InsertCommand.Parameters.Add("@role", OleDbType.Integer).Value = role;
                     TSAdapter.InsertCommand.Parameters.Add("@soft", OleDbType.VarChar).Value = software;
                     TSAdapter.InsertCommand.Parameters.Add("@comm", OleDbType.VarChar).Value = comments;
@@ -161,13 +171,21 @@ namespace DataAdapter
 
         public void RefreshTimeSheets()
         {
-            TimeSheetDataSet.Tables["TimeSheets"].Clear();
+            try
+            {
+                TimeSheetDataSet.Tables["TimeSheets"].Reset();
+            }
+            catch
+            {
+
+            }            
             LoadTimeSheets();
         }
 
         void LoadTimeSheets()
         {
             TimeSheetData.Clear();
+            TimeSheetEntries.Clear();
 
             if (userID != -1)
             {
@@ -320,7 +338,7 @@ namespace DataAdapter
         void LoadAdditionalTable()
         {
             AdditionalTables.Clear();
-            string ActivitiesDataQuery = "SELECT * FROM 'Additional Tables'";
+            string ActivitiesDataQuery = "SELECT * FROM AdditionalTables";
 
             using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
             {
@@ -328,12 +346,12 @@ namespace DataAdapter
                 try
                 {
                     DBConnection.Open();
-                    UserDataAdapter.Fill(TimeSheetDataSet, "Additional Tables");
-                    if (TimeSheetDataSet.Tables["Additional Tables"].Rows.Count > 0)
+                    UserDataAdapter.Fill(TimeSheetDataSet, "AdditionalTables");
+                    if (TimeSheetDataSet.Tables["AdditionalTables"].Rows.Count > 0)
                     {
-                        foreach (DataRow DR in TimeSheetDataSet.Tables["Additional Tables"].Rows)
+                        foreach (DataRow DR in TimeSheetDataSet.Tables["AdditionalTables"].Rows)
                         {
-                                AdditionalTables.Add(new AdditionalTable((int)DR[0], (string)DR[1], (string)DR[2]));
+                            AdditionalTables.Add(new AdditionalTable((int)DR[0], (string)DR["Addtional Info"], (string)DR["Table Name"]));
                         }
                     }
                 }
@@ -415,7 +433,7 @@ namespace DataAdapter
                     {
                         foreach (DataRow DR in TimeSheetDataSet.Tables["Projects"].Rows)
                         {
-                            Projects.Add(new ProjectTable((int)DR[0], (string)DR[1], (string)DR[2]));
+                            Projects.Add(new ProjectTable((int)DR["Project ID"], DR["Project Name"] == DBNull.Value ? "" : (string)DR["Project Name"], DR["Project Number"] == DBNull.Value ? "" : (string)DR["Project Number"]));
                         }
                     }
                 }

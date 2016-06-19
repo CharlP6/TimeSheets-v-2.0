@@ -76,9 +76,30 @@ namespace BaseForm
             DisplayedItems = (DataRect.Height / ItemHeight) + 1;        
         }
 
+        protected override System.Windows.Forms.CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.Style = cp.Style & ~0x200000;
+                return cp;
+            }
+        }
+
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            base.OnMouseClick(e);
+
+            SelectedIndex = (e.Y - DataRect.Y) / ItemHeight < Items.Count ? (e.Y - DataRect.Y) / ItemHeight : -1;
+
+        }
+
         protected override void OnClick(EventArgs e)
         {
+
+
             base.OnClick(e);
+            
             this.Invalidate();
             this.Refresh();
         }
@@ -103,9 +124,9 @@ namespace BaseForm
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
             e.Graphics.Clear(BackColor);
+            PaintItems(e.Graphics);
             PaintLines(e.Graphics);
             PaintHeaders(e.Graphics);
-            PaintItems(e.Graphics);
             PaintBorder(e.Graphics);
             //base.OnPaint(e);
         }
@@ -172,7 +193,7 @@ namespace BaseForm
             int f = 0;
             string printString = "";
 
-            foreach (object o in Items)
+            foreach (object o in Items.Cast<TimeSheetEntry>().Skip(TopIndex))
             {
                 
 
@@ -198,6 +219,10 @@ namespace BaseForm
 
                         using(SolidBrush B = new SolidBrush(Palette.Palette[(int)BorderSwatch]))
                         {
+                            //if (j/ItemHeight == SelectedIndex - TopIndex)
+                            //{
+                            //    g.FillRectangle(new SolidBrush(Palette.Tint1), new Rectangle(0, j, Width, ItemHeight));
+                            //}
                             g.SetClip(HeaderRects[i].Translate(-1, j));
                             g.DrawString(printString, StringFont, new SolidBrush(Palette.Shade2), PaintPoint);
                             g.ResetClip();

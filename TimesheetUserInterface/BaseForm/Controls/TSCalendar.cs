@@ -21,9 +21,11 @@ namespace BaseForm
         private Rectangle[] DayButtons = new Rectangle[42];
         private Size DayButtonSize = new Size(32, 20);
         private DateTime[] DisplayDays = new DateTime[42];
-
+        
         private List<DateTime> DraggedDays = new List<DateTime>();
+
         public List<DateTime> SelectedDays = new List<DateTime>();
+        public List<DateTime> BoldDays = new List<DateTime>();
 
         private Rectangle currentRect;
         private int currentButton = -1;
@@ -98,22 +100,25 @@ namespace BaseForm
 
         protected override void OnMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
-            SelectedDays.Clear();
-
-            DateTime sDate = DraggedDays.Min();
-            DateTime eDate = DraggedDays.Max();
-
-            SelectedDays.Add(sDate);
-            while(sDate < eDate)
+            if (CalendarRectangle.Contains(e.Location))
             {
-                SelectedDays.Add(sDate.AddDays(1));
-                sDate = sDate.AddDays(1);
+                SelectedDays.Clear();
+
+                DateTime sDate = DraggedDays.Min();
+                DateTime eDate = DraggedDays.Max();
+
+                SelectedDays.Add(sDate);
+                while (sDate < eDate)
+                {
+                    SelectedDays.Add(sDate.AddDays(1));
+                    sDate = sDate.AddDays(1);
+                }
+
+                DraggedDays.Clear();
+                this.Invalidate();
+                this.Update();
+                base.OnMouseUp(e);
             }
-            
-            DraggedDays.Clear();
-            this.Invalidate();
-            this.Update();
-            base.OnMouseUp(e);
         }
 
         protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
@@ -166,7 +171,17 @@ namespace BaseForm
                 try
                 {
                     SelectedDays.Clear();
-                    SelectedDays.Add(DisplayDays[currentButton]);
+
+                    DateTime sDate = DraggedDays.Min();
+                    DateTime eDate = DraggedDays.Max();
+
+                    SelectedDays.Add(sDate);
+                    while (sDate < eDate)
+                    {
+                        SelectedDays.Add(sDate.AddDays(1));
+                        sDate = sDate.AddDays(1);
+                    }
+
                     CurrentDate = DisplayDays[currentButton];
                     fillDays();
                     this.Invalidate();
@@ -224,6 +239,7 @@ namespace BaseForm
         {
 
             Font btnFont = new System.Drawing.Font(this.Font.FontFamily, this.Font.Size, FontStyle.Regular);
+            Font boldFont = new System.Drawing.Font(this.Font.FontFamily, this.Font.Size, FontStyle.Bold);
 
             int i = 0;
 
@@ -255,7 +271,15 @@ namespace BaseForm
                                 g.FillRectangle(new SolidBrush(Palette.Tint2), db);
                             }
                         }
-                        g.DrawString(text, btnFont, B, drawPoint);
+                        if(BoldDays.Contains(DisplayDays[i]))
+                        {
+                            g.DrawString(text, boldFont, B, drawPoint);
+                        }
+                        else
+                        {
+                            g.DrawString(text, btnFont, B, drawPoint);
+                        }
+
                     }
                     else
                     {

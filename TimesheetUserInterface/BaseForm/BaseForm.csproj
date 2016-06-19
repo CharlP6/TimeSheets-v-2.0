@@ -87,6 +87,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\ClassLibrary1\DataAdapter.csproj">
       <Project>{e068e3cd-0926-488c-9dee-49d7b6634fa5}</Project>
       <Name>DataAdapter</Name>

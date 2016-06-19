@@ -103,9 +103,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Old\TSButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Old\TSButton.cs" />
     <Compile Include="Old\TSButton.Designer.cs">
       <DependentUpon>TSButton.cs</DependentUpon>
     </Compile>
@@ -115,6 +113,12 @@
     <Compile Include="Old\TSDataBaseAdapter.cs" />
     <Compile Include="Old\TSListBox.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserProfileForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserProfileForm.Designer.cs">
+      <DependentUpon>UserProfileForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Old\GListBox.resx">
       <DependentUpon>GListBox.cs</DependentUpon>
@@ -133,6 +137,9 @@
     <EmbeddedResource Include="Old\TSCalendar.resx">
       <DependentUpon>TSCalendar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserProfileForm.resx">
+      <DependentUpon>UserProfileForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -147,6 +154,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\BaseForm\BaseForm.csproj">
       <Project>{5077ef53-3291-4a62-93b0-2d1fdedfa822}</Project>
       <Name>BaseForm</Name>
@@ -155,9 +165,6 @@
       <Project>{e068e3cd-0926-488c-9dee-49d7b6634fa5}</Project>
       <Name>DataAdapter</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
