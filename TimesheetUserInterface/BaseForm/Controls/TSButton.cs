@@ -114,9 +114,17 @@ namespace BaseForm
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
-            this.BackColor = Palette.Palette[hoverSwatch];
-            this.BorderSwatch = HoverSwatch;
-            this.ForeColor = Palette.Palette[3];
+            try
+            {
+                this.BackColor = Palette.Palette[hoverSwatch];
+                this.BorderSwatch = HoverSwatch;
+                this.ForeColor = Palette.Palette[3];
+            }
+            catch
+            {
+
+            }
+
         }
 
         

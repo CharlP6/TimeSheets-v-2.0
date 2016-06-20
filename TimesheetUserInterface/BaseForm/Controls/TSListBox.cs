@@ -88,17 +88,16 @@ namespace BaseForm
 
         protected override void OnMouseClick(MouseEventArgs e)
         {
-            base.OnMouseClick(e);
+            //base.OnMouseClick(e);
 
-            SelectedIndex = (e.Y - DataRect.Y) / ItemHeight < Items.Count ? (e.Y - DataRect.Y) / ItemHeight : -1;
-
+            //SelectedIndex = (e.Y - DataRect.Y) / ItemHeight < Items.Count ? (e.Y - DataRect.Y) / ItemHeight : Items.Count - 1;
+            this.Invalidate();
+            this.Refresh();
         }
 
         protected override void OnClick(EventArgs e)
         {
-
-
-            base.OnClick(e);
+            //base.OnClick(e);
             
             this.Invalidate();
             this.Refresh();
@@ -106,7 +105,8 @@ namespace BaseForm
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            base.OnMouseDown(e);
+            //base.OnMouseDown(e);
+            SelectedIndex = (e.Y - DataRect.Y) / ItemHeight < Items.Count ? (e.Y - DataRect.Y) / ItemHeight : Items.Count - 1;
             this.Invalidate();
             this.Update();
         }
@@ -192,10 +192,14 @@ namespace BaseForm
 
             int f = 0;
             string printString = "";
+            if(SelectedIndex != -1)
+            {
+                g.FillRectangle(new SolidBrush(Palette.Tint1), new Rectangle(0, ItemHeight * (SelectedIndex - TopIndex) + DataRect.Y, Width, ItemHeight));
+            }
+
 
             foreach (object o in Items.Cast<TimeSheetEntry>().Skip(TopIndex))
             {
-                
 
                 string[] s = ToStringArray(o);
                 //string[] s = ((IEnumerable<string>)o).Select(x => x).ToArray();

@@ -18,7 +18,7 @@ namespace DataAdapter
         DataSet TimeSheetDataSet = new DataSet();
 
         public List<TimeSheetEntry> TimeSheetEntries = new List<TimeSheetEntry>();
-        public List<string[]> UserData = new List<string[]>();
+        public UserData CurrentUser;
         public List<RSTable> Software = new List<RSTable>();
         public List<RSTable> Roles = new List<RSTable>();
         public List<AdditionalTable> AdditionalTables = new List<AdditionalTable>();
@@ -26,6 +26,7 @@ namespace DataAdapter
         public List<FunctionTable> Functions = new List<FunctionTable>();
         public List<DomainTable> Domains = new List<DomainTable>();
         public List<ProjectTable> Projects = new List<ProjectTable>();
+        public List<UserProjects> UserProjectList = new List<UserProjects>();
 
         public List<string[]> TimeSheetData = new List<string[]>();
 
@@ -52,6 +53,7 @@ namespace DataAdapter
             LoadRoles();
             LoadSoftware();
             LoadProjects();
+            LoadUserProjects();
             LoadTimeSheets();
         }
 
@@ -68,9 +70,15 @@ namespace DataAdapter
                 {
                     DBConnection.Open();
                     UserDataAdapter.Fill(TimeSheetDataSet, "Users");
-                    if (TimeSheetDataSet.Tables["Users"].Rows.Count > 0)
+                    if (TimeSheetDataSet.Tables["Users"].Rows.Count == 1)
                     {
-                        userID = (int)TimeSheetDataSet.Tables["Users"].Rows[0][0];
+                        userID = (int)TimeSheetDataSet.Tables["Users"].Rows[0]["User ID"];
+                        CurrentUser = new UserData { ID = userID, LoginID = (string)TimeSheetDataSet.Tables["Users"].Rows[0]["Login ID"], Name = (string)TimeSheetDataSet.Tables["Users"].Rows[0]["User Name"], Surname = (string)TimeSheetDataSet.Tables["Users"].Rows[0]["Last Name"] };
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error: Duplicate user data found.");
+                        Application.Exit();
                     }
                 }
                 catch (Exception ex)
@@ -444,6 +452,82 @@ namespace DataAdapter
             }
         }
 
+        public void RefreshUserProjects()
+        {
+            try
+            {
+                TimeSheetDataSet.Tables["UserProjects"].Reset();
+            }
+            catch 
+            {
+
+            }
+            LoadUserProjects();
+        }
+
+        void LoadUserProjects()
+        {
+            UserProjectList.Clear();
+            string ProjectDataQuery = "SELECT * FROM UserProjects WHERE [User ID] = ?";
+
+            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            {
+                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(ProjectDataQuery, DBConnection);
+                UserDataAdapter.SelectCommand.Parameters.Add("@uid", OleDbType.Integer).Value = userID;
+                try
+                {
+                    DBConnection.Open();
+                    UserDataAdapter.Fill(TimeSheetDataSet, "UserProjects");
+                    if (TimeSheetDataSet.Tables["UserProjects"].Rows.Count > 0)
+                    {
+                        foreach (DataRow DR in TimeSheetDataSet.Tables["UserProjects"].Rows)
+                        {
+                            int pid = (int)DR["Project ID"];
+                            string pn = Projects.Where(w => w.ID == pid).First().PName;
+                            UserProjectList.Add(new UserProjects { ID = (int)DR["ID"], ProjectID = pid, RoleID = DR["Role ID"] != DBNull.Value ? (int)DR["Role ID"] : -1, UserID = (int)DR["User ID"], PName = pn });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        public void AddUserProject(int projectid, int roleid)
+        {
+            string UserDataInsert = "INSERT INTO UserProjects ([User ID], [Project ID], [Role ID]) VALUES (?, ?, ?)";
+
+            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            {
+                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter("SELECT * FROM UserProjects WHERE [User ID] = ?", DBConnection);
+                UserDataAdapter.SelectCommand.Parameters.Add("@uid", OleDbType.Integer).Value = userID;
+
+                DataTable Table = new DataTable("UserProjects");
+                UserDataAdapter.Fill(Table);
+
+                DataRow row = Table.NewRow();
+                Table.Rows.Add(row);
+
+                UserDataAdapter.InsertCommand = new OleDbCommand(UserDataInsert, DBConnection);
+
+                UserDataAdapter.InsertCommand.Parameters.Add("@User ID", OleDbType.Integer).Value = userID;
+                UserDataAdapter.InsertCommand.Parameters.Add("@Project ID", OleDbType.Integer).Value = projectid;
+                UserDataAdapter.InsertCommand.Parameters.Add("@Role ID", OleDbType.Integer).Value = roleid;
+
+                try
+                {
+                    DBConnection.Open();
+                    UserDataAdapter.Update(Table);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
     }
 
 
@@ -575,17 +659,23 @@ namespace DataAdapter
             Comments = comments;
             TimeStamp = timestamp;
         }
-
-        //public string[] Printable
-        //{
-        //    get
-        //    {
-        //        List<string> str = new List<string>();
-        //        str.Add()
-        //    }
-        //}
-
     }
 
+    public class UserData
+    {
+        public int ID { get; set; }
+        public string LoginID { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+    }
+
+    public class UserProjects
+    {
+        public int ID { get; set; }
+        public int UserID { get; set; }
+        public int ProjectID { get; set; }
+        public int RoleID { get; set; }
+        public string PName { get; set; }
+    }
 
 }

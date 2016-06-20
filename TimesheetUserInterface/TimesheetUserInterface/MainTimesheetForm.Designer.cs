@@ -62,7 +62,7 @@
             this.tsButton1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton1.ForeColor = System.Drawing.Color.White;
             this.tsButton1.HoverSwatch = BaseForm.Swatch.Primary;
-            this.tsButton1.Location = new System.Drawing.Point(994, 57);
+            this.tsButton1.Location = new System.Drawing.Point(994, 279);
             this.tsButton1.Name = "tsButton1";
             this.tsButton1.Size = new System.Drawing.Size(154, 30);
             this.tsButton1.TabIndex = 1;
@@ -80,11 +80,12 @@
             this.tsListBox1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsListBox1.IntegralHeight = false;
             this.tsListBox1.ItemHeight = 17;
-            this.tsListBox1.Location = new System.Drawing.Point(12, 360);
+            this.tsListBox1.Location = new System.Drawing.Point(12, 351);
             this.tsListBox1.Name = "tsListBox1";
-            this.tsListBox1.Size = new System.Drawing.Size(1136, 325);
+            this.tsListBox1.Size = new System.Drawing.Size(1136, 334);
             this.tsListBox1.Sorted = true;
             this.tsListBox1.TabIndex = 2;
+            this.tsListBox1.SelectedIndexChanged += new System.EventHandler(this.tsListBox1_SelectedIndexChanged);
             // 
             // gListDomains
             // 
@@ -94,7 +95,7 @@
             this.gListDomains.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gListDomains.FormattingEnabled = true;
             this.gListDomains.ItemHeight = 16;
-            this.gListDomains.Location = new System.Drawing.Point(438, 57);
+            this.gListDomains.Location = new System.Drawing.Point(258, 57);
             this.gListDomains.Name = "gListDomains";
             this.gListDomains.Size = new System.Drawing.Size(199, 96);
             this.gListDomains.TabIndex = 4;
@@ -109,11 +110,11 @@
             this.tsButton2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton2.ForeColor = System.Drawing.Color.White;
             this.tsButton2.HoverSwatch = BaseForm.Swatch.Primary;
-            this.tsButton2.Location = new System.Drawing.Point(369, 200);
+            this.tsButton2.Location = new System.Drawing.Point(552, 200);
             this.tsButton2.Name = "tsButton2";
-            this.tsButton2.Size = new System.Drawing.Size(63, 23);
+            this.tsButton2.Size = new System.Drawing.Size(85, 23);
             this.tsButton2.TabIndex = 5;
-            this.tsButton2.Text = "Add";
+            this.tsButton2.Text = "Add Project";
             this.tsButton2.Click += new System.EventHandler(this.tsButton2_Click);
             // 
             // gListFunctions
@@ -123,7 +124,7 @@
             this.gListFunctions.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.gListFunctions.FormattingEnabled = true;
             this.gListFunctions.ItemHeight = 16;
-            this.gListFunctions.Location = new System.Drawing.Point(438, 169);
+            this.gListFunctions.Location = new System.Drawing.Point(258, 169);
             this.gListFunctions.Name = "gListFunctions";
             this.gListFunctions.Size = new System.Drawing.Size(199, 176);
             this.gListFunctions.TabIndex = 7;
@@ -145,7 +146,7 @@
             // 
             this.label2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label2.Location = new System.Drawing.Point(438, 41);
+            this.label2.Location = new System.Drawing.Point(258, 41);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(199, 13);
             this.label2.TabIndex = 6;
@@ -217,7 +218,7 @@
             this.gListProjects.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListProjects.FormattingEnabled = true;
             this.gListProjects.ItemHeight = 16;
-            this.gListProjects.Location = new System.Drawing.Point(258, 57);
+            this.gListProjects.Location = new System.Drawing.Point(463, 57);
             this.gListProjects.Name = "gListProjects";
             this.gListProjects.Size = new System.Drawing.Size(174, 144);
             this.gListProjects.Sorted = true;
@@ -227,7 +228,7 @@
             // 
             this.label5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label5.Location = new System.Drawing.Point(258, 41);
+            this.label5.Location = new System.Drawing.Point(463, 41);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(174, 13);
             this.label5.TabIndex = 6;
@@ -240,7 +241,7 @@
             this.gListRole.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListRole.FormattingEnabled = true;
             this.gListRole.ItemHeight = 16;
-            this.gListRole.Location = new System.Drawing.Point(258, 249);
+            this.gListRole.Location = new System.Drawing.Point(463, 249);
             this.gListRole.Name = "gListRole";
             this.gListRole.Size = new System.Drawing.Size(174, 96);
             this.gListRole.TabIndex = 12;
@@ -258,9 +259,9 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(258, 200);
+            this.textBox1.Location = new System.Drawing.Point(463, 200);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(112, 23);
+            this.textBox1.Size = new System.Drawing.Size(90, 23);
             this.textBox1.TabIndex = 14;
             // 
             // tsButton3
@@ -276,14 +277,14 @@
             this.tsButton3.Name = "tsButton3";
             this.tsButton3.Size = new System.Drawing.Size(154, 30);
             this.tsButton3.TabIndex = 15;
-            this.tsButton3.Text = "tsButton3";
+            this.tsButton3.Text = "Add Entry";
             this.tsButton3.Click += new System.EventHandler(this.tsButton3_Click);
             // 
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label1.Location = new System.Drawing.Point(258, 233);
+            this.label1.Location = new System.Drawing.Point(463, 233);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(174, 13);
             this.label1.TabIndex = 16;
@@ -294,28 +295,28 @@
             // 
             this.label6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label6.Location = new System.Drawing.Point(438, 153);
+            this.label6.Location = new System.Drawing.Point(258, 153);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(199, 13);
             this.label6.TabIndex = 6;
-            this.label6.Text = "Function:";
+            this.label6.Text = "Specify:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // txtComments
             // 
-            this.txtComments.Location = new System.Drawing.Point(12, 249);
+            this.txtComments.Location = new System.Drawing.Point(994, 57);
             this.txtComments.Multiline = true;
             this.txtComments.Name = "txtComments";
-            this.txtComments.Size = new System.Drawing.Size(224, 96);
+            this.txtComments.Size = new System.Drawing.Size(154, 204);
             this.txtComments.TabIndex = 17;
             // 
             // label7
             // 
             this.label7.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label7.Location = new System.Drawing.Point(15, 233);
+            this.label7.Location = new System.Drawing.Point(991, 41);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(221, 13);
+            this.label7.Size = new System.Drawing.Size(157, 13);
             this.label7.TabIndex = 16;
             this.label7.Text = "Comments";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -328,7 +329,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(165, 13);
             this.label8.TabIndex = 6;
-            this.label8.Text = "Additional Info:";
+            this.label8.Text = "Specify:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainTimesheetForm

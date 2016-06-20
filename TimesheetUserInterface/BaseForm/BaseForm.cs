@@ -355,7 +355,7 @@ namespace BaseForm
         {
             base.OnClick(e);
             if (closeHover)
-                Application.Exit();
+                this.Close();//Application.Exit();
             if (minHover)
                 this.WindowState = FormWindowState.Minimized;
         }

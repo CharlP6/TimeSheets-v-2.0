@@ -120,6 +120,12 @@
     <Compile Include="UserProfileForm.Designer.cs">
       <DependentUpon>UserProfileForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserProjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserProjectForm.Designer.cs">
+      <DependentUpon>UserProjectForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Old\GListBox.resx">
       <DependentUpon>GListBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -139,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserProfileForm.resx">
       <DependentUpon>UserProfileForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserProjectForm.resx">
+      <DependentUpon>UserProjectForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

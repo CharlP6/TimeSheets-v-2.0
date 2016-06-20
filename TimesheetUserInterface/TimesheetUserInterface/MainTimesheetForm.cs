@@ -24,12 +24,12 @@ namespace TimesheetUserInterface
             tsCalendar2.SelectedDays.Add(tsCalendar2.CurrentDate);
             LoadDatabase();
 
-
+            this.Text = "G5 Engineering Timesheets - Logged in as " + dba.CurrentUser.Name + " " + dba.CurrentUser.Surname;
         }
 
         private void LoadDatabase()
         {
-            dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=E:\V2\Engineering Timesheets Dev Test.accdb", Environment.UserName);//\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
+            dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
             if (dba.UserID == -1)
             {
                 UserProfileForm upf = new UserProfileForm();
@@ -72,10 +72,13 @@ namespace TimesheetUserInterface
                 gListActivities.DataSource = dba.Activities.Where(w => w.FunctionID == (gListFunctions.SelectedItem as FunctionTable).ID).ToList();
             }
 
+            if(dba.UserProjectList.Count > 0)
+            {
+                gListProjects.DisplayMember = "PName";
+                gListProjects.ValueMember = "ID";
+                gListProjects.DataSource = dba.UserProjectList.ConvertAll<ProjectTable>(new Converter<UserProjects, ProjectTable>(ConvertUserProject));
+            }
 
-            gListProjects.DisplayMember = "PName";
-            gListProjects.ValueMember = "ID";
-            gListProjects.DataSource = dba.Projects;
 
             gListRole.DisplayMember = "Name";
             gListRole.ValueMember = "ID";
@@ -87,11 +90,32 @@ namespace TimesheetUserInterface
         private void tsButton1_Click(object sender, EventArgs e)
         {
 
-
         }
 
         private void tsButton2_Click(object sender, EventArgs e)
         {
+            UserProjectForm uprform = new UserProjectForm();
+            uprform.AllProjects = dba.Projects;
+            uprform.UserProjectList.AddRange(dba.UserProjectList);
+
+            DialogResult dr = uprform.ShowDialog();
+            if (dr == System.Windows.Forms.DialogResult.OK)
+            {
+                foreach (UserProjects up in uprform.UserProjectList)
+                {
+                    if(!dba.UserProjectList.Select(s => s.ProjectID).Contains(up.ProjectID))
+                    {
+                        dba.AddUserProject(up.ProjectID, up.RoleID);
+                    }
+                }
+                dba.RefreshUserProjects();
+                if (dba.UserProjectList.Count > 0)
+                {
+                    gListProjects.DisplayMember = "PName";
+                    gListProjects.ValueMember = "ID";
+                    gListProjects.DataSource = dba.UserProjectList.ConvertAll<ProjectTable>(new Converter<UserProjects, ProjectTable>(ConvertUserProject));
+                }
+            }
 
         }
 
@@ -167,6 +191,16 @@ namespace TimesheetUserInterface
             tsListBox1.DisplayMember = "WorkDate";
             tsListBox1.DataSource = dba.TimeSheetEntries.Where(w => w.WorkDate >= tsCalendar2.SelectedDays.Min() && w.WorkDate <= tsCalendar2.SelectedDays.Max()).ToList();
             tsCalendar2.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
+        }
+
+        private void tsListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        ProjectTable ConvertUserProject(UserProjects up)
+        {
+            return dba.Projects.Where(w => w.ID == up.ProjectID).FirstOrDefault();
         }
 
     }
