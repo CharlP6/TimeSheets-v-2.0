@@ -89,6 +89,13 @@ namespace TimesheetUserInterface
 
         private void tsButton1_Click(object sender, EventArgs e)
         {
+            if (tsListBox1.SelectedIndex != -1)
+            {
+                int DeleteID = (tsListBox1.SelectedItem as TimeSheetEntry).ID;
+                dba.DeleteItemFromTable("TimeSheets", "ID", DeleteID);
+                dba.RefreshTimeSheets();
+                UpdateList();
+            }
 
         }
 
@@ -159,7 +166,6 @@ namespace TimesheetUserInterface
             dba.AddTimeSheetEntry(entryDate, entryHours, prID, domID, funcID, actID, addID, roleID, "", txtComments.Text, DateTime.Now.RomoveMiliSeconds());
             
             dba.RefreshTimeSheets();
-
 
             UpdateList();
             //tsListBox1.Invalidate(); tsListBox1.Refresh();

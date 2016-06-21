@@ -92,9 +92,8 @@ namespace DataAdapter
         /// <param name="TableName"></param>
         /// <param name="ColumnHeaders"></param>
         /// <param name="Values"></param>
-        public void InsertData(string TableName, string[] ColumnHeaders, object[] Values)
+        public void InsertDataIntoTable(string TableName, string[] ColumnHeaders, object[] Values)
         {
-
             if (ColumnHeaders.Length == Values.Length)
             {
                 string Columns = "([" + string.Join("], [", ColumnHeaders) + "])";
@@ -110,7 +109,7 @@ namespace DataAdapter
                     for(int i = 0; i < ColumnHeaders.Length; i++)
                     {
                         if (Values[i] == null)
-                            InsertAdapter.InsertCommand.Parameters.Add("@" + ColumnHeaders[i], DBNull.Value);
+                            InsertAdapter.InsertCommand.Parameters.AddWithValue("@" + ColumnHeaders[i], DBNull.Value);
                         else
                             InsertAdapter.InsertCommand.Parameters.AddWithValue("@" + ColumnHeaders[i], Values[i]);
                     }
@@ -133,6 +132,32 @@ namespace DataAdapter
             else
             {
                 MessageBox.Show("Error trying to insert data into" + TableName + ". Column and data count mismatch");
+            }
+        }
+
+
+        public void DeleteItemFromTable(string TableName, string IDColumn, object ID)
+        {
+
+            string DeleteString = string.Format("DELETE FROM {0} WHERE [{1}] = ?",TableName,IDColumn);
+
+            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            {
+                OleDbDataAdapter DeleteAdapter = new OleDbDataAdapter("SELECT * FROM " + TableName, DBConnection);
+                DeleteAdapter.DeleteCommand = new OleDbCommand(DeleteString, DBConnection);
+                DeleteAdapter.DeleteCommand.Parameters.AddWithValue("@did", ID);
+
+                DataTable Table = new DataTable(TableName);
+
+                try
+                {
+                    DBConnection.Open();
+                    DeleteAdapter.DeleteCommand.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {                    
+                    throw;
+                }                     
             }
         }
 
@@ -163,14 +188,14 @@ namespace DataAdapter
         {
             string[] Headers = { "Login ID", "User Name", "Last Name" };
             object[] Values = { Environment.UserName, FirstName, LastName };
-            InsertData("Users", Headers, Values);
+            InsertDataIntoTable("Users", Headers, Values);
         }
 
         public void AddTimeSheetEntry(DateTime date, float hours, int project, int domain, int function, int activity, int? additional, int role, string software, string comments, DateTime timestamp)
         {
             string[] Headers = { "User ID", "Work Date", "Time", "Project ID", "Domain ID", "Function ID", "Activity ID", "Additional ID", "Role ID", "Software Package", "Comments", "Time Stamp" };
             object[] Values = { UserID, date, hours, project, domain, function, activity, additional, role, software, comments, timestamp };
-            InsertData("TimeSheets", Headers, Values);            
+            InsertDataIntoTable("TimeSheets", Headers, Values);            
         }
 
         public void RefreshTimeSheets()
@@ -524,7 +549,6 @@ namespace DataAdapter
             }
         }
     }
-
 
     public class DomainTable
     {
