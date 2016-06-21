@@ -13,21 +13,15 @@ namespace BaseForm
 {
     public class GListBox : ListBox
     {
-        private int borderSwatch = 1;
-        [Category("Appearance")]
-        public Swatch BorderSwatch
+
+        public GListBox()
         {
-            get
-            {
-                return (Swatch)borderSwatch;
-            }
-            set
-            {
-                borderSwatch = (int)value;
-                this.Invalidate();
-                this.Update();
-            }
+            palette = null;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            SetStyle(ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         }
+
+        #region Overrides
 
         protected override System.Windows.Forms.CreateParams CreateParams
         {
@@ -37,13 +31,6 @@ namespace BaseForm
                 cp.Style = cp.Style & ~0x200000;
                 return cp;
             }
-        }
-
-        public GListBox()
-        {
-            palette = null;
-            this.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            SetStyle(ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         }
 
         protected override void OnKeyPress(KeyPressEventArgs e)
@@ -104,21 +91,12 @@ namespace BaseForm
                 this.Update();
             }
         }
-
-        protected override void OnDrawItem(DrawItemEventArgs e)
-        {
-            Graphics g = e.Graphics;
-
-            //base.OnDrawItem(e);
-        }
+        #endregion
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            
-            //e.Graphics.Clear(BackColor);
             PaintItems(e.Graphics);
             PaintBorder(e.Graphics);
-            //base.OnPaint(e);
         }        
 
         void PaintBorder(Graphics g)
@@ -177,8 +155,6 @@ namespace BaseForm
                 {
 
                 }
-
-                
             }
         }
         
@@ -229,6 +205,22 @@ namespace BaseForm
 
         #endregion
 
+        private int borderSwatch = 1;
+        [Category("Appearance")]
+        public Swatch BorderSwatch
+        {
+            get
+            {
+                return (Swatch)borderSwatch;
+            }
+            set
+            {
+                borderSwatch = (int)value;
+                this.Invalidate();
+                this.Update();
+            }
+        }
+
         private void InitializeComponent()
         {
             this.SuspendLayout();
@@ -238,6 +230,8 @@ namespace BaseForm
             this.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.ResumeLayout(false);
+
+
 
         }
     }

@@ -135,7 +135,7 @@ namespace DataAdapter
             }
         }
 
-
+        
         public void DeleteItemFromTable(string TableName, string IDColumn, object ID)
         {
 
@@ -213,64 +213,53 @@ namespace DataAdapter
 
         void LoadTimeSheets()
         {
-            TimeSheetData.Clear();
             TimeSheetEntries.Clear();
+
+            OleDbParameter[] parameters = { new OleDbParameter("?", UserID) };
+            parameters[0].Value = UserID;
 
             if (userID != -1)
             {
+                DataTable DT = LoadDataFromTable("TimeSheets", "SELECT * FROM TimeSheets WHERE [User ID] = ?", parameters);
 
-                string TSDataQuery = "SELECT * FROM TimeSheets WHERE [User ID] = ?";
 
-                using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+                if (DT.Rows.Count > 0)
                 {
-                    OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(TSDataQuery, DBConnection);
-
-                    UserDataAdapter.SelectCommand.Parameters.Add("@UserID", OleDbType.Integer).Value = userID;
-                    try
+                    foreach (DataRow DR in DT.Rows)
                     {
-                        DBConnection.Open();
-                        UserDataAdapter.Fill(TimeSheetDataSet, "TimeSheets");
-                        if (TimeSheetDataSet.Tables["TimeSheets"].Rows.Count > 0)
-                        {
-                            foreach (DataRow DR in TimeSheetDataSet.Tables["TimeSheets"].Rows)
-                            {
-                                int ID = (int)DR["ID"];
-                                int UID = (int)DR["User ID"];
-                                DateTime Date = (DateTime)DR["Work Date"];
-                                float Time = (float)DR["Time"];
-                                int Project = (int)DR["Project ID"];
-                                int Domain = (int)DR["Domain ID"];
-                                int Function = (int)DR["Function ID"];
-                                int Activity = (int)DR["Activity ID"];
-                                int Additional = DR["Additional ID"] == DBNull.Value ? -1 : (int)DR["Additional ID"];
-                                int Role = (int)DR["Role ID"];
-                                string Software = DR["Software Package"] == DBNull.Value ? "" : (string)DR["Software Package"];
-                                string Comments = DR["Comments"] == DBNull.Value ? "" : (string)DR["Comments"];
-                                DateTime TimeStamp = (DateTime)DR["Time Stamp"];
-                                TimeSheetEntries.Add(new TimeSheetEntry(
-                                            ID,
-                                            UID,
-                                            Date,
-                                            Time,
-                                            Project,
-                                            Domain,
-                                            Function,
-                                            Activity,
-                                            Additional,
-                                            Role,
-                                            Software,
-                                            Comments,
-                                            TimeStamp));
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
+                        int ID = (int)DR["ID"];
+                        int UID = (int)DR["User ID"];
+                        DateTime Date = (DateTime)DR["Work Date"];
+                        float Time = (float)DR["Time"];
+                        int Project = (int)DR["Project ID"];
+                        int Domain = (int)DR["Domain ID"];
+                        int Function = (int)DR["Function ID"];
+                        int Activity = (int)DR["Activity ID"];
+                        int Additional = DR["Additional ID"] == DBNull.Value ? -1 : (int)DR["Additional ID"];
+                        int Role = (int)DR["Role ID"];
+                        string Software = DR["Software Package"] == DBNull.Value ? "" : (string)DR["Software Package"];
+                        string Comments = DR["Comments"] == DBNull.Value ? "" : (string)DR["Comments"];
+                        DateTime TimeStamp = (DateTime)DR["Time Stamp"];
+                        TimeSheetEntries.Add(new TimeSheetEntry(
+                                    ID,
+                                    UID,
+                                    Date,
+                                    Time,
+                                    Project,
+                                    Domain,
+                                    Function,
+                                    Activity,
+                                    Additional,
+                                    Role,
+                                    Software,
+                                    Comments,
+                                    TimeStamp));
                     }
                 }
             }
         }
+            
+        
 
         void LoadSoftware()
         {

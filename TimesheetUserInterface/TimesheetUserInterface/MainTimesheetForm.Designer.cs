@@ -50,6 +50,8 @@
             this.txtComments = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.tsScrollBar1 = new BaseForm.TSScrollBar();
+            this.tsScrollBar2 = new BaseForm.TSScrollBar();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,7 +99,7 @@
             this.gListDomains.ItemHeight = 16;
             this.gListDomains.Location = new System.Drawing.Point(258, 57);
             this.gListDomains.Name = "gListDomains";
-            this.gListDomains.Size = new System.Drawing.Size(199, 96);
+            this.gListDomains.Size = new System.Drawing.Size(181, 96);
             this.gListDomains.TabIndex = 4;
             this.gListDomains.SelectedIndexChanged += new System.EventHandler(this.gListBox1_SelectedIndexChanged);
             // 
@@ -126,7 +128,7 @@
             this.gListFunctions.ItemHeight = 16;
             this.gListFunctions.Location = new System.Drawing.Point(258, 169);
             this.gListFunctions.Name = "gListFunctions";
-            this.gListFunctions.Size = new System.Drawing.Size(199, 176);
+            this.gListFunctions.Size = new System.Drawing.Size(181, 176);
             this.gListFunctions.TabIndex = 7;
             this.gListFunctions.SelectedIndexChanged += new System.EventHandler(this.gListFunctions_SelectedIndexChanged);
             // 
@@ -332,6 +334,22 @@
             this.label8.Text = "Specify:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // tsScrollBar1
+            // 
+            this.tsScrollBar1.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.tsScrollBar1.Location = new System.Drawing.Point(438, 57);
+            this.tsScrollBar1.Name = "tsScrollBar1";
+            this.tsScrollBar1.Size = new System.Drawing.Size(19, 96);
+            this.tsScrollBar1.TabIndex = 18;
+            // 
+            // tsScrollBar2
+            // 
+            this.tsScrollBar2.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.tsScrollBar2.Location = new System.Drawing.Point(438, 169);
+            this.tsScrollBar2.Name = "tsScrollBar2";
+            this.tsScrollBar2.Size = new System.Drawing.Size(19, 176);
+            this.tsScrollBar2.TabIndex = 19;
+            // 
             // MainTimesheetForm
             // 
             this.AccentColor = System.Drawing.Color.DodgerBlue;
@@ -339,6 +357,8 @@
             this.BackColor = System.Drawing.Color.White;
             this.BorderWidth = 2;
             this.ClientSize = new System.Drawing.Size(1160, 697);
+            this.Controls.Add(this.tsScrollBar2);
+            this.Controls.Add(this.tsScrollBar1);
             this.Controls.Add(this.txtComments);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label1);
@@ -350,7 +370,6 @@
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.tsCalendar2);
             this.Controls.Add(this.gListActivities);
-            this.Controls.Add(this.gListFunctions);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label5);
@@ -361,6 +380,7 @@
             this.Controls.Add(this.gListDomains);
             this.Controls.Add(this.tsListBox1);
             this.Controls.Add(this.tsButton1);
+            this.Controls.Add(this.gListFunctions);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(89)))), ((int)(((byte)(158)))));
             this.Margin = new System.Windows.Forms.Padding(5);
@@ -398,6 +418,8 @@
         private System.Windows.Forms.TextBox txtComments;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private BaseForm.TSScrollBar tsScrollBar1;
+        private BaseForm.TSScrollBar tsScrollBar2;
 
     }
 }
