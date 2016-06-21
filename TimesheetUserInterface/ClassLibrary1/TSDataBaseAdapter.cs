@@ -43,8 +43,10 @@ namespace DataAdapter
         public TSDataBaseAdapter(string ConnectionString, string userName)
         {
             TimeSheetDataSet = new DataSet();
-            dbConnectionString = ConnectionString;
+
+            dbConnectionString = ConnectionString;            
             UserName = userName;
+
             GetUserID();
             LoadDomains();
             LoadFunctions();
@@ -57,124 +59,118 @@ namespace DataAdapter
             LoadTimeSheets();
         }
 
-        void GetUserID()
+        /// <summary>
+        /// A generic method for reading a data table from a database
+        /// </summary>
+        /// <param name="TableName"></param>
+        /// <param name="SelectCommand"></param>
+        /// <param name="Parameters"></param>
+        /// <returns></returns>
+        private DataTable LoadDataFromTable(string TableName, string SelectCommand, OleDbParameter[] Parameters)
         {
-            string UserDataQuery = "SELECT * FROM Users WHERE [Login ID] = ?";
-
             using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
             {
-                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(UserDataQuery, DBConnection);
-
-                UserDataAdapter.SelectCommand.Parameters.Add("?", OleDbType.VarChar).Value = UserName;
+                OleDbDataAdapter SelectAdapter = new OleDbDataAdapter(SelectCommand, DBConnection);
+                SelectAdapter.SelectCommand.Parameters.AddRange(Parameters);
+                DataTable rTable = new DataTable(TableName);
                 try
                 {
                     DBConnection.Open();
-                    UserDataAdapter.Fill(TimeSheetDataSet, "Users");
-                    if (TimeSheetDataSet.Tables["Users"].Rows.Count == 1)
-                    {
-                        userID = (int)TimeSheetDataSet.Tables["Users"].Rows[0]["User ID"];
-                        CurrentUser = new UserData { ID = userID, LoginID = (string)TimeSheetDataSet.Tables["Users"].Rows[0]["Login ID"], Name = (string)TimeSheetDataSet.Tables["Users"].Rows[0]["User Name"], Surname = (string)TimeSheetDataSet.Tables["Users"].Rows[0]["Last Name"] };
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error: Duplicate user data found.");
-                        Application.Exit();
-                    }
+                    SelectAdapter.Fill(rTable);
+                    return rTable;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    throw ex;
                 }
+            }
+        }
+
+        /// <summary>
+        /// A generic method to insert data into a specified table
+        /// </summary>
+        /// <param name="TableName"></param>
+        /// <param name="ColumnHeaders"></param>
+        /// <param name="Values"></param>
+        public void InsertData(string TableName, string[] ColumnHeaders, object[] Values)
+        {
+
+            if (ColumnHeaders.Length == Values.Length)
+            {
+                string Columns = "([" + string.Join("], [", ColumnHeaders) + "])";
+                string vals = "(" + string.Join(", ", Values.Select(s => "?").ToArray()) + ")";
+
+                string InsertString = string.Format("INSERT INTO {0} {1} VALUES {2}", TableName, Columns, vals);
+                
+                using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+                {
+                    OleDbDataAdapter InsertAdapter = new OleDbDataAdapter("SELECT * FROM " + TableName, DBConnection);
+                    InsertAdapter.InsertCommand = new OleDbCommand(InsertString, DBConnection);
+
+                    for(int i = 0; i < ColumnHeaders.Length; i++)
+                    {
+                        if (Values[i] == null)
+                            InsertAdapter.InsertCommand.Parameters.Add("@" + ColumnHeaders[i], DBNull.Value);
+                        else
+                            InsertAdapter.InsertCommand.Parameters.AddWithValue("@" + ColumnHeaders[i], Values[i]);
+                    }
+
+                    DataTable Table = new DataTable(TableName);
+
+                    try
+                    {
+                        DBConnection.Open();
+                        InsertAdapter.Fill(Table);
+                        Table.Rows.Add(Table.NewRow());
+                        InsertAdapter.Update(Table);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error trying to insert data into" + TableName + Environment.NewLine + ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error trying to insert data into" + TableName + ". Column and data count mismatch");
+            }
+        }
+
+        void GetUserID()
+        {
+            string Table = "Users";
+            string Command = string.Format("SELECT * FROM {0} WHERE [Login ID] = ?", Table);
+
+            OleDbParameter[] parameters = new OleDbParameter[1];
+            parameters[0] = new OleDbParameter("?", UserName);
+
+            DataTable UserTable = LoadDataFromTable(Table, Command, parameters);
+
+            if (UserTable.Rows.Count == 1)
+            {
+                DataRow DR = UserTable.Rows[0];
+                userID = (int)DR["User ID"];
+                CurrentUser = new UserData { ID = userID, LoginID = (string)DR["Login ID"], Name = (string)DR["User Name"], Surname = (string)DR["Last Name"] };
+            }
+            else if (TimeSheetDataSet.Tables["Users"].Rows.Count > 1)
+            {
+                MessageBox.Show("Error: Duplicate user data found.");
+                Application.Exit();
             }
         }
 
         public void AddUserParameters(string FirstName, string LastName)
         {
-            string UserDataInsert = "INSERT INTO Users ([Login ID], [User Name], [Last Name]) VALUES (?, ?, ?)";
-
-            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
-            {
-                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter("SELECT * FROM Users", DBConnection);
-
-                DataTable Table = new DataTable("Users");
-                UserDataAdapter.Fill(Table);
-
-                DataRow row = Table.NewRow();
-                Table.Rows.Add(row);
-
-                UserDataAdapter.InsertCommand = new OleDbCommand(UserDataInsert, DBConnection);
-
-                UserDataAdapter.InsertCommand.Parameters.Add("@Login ID", OleDbType.VarChar).Value = Environment.UserName;
-                UserDataAdapter.InsertCommand.Parameters.Add("@User Name", OleDbType.VarChar).Value = FirstName;
-                UserDataAdapter.InsertCommand.Parameters.Add("@Last Name", OleDbType.VarChar).Value = LastName;
-
-                try
-                {
-                    DBConnection.Open();
-                    UserDataAdapter.Update(Table);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
+            string[] Headers = { "Login ID", "User Name", "Last Name" };
+            object[] Values = { Environment.UserName, FirstName, LastName };
+            InsertData("Users", Headers, Values);
         }
 
         public void AddTimeSheetEntry(DateTime date, float hours, int project, int domain, int function, int activity, int? additional, int role, string software, string comments, DateTime timestamp)
         {
-            string insertString = "INSERT INTO TimeSheets ([User ID], [Work Date], [Time], [Project ID], [Domain ID], [Function ID], [Activity ID],[Additional ID] , [Role ID], [Software Package], [Comments], [Time Stamp]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
-            {
-                OleDbDataAdapter TSAdapter = new OleDbDataAdapter("SELECT * FROM TimeSheets WHERE [User ID] = ?", DBConnection);
-                TSAdapter.SelectCommand.Parameters.Add("@UserID", OleDbType.Integer).Value = userID;
-                try
-                {
-                    DataTable Table = new DataTable("TimeSheets");
-                    TSAdapter.Fill(Table);
-
-                    DataRow row = Table.NewRow();
-                    Table.Rows.Add(row);
-
-                    TSAdapter.InsertCommand = new OleDbCommand(insertString, DBConnection);
-
-                    TSAdapter.InsertCommand.Parameters.Add("@uid", OleDbType.Integer).Value = UserID;
-                    TSAdapter.InsertCommand.Parameters.Add("@wdate", OleDbType.Date).Value = date;
-                    TSAdapter.InsertCommand.Parameters.Add("@time", OleDbType.Single).Value = hours;
-                    TSAdapter.InsertCommand.Parameters.Add("@prj", OleDbType.Single).Value = project;
-                    TSAdapter.InsertCommand.Parameters.Add("@domain", OleDbType.Integer).Value = domain;
-                    TSAdapter.InsertCommand.Parameters.Add("@fun", OleDbType.Integer).Value = function;
-                    TSAdapter.InsertCommand.Parameters.Add("@act", OleDbType.Integer).Value = activity;
-
-                    if(additional.HasValue)
-                    {
-                        TSAdapter.InsertCommand.Parameters.Add("@add", OleDbType.Integer).Value = additional;
-                    }
-                    else
-                    {
-                        TSAdapter.InsertCommand.Parameters.Add("@add", OleDbType.Integer).Value = DBNull.Value;
-                    }
-
-                    TSAdapter.InsertCommand.Parameters.Add("@role", OleDbType.Integer).Value = role;
-                    TSAdapter.InsertCommand.Parameters.Add("@soft", OleDbType.VarChar).Value = software;
-                    TSAdapter.InsertCommand.Parameters.Add("@comm", OleDbType.VarChar).Value = comments;
-                    TSAdapter.InsertCommand.Parameters.Add("@ts", OleDbType.Date).Value = timestamp;
-
-                    try
-                    {
-                        DBConnection.Open();
-                        TSAdapter.Update(Table);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-
-                }
-                catch
-                {
-
-                }
-            }
+            string[] Headers = { "User ID", "Work Date", "Time", "Project ID", "Domain ID", "Function ID", "Activity ID", "Additional ID", "Role ID", "Software Package", "Comments", "Time Stamp" };
+            object[] Values = { UserID, date, hours, project, domain, function, activity, additional, role, software, comments, timestamp };
+            InsertData("TimeSheets", Headers, Values);            
         }
 
         public void RefreshTimeSheets()
@@ -527,7 +523,6 @@ namespace DataAdapter
                 }
             }
         }
-
     }
 
 

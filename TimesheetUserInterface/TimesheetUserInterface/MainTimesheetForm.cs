@@ -156,8 +156,7 @@ namespace TimesheetUserInterface
 
             int roleID = (gListRole.SelectedItem as RSTable).ID;
 
-
-            dba.AddTimeSheetEntry(entryDate, entryHours, prID, domID, funcID, actID, addID, roleID, "", txtComments.Text, DateTime.Now);
+            dba.AddTimeSheetEntry(entryDate, entryHours, prID, domID, funcID, actID, addID, roleID, "", txtComments.Text, DateTime.Now.RomoveMiliSeconds());
             
             dba.RefreshTimeSheets();
 
@@ -202,6 +201,13 @@ namespace TimesheetUserInterface
         {
             return dba.Projects.Where(w => w.ID == up.ProjectID).FirstOrDefault();
         }
+    }
 
+    public static class ExtestionMethods
+    {
+        public static DateTime RomoveMiliSeconds(this DateTime d)
+        {
+            return new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second);
+        }
     }
 }
