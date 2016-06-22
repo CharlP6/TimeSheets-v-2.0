@@ -96,6 +96,7 @@ namespace BaseForm
         void PaintBorder(Graphics g)
         {
             g.DrawLine(new Pen(Palette.Tint1, 1), Width / 2, Width, Width / 2, Height - Width);
+            g.DrawRectangle(new Pen(Palette.Shade1, 1), new Rectangle(0, 0, Width - 1, Height - 1));
         }
 
         protected override void OnPaint(PaintEventArgs e)

@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            BaseForm.ColorPalette colorPalette1 = new BaseForm.ColorPalette();
             this.tsButton1 = new BaseForm.TSButton();
             this.tsListBox1 = new BaseForm.TSListBox();
-            this.gListDomains = new BaseForm.GListBox();
             this.tsButton2 = new BaseForm.TSButton();
             this.gListFunctions = new BaseForm.GListBox();
             this.gListActivities = new BaseForm.GListBox();
@@ -50,8 +50,7 @@
             this.txtComments = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.tsScrollBar1 = new BaseForm.TSScrollBar();
-            this.tsScrollBar2 = new BaseForm.TSScrollBar();
+            this.gListDomains = new BaseForm.GListBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,20 +87,6 @@
             this.tsListBox1.Sorted = true;
             this.tsListBox1.TabIndex = 2;
             this.tsListBox1.SelectedIndexChanged += new System.EventHandler(this.tsListBox1_SelectedIndexChanged);
-            // 
-            // gListDomains
-            // 
-            this.gListDomains.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gListDomains.BorderSwatch = BaseForm.Swatch.Shade1;
-            this.gListDomains.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.gListDomains.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gListDomains.FormattingEnabled = true;
-            this.gListDomains.ItemHeight = 16;
-            this.gListDomains.Location = new System.Drawing.Point(258, 57);
-            this.gListDomains.Name = "gListDomains";
-            this.gListDomains.Size = new System.Drawing.Size(181, 96);
-            this.gListDomains.TabIndex = 4;
-            this.gListDomains.SelectedIndexChanged += new System.EventHandler(this.gListBox1_SelectedIndexChanged);
             // 
             // tsButton2
             // 
@@ -206,7 +191,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.label4.Location = new System.Drawing.Point(12, 47);
             this.label4.Name = "label4";
@@ -218,6 +203,7 @@
             // 
             this.gListProjects.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gListProjects.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.gListProjects.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gListProjects.FormattingEnabled = true;
             this.gListProjects.ItemHeight = 16;
             this.gListProjects.Location = new System.Drawing.Point(463, 57);
@@ -334,21 +320,31 @@
             this.label8.Text = "Specify:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // tsScrollBar1
+            // gListDomains
             // 
-            this.tsScrollBar1.BorderSwatch = BaseForm.Swatch.Shade1;
-            this.tsScrollBar1.Location = new System.Drawing.Point(438, 57);
-            this.tsScrollBar1.Name = "tsScrollBar1";
-            this.tsScrollBar1.Size = new System.Drawing.Size(19, 96);
-            this.tsScrollBar1.TabIndex = 18;
-            // 
-            // tsScrollBar2
-            // 
-            this.tsScrollBar2.BorderSwatch = BaseForm.Swatch.Shade1;
-            this.tsScrollBar2.Location = new System.Drawing.Point(438, 169);
-            this.tsScrollBar2.Name = "tsScrollBar2";
-            this.tsScrollBar2.Size = new System.Drawing.Size(19, 176);
-            this.tsScrollBar2.TabIndex = 19;
+            this.gListDomains.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gListDomains.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.gListDomains.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.gListDomains.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gListDomains.FormattingEnabled = true;
+            this.gListDomains.ItemHeight = 16;
+            this.gListDomains.Location = new System.Drawing.Point(258, 57);
+            this.gListDomains.Name = "gListDomains";
+            colorPalette1.Palette = new System.Drawing.Color[] {
+        System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))))};
+            colorPalette1.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
+            colorPalette1.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            colorPalette1.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
+            colorPalette1.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
+            colorPalette1.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
+            this.gListDomains.Palette = colorPalette1;
+            this.gListDomains.Size = new System.Drawing.Size(181, 96);
+            this.gListDomains.TabIndex = 4;
+            this.gListDomains.SelectedIndexChanged += new System.EventHandler(this.gListBox1_SelectedIndexChanged);
             // 
             // MainTimesheetForm
             // 
@@ -357,8 +353,6 @@
             this.BackColor = System.Drawing.Color.White;
             this.BorderWidth = 2;
             this.ClientSize = new System.Drawing.Size(1160, 697);
-            this.Controls.Add(this.tsScrollBar2);
-            this.Controls.Add(this.tsScrollBar1);
             this.Controls.Add(this.txtComments);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label1);
@@ -398,7 +392,6 @@
 
         private BaseForm.TSButton tsButton1;
         private BaseForm.TSListBox tsListBox1;
-        private BaseForm.GListBox gListDomains;
         private BaseForm.TSButton tsButton2;
         private BaseForm.GListBox gListFunctions;
         private BaseForm.GListBox gListActivities;
@@ -418,8 +411,7 @@
         private System.Windows.Forms.TextBox txtComments;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private BaseForm.TSScrollBar tsScrollBar1;
-        private BaseForm.TSScrollBar tsScrollBar2;
+        private BaseForm.GListBox gListDomains;
 
     }
 }
