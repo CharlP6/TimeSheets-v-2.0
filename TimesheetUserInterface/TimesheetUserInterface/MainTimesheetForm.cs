@@ -29,7 +29,7 @@ namespace TimesheetUserInterface
 
         private void LoadDatabase()
         {
-            dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=E:\V2\\Engineering Timesheets Dev Test.accdb", Environment.UserName);//\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
+            dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
             if (dba.UserID == -1)
             {
                 UserProfileForm upf = new UserProfileForm();
@@ -89,7 +89,14 @@ namespace TimesheetUserInterface
 
         private void tsButton1_Click(object sender, EventArgs e)
         {
-            
+            if (tsListBox1.SelectedIndex != -1)
+            {
+                int DeleteID = (tsListBox1.SelectedItem as TimeSheetEntry).ID;
+                dba.DeleteItemFromTable("TimeSheets", "ID", DeleteID);
+                dba.RefreshTimeSheets();
+                UpdateList();
+            }
+
         }
 
         private void tsButton2_Click(object sender, EventArgs e)
@@ -156,11 +163,9 @@ namespace TimesheetUserInterface
 
             int roleID = (gListRole.SelectedItem as RSTable).ID;
 
-
-            dba.AddTimeSheetEntry(entryDate, entryHours, prID, domID, funcID, actID, addID, roleID, "", txtComments.Text, DateTime.Now);
+            dba.AddTimeSheetEntry(entryDate, entryHours, prID, domID, funcID, actID, addID, roleID, "", txtComments.Text, DateTime.Now.RomoveMiliSeconds());
             
             dba.RefreshTimeSheets();
-
 
             UpdateList();
             //tsListBox1.Invalidate(); tsListBox1.Refresh();
@@ -202,6 +207,13 @@ namespace TimesheetUserInterface
         {
             return dba.Projects.Where(w => w.ID == up.ProjectID).FirstOrDefault();
         }
+    }
 
+    public static class ExtestionMethods
+    {
+        public static DateTime RomoveMiliSeconds(this DateTime d)
+        {
+            return new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second);
+        }
     }
 }

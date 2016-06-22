@@ -13,21 +13,28 @@ namespace BaseForm
 {
     public class GListBox : ListBox
     {
-        private int borderSwatch = 1;
-        [Category("Appearance")]
-        public Swatch BorderSwatch
+        Rectangle SelectRect = new Rectangle(0, 0, 1, 1);
+        int baseFade = 150;
+        int fade = 100;
+
+        System.Timers.Timer FadeTimer = new System.Timers.Timer(10);
+
+        public delegate void GetMousePos();
+        public Delegate MouseDelegate;
+
+        public GListBox()
         {
-            get
-            {
-                return (Swatch)borderSwatch;
-            }
-            set
-            {
-                borderSwatch = (int)value;
-                this.Invalidate();
-                this.Update();
-            }
+            palette = null;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            SetStyle(ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
+
+            MouseDelegate = new GetMousePos(GetMousePosition);
+            FadeTimer.Elapsed += new System.Timers.ElapsedEventHandler(FadeTimer_Tick);
+
+            //FadeTimer.Enabled = true;
         }
+        
+        #region Overrides
 
         protected override System.Windows.Forms.CreateParams CreateParams
         {
@@ -35,15 +42,9 @@ namespace BaseForm
             {
                 CreateParams cp = base.CreateParams;                
                 cp.Style = cp.Style & ~0x200000;
+                //cp.ExStyle |= 0x20;
                 return cp;
             }
-        }
-
-        public GListBox()
-        {
-            palette = null;
-            this.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            SetStyle(ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         }
 
         protected override void OnKeyPress(KeyPressEventArgs e)
@@ -70,6 +71,16 @@ namespace BaseForm
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
             base.OnSelectedIndexChanged(e);
+
+            if (SelectedIndex >= 0)
+            {
+                SelectRect.Y = ItemHeight * (SelectedIndex - TopIndex);
+                SelectRect.Width = Width;
+                SelectRect.Height = ItemHeight;
+            }
+            else
+                SelectRect = new Rectangle();
+
             this.Invalidate();
             this.Refresh();
         }
@@ -79,7 +90,7 @@ namespace BaseForm
             base.OnSelectedValueChanged(e);
             this.Invalidate();
             this.Refresh();
-        }            
+        }
 
         protected override void OnClick(EventArgs e)
         {
@@ -97,7 +108,9 @@ namespace BaseForm
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
+            
             base.OnMouseMove(e);
+
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
                 this.Invalidate();
@@ -105,20 +118,18 @@ namespace BaseForm
             }
         }
 
-        protected override void OnDrawItem(DrawItemEventArgs e)
+        protected override void OnMouseEnter(EventArgs e)
         {
-            Graphics g = e.Graphics;
-
-            //base.OnDrawItem(e);
+            base.OnMouseEnter(e);
+            FadeTimer.Enabled = true;
         }
+        #endregion
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            
             //e.Graphics.Clear(BackColor);
             PaintItems(e.Graphics);
-            PaintBorder(e.Graphics);
-            //base.OnPaint(e);
+            //PaintBorder(e.Graphics);
         }        
 
         void PaintBorder(Graphics g)
@@ -131,56 +142,42 @@ namespace BaseForm
 
         void PaintItems(Graphics g)
         {
-            Font StringFont = new Font(this.Font.FontFamily, this.Font.Size, FontStyle.Regular);
             int j = 0;
             using (SolidBrush b = new SolidBrush(Palette.Shade2))
             {
-                if (SelectedIndex >= 0)
-                {
-                    try
-                    {
-                        g.FillRectangle(new SolidBrush(Palette.Tint1), new Rectangle(0, ItemHeight * (SelectedIndex - TopIndex), this.Width, ItemHeight));
-                    }
-                    catch
-                    {
-
-                    }
-                }
+                //if (SelectedIndex >= 0)
+                    //g.FillRectangle(new SolidBrush(Color.FromArgb(100, Palette.Tint1)), SelectRect);
 
                 IEnumerable<object> objs = Items.Cast<object>();
-                try
+
+                Font DrawFont = new Font(Font.FontFamily, Font.Size, Font.Style);
+
+                foreach (object item in objs.Skip(TopIndex))
                 {
-                    foreach (object item in objs.Skip(TopIndex))
+                    string s = item.GetType().GetProperty(DisplayMember).GetValue(item).ToString();
+
+                    if (j / ItemHeight == SelectedIndex + TopIndex)
                     {
-                        object o = item.GetType().GetProperty(DisplayMember).GetValue(item);
-                        string s = o.ToString();
-
-                        int sLen = (int)g.MeasureString(s, this.Font).Width;
-                        int f = s.Length;
-
-                        string printString = new string(s.Take(f).ToArray());
-                        while (sLen > Width)
-                        {
-                            sLen = (int)g.MeasureString(printString, Font).Width;
-                            printString = new string(s.Take(f).ToArray());
-                            f--;
-                        }
-
-                        int sHgt = (int)g.MeasureString(s, Font).Height;
-                        Point PaintPoint = new Point(2, (j + ItemHeight / 2) - sHgt / 2);
-
-                        g.DrawString(printString, Font, new SolidBrush(Palette.Shade2), PaintPoint);
-                        j += ItemHeight;
+                        DrawFont = new Font(Font.FontFamily, Font.Size, FontStyle.Bold);
+                        b.Color = Palette.Shade1;
                     }
-                }
-                catch
-                {
+                    else
+                    {
+                        DrawFont = new Font(Font.FontFamily, Font.Size, FontStyle.Regular);
+                        b.Color = Color.FromArgb(fade, Palette.Shade2);
+                    }
 
-                }
 
-                
+                    string printString = s.ReduceLength(Width, Font);
+                    int sHgt = (int)g.MeasureString(s, DrawFont).Height;
+                    Point PaintPoint = new Point(2, (j + ItemHeight / 2) - sHgt / 2);
+
+                    g.DrawString(printString, DrawFont, b, PaintPoint);
+
+                    j += ItemHeight;
+                }
             }
-        }
+        }     
         
         #region Pallete
 
@@ -229,6 +226,22 @@ namespace BaseForm
 
         #endregion
 
+        private int borderSwatch = 1;
+        [Category("Appearance")]
+        public Swatch BorderSwatch
+        {
+            get
+            {
+                return (Swatch)borderSwatch;
+            }
+            set
+            {
+                borderSwatch = (int)value;
+                this.Invalidate();
+                this.Update();
+            }
+        }
+
         private void InitializeComponent()
         {
             this.SuspendLayout();
@@ -238,7 +251,61 @@ namespace BaseForm
             this.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.ResumeLayout(false);
+        }
+
+        Point mPos = new Point();
+
+        private void GetMousePosition()
+        {
+            mPos.X = this.Parent.PointToClient(Cursor.Position).X - this.Location.X;
+            mPos.Y = this.Parent.PointToClient(Cursor.Position).Y - this.Location.Y;
+
+            if (ClientRectangle.Contains(mPos))
+                fade = fade + 10 <= 255 ? fade + 10 : 255;
+            else
+                fade = fade - 10 >= 100 ? fade - 10 : 100;
+            if (fade <= 100)
+            {
+                FadeTimer.Enabled = false;
+            }
+
+            this.Invalidate();
+            this.Refresh();
+
+
+        }
+
+        private void FadeTimer_Tick(object sender, EventArgs e)
+        {
+            this.Invoke(this.MouseDelegate);
+
 
         }
     }
+
+    public static class ExtensionMethods
+    {
+        public static string ReduceLength(this string s, int Width, Font font)
+        {
+            int sLen = (int)TextRenderer.MeasureText(s, font).Width;
+
+            int f = s.Length;
+
+            string printString = new string(s.Take(f).ToArray());
+            if (sLen > Width)
+            {
+                printString += "...";
+
+                while (sLen > Width)
+                {
+                    sLen = (int)TextRenderer.MeasureText(printString, font).Width;
+                    printString = new string(s.Take(f).ToArray()) + "...";
+                    f--;
+                }
+            }
+
+            return printString;
+        }
+    }
+
 }

@@ -55,6 +55,12 @@
     <Compile Include="Controls\TSCalendar.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\TSScrollBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TSScrollBar.Designer.cs">
+      <DependentUpon>TSScrollBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TSText.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -84,6 +90,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\TSCalendar.resx">
       <DependentUpon>TSCalendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TSScrollBar.resx">
+      <DependentUpon>TSScrollBar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
