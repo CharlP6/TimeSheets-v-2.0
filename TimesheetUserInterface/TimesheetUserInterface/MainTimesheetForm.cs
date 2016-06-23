@@ -235,6 +235,27 @@ namespace TimesheetUserInterface
         {
             return dba.Projects.Where(w => w.ID == up.ProjectID).FirstOrDefault();
         }
+
+        private void tsButton4_Click(object sender, EventArgs e)
+        {
+            DateTime entryDate = tsCalendar2.CurrentDate;
+            float entryHours = (float)numericUpDown1.Value;
+            int prID = (gListProjects.SelectedItem as ProjectTable).ID;
+            int domID = (gListDomains.SelectedItem as DomainTable).ID;
+            int funcID = (gListFunctions.SelectedItem as FunctionTable).ID;
+            int actID = (gListActivities.SelectedItem as ActivitiesTable).ID;
+            int? addID = gListAdditional.SelectedIndex != -1 ? (gListAdditional.SelectedItem as AdditionalTable).ID : new int?();
+
+            int roleID = (gListRole.SelectedItem as RSTable).ID;
+
+            object[] editEntry = { entryDate, entryHours, prID, domID, funcID, actID, roleID, "", txtComments.Text, DateTime.Now.RomoveMiliSeconds(), addID };
+            string[] Headers = {"Work Date","Time","Project ID","Domain ID","Function ID","Activity ID","Role ID","Software Package","Comments","Time Stamp","Additional ID"};
+
+            dba.ModifyItemInTable("TimeSheets", Headers, editEntry, "ID", (tsListBox1.SelectedItem as TimeSheetEntry).ID);
+            dba.RefreshTimeSheets();
+
+            UpdateList();
+        }
     }
 
     public static class ExtestionMethods

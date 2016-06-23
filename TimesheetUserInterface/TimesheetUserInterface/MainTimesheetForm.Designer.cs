@@ -51,6 +51,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.gListDomains = new BaseForm.GListBox();
+            this.tsButton4 = new BaseForm.TSButton();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -356,6 +357,22 @@
             this.gListDomains.TabIndex = 4;
             this.gListDomains.SelectedIndexChanged += new System.EventHandler(this.gListBox1_SelectedIndexChanged);
             // 
+            // tsButton4
+            // 
+            this.tsButton4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            this.tsButton4.BackColorSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton4.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton4.ClickSwatch = BaseForm.Swatch.Tint1;
+            this.tsButton4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsButton4.ForeColor = System.Drawing.Color.White;
+            this.tsButton4.HoverSwatch = BaseForm.Swatch.Primary;
+            this.tsButton4.Location = new System.Drawing.Point(994, 208);
+            this.tsButton4.Name = "tsButton4";
+            this.tsButton4.Size = new System.Drawing.Size(154, 30);
+            this.tsButton4.TabIndex = 18;
+            this.tsButton4.Text = "Update Entry";
+            this.tsButton4.Click += new System.EventHandler(this.tsButton4_Click);
+            // 
             // MainTimesheetForm
             // 
             this.AccentColor = System.Drawing.Color.DodgerBlue;
@@ -363,6 +380,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.BorderWidth = 2;
             this.ClientSize = new System.Drawing.Size(1160, 697);
+            this.Controls.Add(this.tsButton4);
             this.Controls.Add(this.txtComments);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label1);
@@ -422,6 +440,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private BaseForm.GListBox gListDomains;
+        private BaseForm.TSButton tsButton4;
 
     }
 }

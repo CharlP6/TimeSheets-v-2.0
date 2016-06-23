@@ -54,8 +54,8 @@ namespace BaseForm
         public TSListBox()
         {
             this.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
-
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.UserMouse, true);
+            
             
 
             HeaderRects.Clear();

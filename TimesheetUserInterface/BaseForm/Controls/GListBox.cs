@@ -36,7 +36,7 @@ namespace BaseForm
 
             Scrolling = new ScrollDel(scroll);
             ScrollTimer.Elapsed += new System.Timers.ElapsedEventHandler(ScrollTimer_Tick);
-            ScrollTimer.Enabled = true;
+            //ScrollTimer.Enabled = true;
             //FadeTimer.Enabled = true;
         }
         
@@ -135,7 +135,7 @@ namespace BaseForm
         protected override void OnPaint(PaintEventArgs e)
         {
             //e.Graphics.Clear(BackColor);
-            e.Graphics.TranslateTransform(0, -top);
+            //e.Graphics.TranslateTransform(0, -top);
             PaintItems(e.Graphics);
             //PaintBorder(e.Graphics);
         }
@@ -144,12 +144,11 @@ namespace BaseForm
         {
             if(e.Delta < 0)
             {
-                Momentum += 3;
-
+                TopIndex += 1;
             }
             if(e.Delta > 0)
             {
-                Momentum -= 3;
+                TopIndex -= 1;
             }
 
             Invalidate();
@@ -177,7 +176,7 @@ namespace BaseForm
 
                 Font DrawFont = new Font(Font.FontFamily, Font.Size, Font.Style);
 
-                foreach (object item in objs.Skip(0))
+                foreach (object item in objs.Skip(TopIndex))
                 {
                     string s = item.GetType().GetProperty(DisplayMember).GetValue(item).ToString();
 
@@ -247,14 +246,11 @@ namespace BaseForm
                 }
                 this.Invalidate();
                 this.Update();
-
             }
             else
             {
                 TopIndex = (int)(top / (ItemHeight));
             }
-
-
         }
 
         private void ScrollTimer_Tick(object sender, EventArgs e)

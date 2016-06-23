@@ -186,6 +186,47 @@ namespace DataAdapter
             }
         }
 
+        public void ModifyItemInTable(string TableName, string[] ColumnHeaders, object[] Values, string IDColumn, object ID)
+        {
+            if (ColumnHeaders.Length == Values.Length)
+            {
+                string change = "[";
+
+                change += string.Join("] = ?, [", ColumnHeaders) + "] = ?";
+
+                string UpdatetString = string.Format("UPDATE {0} SET {1} WHERE ID = ?", TableName, change);//, IDColumn);
+
+                using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+                {
+                    OleDbCommand UpdateCommand = new OleDbCommand(UpdatetString, DBConnection);
+                    foreach (object val in Values)
+                    {
+                        if (val == null)
+                            UpdateCommand.Parameters.AddWithValue("@?", DBNull.Value);
+                        else
+                            UpdateCommand.Parameters.AddWithValue("@?", val);
+                    }
+                        UpdateCommand.Parameters.AddWithValue("@?", ID);
+
+                        try
+                        {
+                            DBConnection.Open();
+                            UpdateCommand.ExecuteNonQuery();
+                            DBConnection.Close();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error trying to update" + TableName + Environment.NewLine + ex.Message);
+                        }
+                   
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error trying to update" + TableName + ". Column and data count mismatch");
+            }
+        }
+
         void GetUserID()
         {
             string Table = "Users";
