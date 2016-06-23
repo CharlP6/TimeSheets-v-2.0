@@ -91,36 +91,56 @@ namespace TimesheetUserInterface
         {
             if (tsListBox1.SelectedIndex != -1)
             {
-                int DeleteID = (tsListBox1.SelectedItem as TimeSheetEntry).ID;
-                dba.DeleteItemFromTable("TimeSheets", "ID", DeleteID);
-                dba.RefreshTimeSheets();
-                UpdateList();
+                if(MessageBox.Show("Are you sure you want to delete the entry? Undo not available.","Warning",MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+                {
+                    try
+                    {
+                        int DeleteID = (tsListBox1.SelectedItem as TimeSheetEntry).ID;
+                        dba.DeleteItemFromTable("TimeSheets", "ID", DeleteID);
+                        dba.RefreshTimeSheets();
+                        UpdateList();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+
             }
 
         }
 
         private void tsButton2_Click(object sender, EventArgs e)
         {
-            UserProjectForm uprform = new UserProjectForm();
-            uprform.AllProjects = dba.Projects;
-            uprform.UserProjectList.AddRange(dba.UserProjectList);
-
-            DialogResult dr = uprform.ShowDialog();
-            if (dr == System.Windows.Forms.DialogResult.OK)
+            using (UserProjectForm uprform = new UserProjectForm())
             {
-                foreach (UserProjects up in uprform.UserProjectList)
+                uprform.AllProjects = dba.Projects;
+                uprform.UserProjectList.AddRange(dba.UserProjectList);
+
+                DialogResult dr = uprform.ShowDialog();
+                if (dr == System.Windows.Forms.DialogResult.OK)
                 {
-                    if(!dba.UserProjectList.Select(s => s.ProjectID).Contains(up.ProjectID))
+                    foreach (UserProjects up in uprform.UserProjectList)
                     {
-                        dba.AddUserProject(up.ProjectID, up.RoleID);
+                        if (!dba.UserProjectList.Select(s => s.ProjectID).Contains(up.ProjectID))
+                        {
+                            dba.AddUserProject(up.ProjectID, up.RoleID);
+                        }
                     }
-                }
-                dba.RefreshUserProjects();
-                if (dba.UserProjectList.Count > 0)
-                {
-                    gListProjects.DisplayMember = "PName";
-                    gListProjects.ValueMember = "ID";
-                    gListProjects.DataSource = dba.UserProjectList.ConvertAll<ProjectTable>(new Converter<UserProjects, ProjectTable>(ConvertUserProject));
+                    foreach(UserProjects up in dba.UserProjectList)
+                    {
+                        if(!uprform.UserProjectList.Contains(up))
+                        {
+                            dba.DeleteItemFromTable("UserProjects", "ID", up.ID);
+                        }
+                    }
+                    dba.RefreshUserProjects();
+                    if (dba.UserProjectList.Count > 0)
+                    {
+                        gListProjects.DisplayMember = "PName";
+                        gListProjects.ValueMember = "ID";
+                        gListProjects.DataSource = dba.UserProjectList.ConvertAll<ProjectTable>(new Converter<UserProjects, ProjectTable>(ConvertUserProject));
+                    }
                 }
             }
 
@@ -192,10 +212,18 @@ namespace TimesheetUserInterface
 
         void UpdateList()
         {
-            tsListBox1.DataSource = null;
-            tsListBox1.DisplayMember = "WorkDate";
-            tsListBox1.DataSource = dba.TimeSheetEntries.Where(w => w.WorkDate >= tsCalendar2.SelectedDays.Min() && w.WorkDate <= tsCalendar2.SelectedDays.Max()).ToList();
-            tsCalendar2.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
+            try
+            {
+                tsListBox1.DataSource = null;
+                tsListBox1.DisplayMember = "WorkDate";
+                tsListBox1.DataSource = dba.TimeSheetEntries.Where(w => w.WorkDate >= tsCalendar2.SelectedDays.Min() && w.WorkDate <= tsCalendar2.SelectedDays.Max()).ToList();
+                tsCalendar2.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
+            }
+            catch 
+            {
+                
+            }
+
         }
 
         private void tsListBox1_SelectedIndexChanged(object sender, EventArgs e)

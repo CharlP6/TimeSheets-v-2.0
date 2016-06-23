@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            BaseForm.ColorPalette colorPalette5 = new BaseForm.ColorPalette();
+            BaseForm.ColorPalette colorPalette1 = new BaseForm.ColorPalette();
             this.glAllProjects = new BaseForm.GListBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tsButton1 = new BaseForm.TSButton();
@@ -95,21 +95,22 @@
             this.tsButton2.HoverSwatch = BaseForm.Swatch.Primary;
             this.tsButton2.Location = new System.Drawing.Point(209, 149);
             this.tsButton2.Name = "tsButton2";
-            colorPalette5.Palette = new System.Drawing.Color[] {
+            colorPalette1.Palette = new System.Drawing.Color[] {
         System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))))};
-            colorPalette5.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
-            colorPalette5.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            colorPalette5.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
-            colorPalette5.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
-            colorPalette5.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
-            this.tsButton2.Palette = colorPalette5;
+            colorPalette1.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
+            colorPalette1.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            colorPalette1.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
+            colorPalette1.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
+            colorPalette1.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
+            this.tsButton2.Palette = colorPalette1;
             this.tsButton2.Size = new System.Drawing.Size(51, 30);
             this.tsButton2.TabIndex = 2;
             this.tsButton2.Text = "<<";
+            this.tsButton2.Click += new System.EventHandler(this.tsButton2_Click);
             // 
             // tsButton3
             // 

@@ -81,20 +81,22 @@ namespace BaseForm
 
         protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs e)
         {
-            try
+            if (CalendarRectangle.Contains(e.Location))
             {
-                DraggedDays.Clear();
-                DraggedDays.Add(DisplayDays[currentButton]);
-                DraggedDays.Add(DisplayDays[currentButton]);
+                try
+                {
+                    DraggedDays.Clear();
+                    DraggedDays.Add(DisplayDays[currentButton]);
+                    DraggedDays.Add(DisplayDays[currentButton]);
 
-                SelectedDays.Clear();
-                SelectedDays.Add(DisplayDays[currentButton]);
+                    SelectedDays.Clear();
+                    SelectedDays.Add(DisplayDays[currentButton]);
+                }
+                catch
+                {
+
+                }
             }
-            catch
-            {
-
-            }
-
             base.OnMouseDown(e);
         }
 
@@ -103,21 +105,32 @@ namespace BaseForm
             if (CalendarRectangle.Contains(e.Location))
             {
                 SelectedDays.Clear();
-
-                DateTime sDate = DraggedDays.Min();
-                DateTime eDate = DraggedDays.Max();
-
-                SelectedDays.Add(sDate);
-                while (sDate < eDate)
+                try
                 {
-                    SelectedDays.Add(sDate.AddDays(1));
-                    sDate = sDate.AddDays(1);
+                    DateTime sDate = DraggedDays.Min();
+                    DateTime eDate = DraggedDays.Max();
+
+                    SelectedDays.Add(sDate);
+                    while (sDate < eDate)
+                    {
+                        SelectedDays.Add(sDate.AddDays(1));
+                        sDate = sDate.AddDays(1);
+                    }
+
+                    DraggedDays.Clear();
+                    this.Invalidate();
+                    this.Update();
+                    base.OnMouseUp(e);
+                }
+                catch
+                {
+                    SelectedDays.Add(CurrentDate);
+                    DraggedDays.Clear();
+                    this.Invalidate();
+                    this.Update();
+                    base.OnMouseUp(e);
                 }
 
-                DraggedDays.Clear();
-                this.Invalidate();
-                this.Update();
-                base.OnMouseUp(e);
             }
         }
 

@@ -63,11 +63,11 @@
             this.tsButton1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton1.ForeColor = System.Drawing.Color.White;
             this.tsButton1.HoverSwatch = BaseForm.Swatch.Primary;
-            this.tsButton1.Location = new System.Drawing.Point(994, 279);
+            this.tsButton1.Location = new System.Drawing.Point(994, 315);
             this.tsButton1.Name = "tsButton1";
             this.tsButton1.Size = new System.Drawing.Size(154, 30);
             this.tsButton1.TabIndex = 1;
-            this.tsButton1.Text = "tsButton1";
+            this.tsButton1.Text = "Delete Entry";
             this.tsButton1.Click += new System.EventHandler(this.tsButton1_Click);
             // 
             // tsListBox1
@@ -75,6 +75,7 @@
             this.tsListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tsListBox1.BackColor = System.Drawing.Color.White;
             this.tsListBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tsListBox1.BorderSwatch = BaseForm.Swatch.Shade1;
             this.tsListBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
@@ -106,6 +107,7 @@
             // 
             // gListFunctions
             // 
+            this.gListFunctions.BackColor = System.Drawing.Color.White;
             this.gListFunctions.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gListFunctions.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListFunctions.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
@@ -113,12 +115,13 @@
             this.gListFunctions.ItemHeight = 16;
             this.gListFunctions.Location = new System.Drawing.Point(258, 169);
             this.gListFunctions.Name = "gListFunctions";
-            this.gListFunctions.Size = new System.Drawing.Size(181, 176);
+            this.gListFunctions.Size = new System.Drawing.Size(199, 176);
             this.gListFunctions.TabIndex = 7;
             this.gListFunctions.SelectedIndexChanged += new System.EventHandler(this.gListFunctions_SelectedIndexChanged);
             // 
             // gListActivities
             // 
+            this.gListActivities.BackColor = System.Drawing.Color.White;
             this.gListActivities.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gListActivities.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListActivities.FormattingEnabled = true;
@@ -165,6 +168,7 @@
             // 
             // numericUpDown1
             // 
+            this.numericUpDown1.BackColor = System.Drawing.Color.White;
             this.numericUpDown1.DecimalPlaces = 1;
             this.numericUpDown1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numericUpDown1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
@@ -201,6 +205,7 @@
             // 
             // gListProjects
             // 
+            this.gListProjects.BackColor = System.Drawing.Color.White;
             this.gListProjects.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gListProjects.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListProjects.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -225,6 +230,7 @@
             // 
             // gListRole
             // 
+            this.gListRole.BackColor = System.Drawing.Color.White;
             this.gListRole.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gListRole.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListRole.FormattingEnabled = true;
@@ -236,6 +242,7 @@
             // 
             // gListAdditional
             // 
+            this.gListAdditional.BackColor = System.Drawing.Color.White;
             this.gListAdditional.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gListAdditional.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListAdditional.FormattingEnabled = true;
@@ -247,6 +254,7 @@
             // 
             // textBox1
             // 
+            this.textBox1.BackColor = System.Drawing.Color.White;
             this.textBox1.Location = new System.Drawing.Point(463, 200);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(90, 23);
@@ -261,7 +269,7 @@
             this.tsButton3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton3.ForeColor = System.Drawing.Color.White;
             this.tsButton3.HoverSwatch = BaseForm.Swatch.Primary;
-            this.tsButton3.Location = new System.Drawing.Point(994, 315);
+            this.tsButton3.Location = new System.Drawing.Point(994, 172);
             this.tsButton3.Name = "tsButton3";
             this.tsButton3.Size = new System.Drawing.Size(154, 30);
             this.tsButton3.TabIndex = 15;
@@ -292,10 +300,11 @@
             // 
             // txtComments
             // 
+            this.txtComments.BackColor = System.Drawing.Color.White;
             this.txtComments.Location = new System.Drawing.Point(994, 57);
             this.txtComments.Multiline = true;
             this.txtComments.Name = "txtComments";
-            this.txtComments.Size = new System.Drawing.Size(154, 204);
+            this.txtComments.Size = new System.Drawing.Size(154, 109);
             this.txtComments.TabIndex = 17;
             // 
             // label7
@@ -322,6 +331,7 @@
             // 
             // gListDomains
             // 
+            this.gListDomains.BackColor = System.Drawing.Color.White;
             this.gListDomains.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gListDomains.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListDomains.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
@@ -342,7 +352,7 @@
             colorPalette1.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
             colorPalette1.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
             this.gListDomains.Palette = colorPalette1;
-            this.gListDomains.Size = new System.Drawing.Size(181, 96);
+            this.gListDomains.Size = new System.Drawing.Size(199, 96);
             this.gListDomains.TabIndex = 4;
             this.gListDomains.SelectedIndexChanged += new System.EventHandler(this.gListBox1_SelectedIndexChanged);
             // 

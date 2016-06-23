@@ -160,7 +160,6 @@ namespace DataAdapter
                 MessageBox.Show("Error trying to insert data into" + TableName + ". Column and data count mismatch");
             }
         }
-
         
         public void DeleteItemFromTable(string TableName, string IDColumn, object ID)
         {
@@ -283,9 +282,7 @@ namespace DataAdapter
                     }
                 }
             }
-        }
-            
-        
+        }        
 
         void LoadSoftware()
         {

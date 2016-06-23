@@ -17,9 +17,13 @@ namespace BaseForm
         int fade = 100;
 
         System.Timers.Timer FadeTimer = new System.Timers.Timer(10);
+        System.Timers.Timer ScrollTimer = new System.Timers.Timer(30);
 
         public delegate void GetMousePos();
         public Delegate MouseDelegate;
+
+        public delegate void ScrollDel();
+        public Delegate Scrolling;
 
         public GListBox()
         {
@@ -30,6 +34,9 @@ namespace BaseForm
             MouseDelegate = new GetMousePos(GetMousePosition);
             FadeTimer.Elapsed += new System.Timers.ElapsedEventHandler(FadeTimer_Tick);
 
+            Scrolling = new ScrollDel(scroll);
+            ScrollTimer.Elapsed += new System.Timers.ElapsedEventHandler(ScrollTimer_Tick);
+            ScrollTimer.Enabled = true;
             //FadeTimer.Enabled = true;
         }
         
@@ -120,6 +127,7 @@ namespace BaseForm
         protected override void OnMouseEnter(EventArgs e)
         {
             base.OnMouseEnter(e);
+            this.Focus();
             FadeTimer.Enabled = true;
         }
         #endregion
@@ -127,13 +135,31 @@ namespace BaseForm
         protected override void OnPaint(PaintEventArgs e)
         {
             //e.Graphics.Clear(BackColor);
+            e.Graphics.TranslateTransform(0, -top);
             PaintItems(e.Graphics);
             //PaintBorder(e.Graphics);
-        }        
+        }
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            if(e.Delta < 0)
+            {
+                Momentum += 3;
+
+            }
+            if(e.Delta > 0)
+            {
+                Momentum -= 3;
+            }
+
+            Invalidate();
+            Update();
+            //base.OnMouseWheel(e);
+        }
 
         void PaintBorder(Graphics g)
         {
-            using (Pen P = new Pen(Palette.Palette[borderSwatch], 1))
+            using (Pen P = new Pen(Color.FromArgb(fade, Palette.Tint1), 1))
             {
                 g.DrawRectangle(P, new Rectangle((int)(P.Width / 2), (int)(P.Width / 2), this.Width - (int)(P.Width), this.Height - (int)(P.Width)));
             }
@@ -151,11 +177,11 @@ namespace BaseForm
 
                 Font DrawFont = new Font(Font.FontFamily, Font.Size, Font.Style);
 
-                foreach (object item in objs.Skip(TopIndex))
+                foreach (object item in objs.Skip(0))
                 {
                     string s = item.GetType().GetProperty(DisplayMember).GetValue(item).ToString();
 
-                    if (j / ItemHeight == SelectedIndex - TopIndex)
+                    if (j / ItemHeight == SelectedIndex)
                     {
                         DrawFont = new Font(Font.FontFamily, Font.Size, FontStyle.Bold);
                         b.Color = Palette.Shade1;
@@ -166,7 +192,6 @@ namespace BaseForm
                         b.Color = Color.FromArgb(fade, Palette.Shade2);
                     }
 
-
                     string printString = s.ReduceLength(Width, Font);
                     int sHgt = (int)g.MeasureString(s, DrawFont).Height;
                     Point PaintPoint = new Point(2, (j + ItemHeight / 2) - sHgt / 2);
@@ -176,7 +201,66 @@ namespace BaseForm
                     j += ItemHeight;
                 }
             }
-        }     
+        }
+
+        Point mPos = new Point();
+
+        private void GetMousePosition()
+        {
+            mPos.X = this.Parent.PointToClient(Cursor.Position).X - this.Location.X;
+            mPos.Y = this.Parent.PointToClient(Cursor.Position).Y - this.Location.Y;
+            if (ClientRectangle.Contains(mPos))
+                fade = fade + 10 <= 255 ? fade + 10 : 255;
+            else
+                fade = fade - 10 >= 100 ? fade - 10 : 100;
+            if (fade <= 100)
+            {
+                FadeTimer.Enabled = false;
+            }
+
+            this.Invalidate();
+            this.Refresh();
+
+        }
+
+        private void FadeTimer_Tick(object sender, EventArgs e)
+        {
+            this.Invoke(this.MouseDelegate);
+        }
+
+        int Momentum = 0;
+        int top = 0;
+
+        private void scroll()
+        {
+            if(Momentum != 0)
+            {
+                if(Momentum > 0)
+                {
+                    top += Momentum;
+                    Momentum -= 1;
+                }
+                if(Momentum < 0)
+                {
+                    top += Momentum;
+                    Momentum += 1;
+                }
+                this.Invalidate();
+                this.Update();
+
+            }
+            else
+            {
+                TopIndex = (int)(top / (ItemHeight));
+            }
+
+
+        }
+
+        private void ScrollTimer_Tick(object sender, EventArgs e)
+        {
+            this.Invoke(this.Scrolling);
+        }
         
         #region Pallete
 
@@ -252,30 +336,7 @@ namespace BaseForm
             this.ResumeLayout(false);
         }
 
-        Point mPos = new Point();
 
-        private void GetMousePosition()
-        {
-            mPos.X = this.Parent.PointToClient(Cursor.Position).X - this.Location.X;
-            mPos.Y = this.Parent.PointToClient(Cursor.Position).Y - this.Location.Y;
-            if (ClientRectangle.Contains(mPos))
-                fade = fade + 10 <= 255 ? fade + 10 : 255;
-            else
-                fade = fade - 10 >= 100 ? fade - 10 : 100;
-            if (fade <= 100)
-            {
-                FadeTimer.Enabled = false;
-            }
-
-            this.Invalidate();
-            this.Refresh();
-
-        }
-
-        private void FadeTimer_Tick(object sender, EventArgs e)
-        {
-            this.Invoke(this.MouseDelegate);
-        }
     }
 
     public static class ExtensionMethods

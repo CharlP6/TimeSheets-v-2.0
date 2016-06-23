@@ -57,5 +57,11 @@ namespace TimesheetUserInterface
         {
             this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
         }
+
+        private void tsButton2_Click(object sender, EventArgs e)
+        {
+            UserProjectList.Remove(glUProjects.SelectedItem as UserProjects);
+            RefreshItems();
+        }
     }
 }
