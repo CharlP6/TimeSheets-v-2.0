@@ -99,7 +99,7 @@
             this.tsButton2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton2.ForeColor = System.Drawing.Color.White;
             this.tsButton2.HoverSwatch = BaseForm.Swatch.Primary;
-            this.tsButton2.Location = new System.Drawing.Point(552, 200);
+            this.tsButton2.Location = new System.Drawing.Point(552, 202);
             this.tsButton2.Name = "tsButton2";
             this.tsButton2.Size = new System.Drawing.Size(85, 23);
             this.tsButton2.TabIndex = 5;
@@ -256,7 +256,7 @@
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(463, 200);
+            this.textBox1.Location = new System.Drawing.Point(463, 202);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(90, 23);
             this.textBox1.TabIndex = 14;
