@@ -87,6 +87,32 @@ namespace DataAdapter
         }
 
         /// <summary>
+        /// A generic method for reading a data table from a database
+        /// </summary>
+        /// <param name="TableName"></param>
+        /// <param name="SelectCommand"></param>
+        /// <param name="Parameters"></param>
+        /// <returns></returns>
+        private DataTable LoadDataFromTable(string TableName, string SelectCommand)
+        {
+            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            {
+                OleDbDataAdapter SelectAdapter = new OleDbDataAdapter(SelectCommand, DBConnection);
+                DataTable rTable = new DataTable(TableName);
+                try
+                {
+                    DBConnection.Open();
+                    SelectAdapter.Fill(rTable);
+                    return rTable;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
+        /// <summary>
         /// A generic method to insert data into a specified table
         /// </summary>
         /// <param name="TableName"></param>
@@ -323,32 +349,20 @@ namespace DataAdapter
 
             string ActivitiesDataQuery = "SELECT * FROM Activities";
 
-            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
-            {
-                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(ActivitiesDataQuery, DBConnection);
-                try
-                {
-                    DBConnection.Open();
-                    UserDataAdapter.Fill(TimeSheetDataSet, "Activities");
-                    if (TimeSheetDataSet.Tables["Activities"].Rows.Count > 0)
-                    {
-                        foreach (DataRow DR in TimeSheetDataSet.Tables["Activities"].Rows)
-                        {
-                            if (DR[3] == DBNull.Value)
-                            {
-                                Activities.Add(new ActivitiesTable((int)DR[0], (string)DR[1], (int)DR[2], ""));
+            DataTable DT = LoadDataFromTable("Activities", ActivitiesDataQuery);
 
-                            }
-                            else
-                            {
-                                Activities.Add(new ActivitiesTable((int)DR[0], (string)DR[1], (int)DR[2], (string)DR[3]));
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
+            if (DT.Rows.Count > 0)
+            {
+                foreach (DataRow DR in DT.Rows)
                 {
-                    MessageBox.Show(ex.Message);
+                    if (DR[3] == DBNull.Value)
+                    {
+                        Activities.Add(new ActivitiesTable((int)DR[0], (string)DR[1], (int)DR[2], ""));
+                    }
+                    else
+                    {
+                        Activities.Add(new ActivitiesTable((int)DR[0], (string)DR[1], (int)DR[2], (string)DR[3]));
+                    }
                 }
             }
         }
