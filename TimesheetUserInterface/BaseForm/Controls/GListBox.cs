@@ -14,8 +14,7 @@ namespace BaseForm
     public class GListBox : ListBox
     {
         Rectangle SelectRect = new Rectangle(0, 0, 1, 1);
-        int baseFade = 150;
-        int fade = 150;
+        int fade = 100;
 
         System.Timers.Timer FadeTimer = new System.Timers.Timer(10);
 
@@ -146,7 +145,7 @@ namespace BaseForm
             using (SolidBrush b = new SolidBrush(Palette.Shade2))
             {
                 //if (SelectedIndex >= 0)
-                    //g.FillRectangle(new SolidBrush(Color.FromArgb(100, Palette.Tint1)), SelectRect);
+                //    g.FillRectangle(new SolidBrush(Color.FromArgb(100, Palette.Tint2)), SelectRect);
 
                 IEnumerable<object> objs = Items.Cast<object>();
 
@@ -156,7 +155,7 @@ namespace BaseForm
                 {
                     string s = item.GetType().GetProperty(DisplayMember).GetValue(item).ToString();
 
-                    if (j / ItemHeight == SelectedIndex + TopIndex)
+                    if (j / ItemHeight == SelectedIndex - TopIndex)
                     {
                         DrawFont = new Font(Font.FontFamily, Font.Size, FontStyle.Bold);
                         b.Color = Palette.Shade1;
