@@ -258,12 +258,6 @@ namespace BaseForm
         {
             mPos.X = this.Parent.PointToClient(Cursor.Position).X - this.Location.X;
             mPos.Y = this.Parent.PointToClient(Cursor.Position).Y - this.Location.Y;
-        }
-
-        private void FadeTimer_Tick(object sender, EventArgs e)
-        {
-            this.Invoke(this.MouseDelegate);
-
             if (ClientRectangle.Contains(mPos))
                 fade = fade + 10 <= 255 ? fade + 10 : 255;
             else
@@ -275,6 +269,12 @@ namespace BaseForm
 
             this.Invalidate();
             this.Refresh();
+
+        }
+
+        private void FadeTimer_Tick(object sender, EventArgs e)
+        {
+            this.Invoke(this.MouseDelegate);
         }
     }
 
