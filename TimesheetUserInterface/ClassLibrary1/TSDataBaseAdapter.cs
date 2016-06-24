@@ -53,7 +53,7 @@ namespace DataAdapter
             LoadActivities();
             LoadAdditionalTable();
             LoadRoles();
-            LoadSoftware();
+            //LoadSoftware();
             LoadProjects();
             LoadUserProjects();
             LoadTimeSheets();
@@ -206,19 +206,18 @@ namespace DataAdapter
                         else
                             UpdateCommand.Parameters.AddWithValue("@?", val);
                     }
-                        UpdateCommand.Parameters.AddWithValue("@?", ID);
+                    UpdateCommand.Parameters.AddWithValue("@?", ID);
 
-                        try
-                        {
-                            DBConnection.Open();
-                            UpdateCommand.ExecuteNonQuery();
-                            DBConnection.Close();
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error trying to update" + TableName + Environment.NewLine + ex.Message);
-                        }
-                   
+                    try
+                    {
+                        DBConnection.Open();
+                        UpdateCommand.ExecuteNonQuery();
+                        DBConnection.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error trying to update" + TableName + Environment.NewLine + ex.Message);
+                    }
                 }
             }
             else
@@ -243,7 +242,7 @@ namespace DataAdapter
                 userID = (int)DR["User ID"];
                 CurrentUser = new UserData { ID = userID, LoginID = (string)DR["Login ID"], Name = (string)DR["User Name"], Surname = (string)DR["Last Name"] };
             }
-            else if (TimeSheetDataSet.Tables["Users"].Rows.Count > 1)
+            else if (UserTable.Rows.Count > 1)
             {
                 MessageBox.Show("Error: Duplicate user data found.");
                 Application.Exit();
@@ -327,30 +326,30 @@ namespace DataAdapter
 
         void LoadSoftware()
         {
-            Software.Clear();
+            //Software.Clear();
 
-            string RolesDataQuery = "SELECT * FROM Roles";
+            //string RolesDataQuery = "SELECT * FROM Roles";
 
-            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
-            {
-                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(RolesDataQuery, DBConnection);
-                try
-                {
-                    DBConnection.Open();
-                    UserDataAdapter.Fill(TimeSheetDataSet, "Software");
-                    if (TimeSheetDataSet.Tables["Software"].Rows.Count > 0)
-                    {
-                        foreach (DataRow DR in TimeSheetDataSet.Tables["Software"].Rows)
-                        {
-                            Software.Add(new RSTable((int)DR[0], (string)DR[1]));
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
+            //using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            //{
+            //    OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(RolesDataQuery, DBConnection);
+            //    try
+            //    {
+            //        DBConnection.Open();
+            //        UserDataAdapter.Fill(TimeSheetDataSet, "Software");
+            //        if (TimeSheetDataSet.Tables["Software"].Rows.Count > 0)
+            //        {
+            //            foreach (DataRow DR in TimeSheetDataSet.Tables["Software"].Rows)
+            //            {
+            //                Software.Add(new RSTable((int)DR[0], (string)DR[1]));
+            //            }
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(ex.Message);
+            //    }
+            //}
         }
 
         void LoadRoles()

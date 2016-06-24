@@ -20,9 +20,11 @@ namespace TimesheetUserInterface
         public MainTimesheetForm()
         {
             InitializeComponent();
-            tsCalendar2.CurrentDate = DateTime.Today;
-            tsCalendar2.SelectedDays.Add(tsCalendar2.CurrentDate);
+            tsCalendar.CurrentDate = DateTime.Today;
+            tsCalendar.SelectedDays.Add(tsCalendar.CurrentDate);
+
             LoadDatabase();
+            InitializeUI();
 
             this.Text = "G5 Engineering Timesheets - Logged in as " + dba.CurrentUser.Name + " " + dba.CurrentUser.Surname;
         }
@@ -44,16 +46,21 @@ namespace TimesheetUserInterface
                     Application.Exit();
                 }
             }
+        }
+        
+        #region UpdateUI
 
-            tsListBox1.Activities = dba.Activities;
-            tsListBox1.AdditionalTables = dba.AdditionalTables;
-            tsListBox1.Domains = dba.Domains;
-            tsListBox1.Functions = dba.Functions;
-            tsListBox1.Projects = dba.Projects;
-            tsListBox1.Roles = dba.Roles;
+        private void InitializeUI()
+        {
+            lstTimeSheets.Activities = dba.Activities;
+            lstTimeSheets.AdditionalTables = dba.AdditionalTables;
+            lstTimeSheets.Domains = dba.Domains;
+            lstTimeSheets.Functions = dba.Functions;
+            lstTimeSheets.Projects = dba.Projects;
+            lstTimeSheets.Roles = dba.Roles;
 
-            tsListBox1.DisplayMember = "WorkDate";
-            tsListBox1.DataSource = dba.TimeSheetEntries.Where(w => w.WorkDate == tsCalendar2.CurrentDate).ToList();
+            lstTimeSheets.DisplayMember = "WorkDate";
+            lstTimeSheets.DataSource = dba.TimeSheetEntries.Where(w => w.WorkDate == tsCalendar.CurrentDate).ToList();
 
             gListDomains.DisplayMember = "Name";
             gListDomains.ValueMember = "ID";
@@ -65,14 +72,14 @@ namespace TimesheetUserInterface
                 gListFunctions.DataSource = dba.Functions.Where(w => w.DomainID == (gListDomains.SelectedItem as DomainTable).ID).ToList();
             }
 
-            if(gListFunctions.SelectedItem != null)
+            if (gListFunctions.SelectedItem != null)
             {
                 gListActivities.DisplayMember = "Name";
                 gListActivities.ValueMember = "ID";
                 gListActivities.DataSource = dba.Activities.Where(w => w.FunctionID == (gListFunctions.SelectedItem as FunctionTable).ID).ToList();
             }
 
-            if(dba.UserProjectList.Count > 0)
+            if (dba.UserProjectList.Count > 0)
             {
                 gListProjects.DisplayMember = "PName";
                 gListProjects.ValueMember = "ID";
@@ -84,69 +91,15 @@ namespace TimesheetUserInterface
             gListRole.ValueMember = "ID";
             gListRole.DataSource = dba.Roles;
 
-            tsCalendar2.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
+            tsCalendar.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
         }
 
-        private void tsButton1_Click(object sender, EventArgs e)
+        private void tsCalendar_Click(object sender, EventArgs e)
         {
-            if (tsListBox1.SelectedIndex != -1)
-            {
-                if(MessageBox.Show("Are you sure you want to delete the entry? Undo not available.","Warning",MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
-                {
-                    try
-                    {
-                        int DeleteID = (tsListBox1.SelectedItem as TimeSheetEntry).ID;
-                        dba.DeleteItemFromTable("TimeSheets", "ID", DeleteID);
-                        dba.RefreshTimeSheets();
-                        UpdateList();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                }
-
-            }
-
+            UpdateList();
         }
 
-        private void tsButton2_Click(object sender, EventArgs e)
-        {
-            using (UserProjectForm uprform = new UserProjectForm())
-            {
-                uprform.AllProjects = dba.Projects;
-                uprform.UserProjectList.AddRange(dba.UserProjectList);
-
-                DialogResult dr = uprform.ShowDialog();
-                if (dr == System.Windows.Forms.DialogResult.OK)
-                {
-                    foreach (UserProjects up in uprform.UserProjectList)
-                    {
-                        if (!dba.UserProjectList.Select(s => s.ProjectID).Contains(up.ProjectID))
-                        {
-                            dba.AddUserProject(up.ProjectID, up.RoleID);
-                        }
-                    }
-                    foreach(UserProjects up in dba.UserProjectList)
-                    {
-                        if(!uprform.UserProjectList.Contains(up))
-                        {
-                            dba.DeleteItemFromTable("UserProjects", "ID", up.ID);
-                        }
-                    }
-                    dba.RefreshUserProjects();
-                    if (dba.UserProjectList.Count > 0)
-                    {
-                        gListProjects.DisplayMember = "PName";
-                        gListProjects.ValueMember = "ID";
-                        gListProjects.DataSource = dba.UserProjectList.ConvertAll<ProjectTable>(new Converter<UserProjects, ProjectTable>(ConvertUserProject));
-                    }
-                }
-            }
-
-        }
-
-        private void gListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void gListDomains_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (gListDomains.SelectedItem != null)
             {
@@ -154,11 +107,6 @@ namespace TimesheetUserInterface
                 gListFunctions.ValueMember = "ID";
                 gListFunctions.DataSource = dba.Functions.Where(w => w.DomainID == (gListDomains.SelectedItem as DomainTable).ID).ToList();
             }
-        }
-
-        private void MainTimesheetForm_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void gListFunctions_SelectedIndexChanged(object sender, EventArgs e)
@@ -169,26 +117,6 @@ namespace TimesheetUserInterface
                 gListActivities.ValueMember = "ID";
                 gListActivities.DataSource = dba.Activities.Where(w => w.FunctionID == (gListFunctions.SelectedItem as FunctionTable).ID).ToList();
             }
-        }
-
-        private void tsButton3_Click(object sender, EventArgs e)
-        {
-            DateTime entryDate = tsCalendar2.CurrentDate;
-            float entryHours = (float)numericUpDown1.Value;
-            int prID = (gListProjects.SelectedItem as ProjectTable).ID;
-            int domID = (gListDomains.SelectedItem as DomainTable).ID;
-            int funcID = (gListFunctions.SelectedItem as FunctionTable).ID;
-            int actID = (gListActivities.SelectedItem as ActivitiesTable).ID;
-            int? addID = gListAdditional.SelectedIndex != -1 ? (gListAdditional.SelectedItem as AdditionalTable).ID : new int?();
-
-            int roleID = (gListRole.SelectedItem as RSTable).ID;
-
-            dba.AddTimeSheetEntry(entryDate, entryHours, prID, domID, funcID, actID, addID, roleID, "", txtComments.Text, DateTime.Now.RomoveMiliSeconds());
-            
-            dba.RefreshTimeSheets();
-
-            UpdateList();
-            //tsListBox1.Invalidate(); tsListBox1.Refresh();
         }
 
         private void gListActivities_SelectedIndexChanged(object sender, EventArgs e)
@@ -205,19 +133,14 @@ namespace TimesheetUserInterface
             }
         }
 
-        private void tsCalendar2_Click(object sender, EventArgs e)
-        {
-            UpdateList();
-        }
-
         void UpdateList()
         {
             try
             {
-                tsListBox1.DataSource = null;
-                tsListBox1.DisplayMember = "WorkDate";
-                tsListBox1.DataSource = dba.TimeSheetEntries.Where(w => w.WorkDate >= tsCalendar2.SelectedDays.Min() && w.WorkDate <= tsCalendar2.SelectedDays.Max()).ToList();
-                tsCalendar2.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
+                lstTimeSheets.DataSource = null;
+                lstTimeSheets.DisplayMember = "WorkDate";
+                lstTimeSheets.DataSource = dba.TimeSheetEntries.Where(w => w.WorkDate >= tsCalendar.SelectedDays.Min() && w.WorkDate <= tsCalendar.SelectedDays.Max()).ToList();
+                tsCalendar.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
             }
             catch 
             {
@@ -225,20 +148,88 @@ namespace TimesheetUserInterface
             }
 
         }
+        #endregion
 
-        private void tsListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        #region ManipulateData
+
+        private void btnAddProject_Click(object sender, EventArgs e)
         {
+            using (UserProjectForm uprform = new UserProjectForm())
+            {
+                uprform.AllProjects = dba.Projects;
+                uprform.UserProjectList.AddRange(dba.UserProjectList);
+
+                DialogResult dr = uprform.ShowDialog();
+                if (dr == System.Windows.Forms.DialogResult.OK)
+                {
+                    foreach (UserProjects up in uprform.UserProjectList)
+                    {
+                        if (!dba.UserProjectList.Select(s => s.ProjectID).Contains(up.ProjectID))
+                        {
+                            dba.AddUserProject(up.ProjectID, up.RoleID);
+                        }
+                    }
+                    foreach (UserProjects up in dba.UserProjectList)
+                    {
+                        if (!uprform.UserProjectList.Contains(up))
+                        {
+                            dba.DeleteItemFromTable("UserProjects", "ID", up.ID);
+                        }
+                    }
+                    dba.RefreshUserProjects();
+                    if (dba.UserProjectList.Count > 0)
+                    {
+                        gListProjects.DisplayMember = "PName";
+                        gListProjects.ValueMember = "ID";
+                        gListProjects.DataSource = dba.UserProjectList.ConvertAll<ProjectTable>(new Converter<UserProjects, ProjectTable>(ConvertUserProject));
+                    }
+                }
+            }
+        }
+
+        private void btnAddEntry_Click(object sender, EventArgs e)
+        {
+            DateTime entryDate = tsCalendar.CurrentDate;
+            float entryHours = (float)numericUpDown1.Value;
+            int prID = (gListProjects.SelectedItem as ProjectTable).ID;
+            int domID = (gListDomains.SelectedItem as DomainTable).ID;
+            int funcID = (gListFunctions.SelectedItem as FunctionTable).ID;
+            int actID = (gListActivities.SelectedItem as ActivitiesTable).ID;
+            int? addID = gListAdditional.SelectedIndex != -1 ? (gListAdditional.SelectedItem as AdditionalTable).ID : new int?();
+
+            int roleID = (gListRole.SelectedItem as RSTable).ID;
+
+            dba.AddTimeSheetEntry(entryDate, entryHours, prID, domID, funcID, actID, addID, roleID, "", txtComments.Text, DateTime.Now.RomoveMiliSeconds());
             
+            dba.RefreshTimeSheets();
+
+            UpdateList();
         }
 
-        ProjectTable ConvertUserProject(UserProjects up)
+        private void btnDelete_Click(object sender, EventArgs e)
         {
-            return dba.Projects.Where(w => w.ID == up.ProjectID).FirstOrDefault();
+            if (lstTimeSheets.SelectedIndex != -1)
+            {
+                if (MessageBox.Show("Are you sure you want to delete the entry? Undo not available.", "Warning", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+                {
+                    try
+                    {
+                        int DeleteID = (lstTimeSheets.SelectedItem as TimeSheetEntry).ID;
+                        dba.DeleteItemFromTable("TimeSheets", "ID", DeleteID);
+                        dba.RefreshTimeSheets();
+                        UpdateList();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+            }
         }
 
-        private void tsButton4_Click(object sender, EventArgs e)
+        private void btnUpdate_Click(object sender, EventArgs e)
         {
-            DateTime entryDate = tsCalendar2.CurrentDate;
+            DateTime entryDate = tsCalendar.CurrentDate;
             float entryHours = (float)numericUpDown1.Value;
             int prID = (gListProjects.SelectedItem as ProjectTable).ID;
             int domID = (gListDomains.SelectedItem as DomainTable).ID;
@@ -249,12 +240,19 @@ namespace TimesheetUserInterface
             int roleID = (gListRole.SelectedItem as RSTable).ID;
 
             object[] editEntry = { entryDate, entryHours, prID, domID, funcID, actID, roleID, "", txtComments.Text, DateTime.Now.RomoveMiliSeconds(), addID };
-            string[] Headers = {"Work Date","Time","Project ID","Domain ID","Function ID","Activity ID","Role ID","Software Package","Comments","Time Stamp","Additional ID"};
+            string[] Headers = { "Work Date", "Time", "Project ID", "Domain ID", "Function ID", "Activity ID", "Role ID", "Software Package", "Comments", "Time Stamp", "Additional ID" };
 
-            dba.ModifyItemInTable("TimeSheets", Headers, editEntry, "ID", (tsListBox1.SelectedItem as TimeSheetEntry).ID);
+            dba.ModifyItemInTable("TimeSheets", Headers, editEntry, "ID", (lstTimeSheets.SelectedItem as TimeSheetEntry).ID);
             dba.RefreshTimeSheets();
 
             UpdateList();
+        }
+
+        #endregion
+        
+        ProjectTable ConvertUserProject(UserProjects up)
+        {
+            return dba.Projects.Where(w => w.ID == up.ProjectID).FirstOrDefault();
         }
     }
 

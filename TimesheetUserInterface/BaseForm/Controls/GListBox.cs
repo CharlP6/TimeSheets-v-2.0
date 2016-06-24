@@ -137,7 +137,7 @@ namespace BaseForm
             //e.Graphics.Clear(BackColor);
             //e.Graphics.TranslateTransform(0, -top);
             PaintItems(e.Graphics);
-            //PaintBorder(e.Graphics);
+            PaintBorder(e.Graphics);
         }
 
         protected override void OnMouseWheel(MouseEventArgs e)
@@ -180,20 +180,20 @@ namespace BaseForm
                 {
                     string s = item.GetType().GetProperty(DisplayMember).GetValue(item).ToString();
 
-                    if (j / ItemHeight == SelectedIndex)
+                    if (j / ItemHeight == SelectedIndex-TopIndex)
                     {
                         DrawFont = new Font(Font.FontFamily, Font.Size, FontStyle.Bold);
-                        b.Color = Palette.Shade1;
+                        b.Color = Palette.Primary;
                     }
                     else
                     {
                         DrawFont = new Font(Font.FontFamily, Font.Size, FontStyle.Regular);
-                        b.Color = Color.FromArgb(fade, Palette.Shade2);
+                        b.Color = Color.FromArgb(fade, Palette.Primary);
                     }
 
                     string printString = s.ReduceLength(Width, Font);
                     int sHgt = (int)g.MeasureString(s, DrawFont).Height;
-                    Point PaintPoint = new Point(2, (j + ItemHeight / 2) - sHgt / 2);
+                    Point PaintPoint = new Point(1, (j + ItemHeight / 2) - sHgt / 2);
 
                     g.DrawString(printString, DrawFont, b, PaintPoint);
 

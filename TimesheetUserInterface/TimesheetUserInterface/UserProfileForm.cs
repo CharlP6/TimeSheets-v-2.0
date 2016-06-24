@@ -23,14 +23,16 @@ namespace TimesheetUserInterface
 
         private void tsButton1_Click(object sender, EventArgs e)
         {
+
+
             if (txtName .Text == "" || txtSurname.Text == "")
             {
-                sName = txtSurname.Text;
-                uName = txtName.Text;
                 MessageBox.Show("Please enter your name and surname");
             }
             else
             {
+                sName = txtSurname.Text;
+                uName = txtName.Text;
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
             }
 
