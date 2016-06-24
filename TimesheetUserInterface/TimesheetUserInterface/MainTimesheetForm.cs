@@ -31,7 +31,7 @@ namespace TimesheetUserInterface
 
         private void LoadDatabase()
         {
-            dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=E:\\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);//\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
+            dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
             if (dba.UserID == -1)
             {
                 UserProfileForm upf = new UserProfileForm();
