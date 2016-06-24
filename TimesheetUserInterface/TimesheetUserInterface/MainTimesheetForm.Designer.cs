@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            BaseForm.ColorPalette colorPalette3 = new BaseForm.ColorPalette();
+            BaseForm.ColorPalette colorPalette4 = new BaseForm.ColorPalette();
             this.btnDelete = new BaseForm.TSButton();
             this.lstTimeSheets = new BaseForm.TSListBox();
             this.btnAddProject = new BaseForm.TSButton();
@@ -64,7 +64,7 @@
             this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.Color.White;
             this.btnDelete.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnDelete.Location = new System.Drawing.Point(1212, 315);
+            this.btnDelete.Location = new System.Drawing.Point(1192, 315);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(154, 30);
             this.btnDelete.TabIndex = 1;
@@ -85,7 +85,7 @@
             this.lstTimeSheets.ItemHeight = 17;
             this.lstTimeSheets.Location = new System.Drawing.Point(15, 351);
             this.lstTimeSheets.Name = "lstTimeSheets";
-            this.lstTimeSheets.Size = new System.Drawing.Size(1351, 334);
+            this.lstTimeSheets.Size = new System.Drawing.Size(1331, 334);
             this.lstTimeSheets.Sorted = true;
             this.lstTimeSheets.TabIndex = 2;
             // 
@@ -273,7 +273,7 @@
             this.btnAddEntry.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddEntry.ForeColor = System.Drawing.Color.White;
             this.btnAddEntry.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnAddEntry.Location = new System.Drawing.Point(1212, 172);
+            this.btnAddEntry.Location = new System.Drawing.Point(1192, 172);
             this.btnAddEntry.Name = "btnAddEntry";
             this.btnAddEntry.Size = new System.Drawing.Size(154, 30);
             this.btnAddEntry.TabIndex = 15;
@@ -308,7 +308,7 @@
             this.txtComments.Location = new System.Drawing.Point(1111, 57);
             this.txtComments.Multiline = true;
             this.txtComments.Name = "txtComments";
-            this.txtComments.Size = new System.Drawing.Size(255, 109);
+            this.txtComments.Size = new System.Drawing.Size(235, 109);
             this.txtComments.TabIndex = 17;
             // 
             // label7
@@ -344,18 +344,18 @@
             this.gListDomains.ItemHeight = 16;
             this.gListDomains.Location = new System.Drawing.Point(249, 57);
             this.gListDomains.Name = "gListDomains";
-            colorPalette3.Palette = new System.Drawing.Color[] {
+            colorPalette4.Palette = new System.Drawing.Color[] {
         System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))))};
-            colorPalette3.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
-            colorPalette3.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            colorPalette3.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
-            colorPalette3.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
-            colorPalette3.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
-            this.gListDomains.Palette = colorPalette3;
+            colorPalette4.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
+            colorPalette4.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            colorPalette4.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
+            colorPalette4.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
+            colorPalette4.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
+            this.gListDomains.Palette = colorPalette4;
             this.gListDomains.Size = new System.Drawing.Size(165, 96);
             this.gListDomains.TabIndex = 4;
             this.gListDomains.SelectedIndexChanged += new System.EventHandler(this.gListDomains_SelectedIndexChanged);
@@ -369,7 +369,7 @@
             this.btnUpdate.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUpdate.ForeColor = System.Drawing.Color.White;
             this.btnUpdate.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnUpdate.Location = new System.Drawing.Point(1212, 208);
+            this.btnUpdate.Location = new System.Drawing.Point(1192, 208);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(154, 30);
             this.btnUpdate.TabIndex = 18;
@@ -382,7 +382,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.BorderWidth = 2;
-            this.ClientSize = new System.Drawing.Size(1378, 697);
+            this.ClientSize = new System.Drawing.Size(1358, 697);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.txtComments);
             this.Controls.Add(this.label7);
