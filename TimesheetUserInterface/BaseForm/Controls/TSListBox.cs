@@ -105,7 +105,7 @@ namespace BaseForm
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            //base.OnMouseDown(e);
+            base.OnMouseDown(e);
             SelectedIndex = (e.Y - DataRect.Y) / ItemHeight < Items.Count ? (e.Y - DataRect.Y) / ItemHeight : Items.Count - 1;
             this.Invalidate();
             this.Update();
@@ -123,7 +123,7 @@ namespace BaseForm
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
-            e.Graphics.Clear(BackColor);
+            //e.Graphics.Clear(BackColor);
             PaintItems(e.Graphics);
             PaintLines(e.Graphics);
             PaintHeaders(e.Graphics);
@@ -248,16 +248,26 @@ namespace BaseForm
             str.Add(Domains.Where(w => w.ID == tse.DomainID).First().Name);
             str.Add(Functions.Where(w => w.ID == tse.FunctionID).First().Name);
 
-            string act = Activities.Where(w => w.ID == tse.ActivityID).First().Name;
-            if(Activities.Where(w => w.ID == tse.ActivityID).First().AddTable != "")
+            if (tse.ActivityID != -1)
             {
-                string actadd = AdditionalTables.Where(w => w.ID == tse.AdditionalID).First().Name;
-                str.Add(act + " - " + actadd);            
+                string act = Activities.Where(w => w.ID == tse.ActivityID).First().Name;
+
+                if (Activities.Where(w => w.ID == tse.ActivityID).First().AddTable != "")
+                {
+                    string actadd = AdditionalTables.Where(w => w.ID == tse.AdditionalID).First().Name;
+                    str.Add(act + " - " + actadd);
+                }
+                else
+                {
+                    str.Add(act);
+                }
             }
             else
             {
-                str.Add(act);
+                str.Add("-");
             }
+
+
 
             str.Add(Roles.Where(w => w.ID == tse.RoleID).First().Name);
             str.Add(tse.Comments);

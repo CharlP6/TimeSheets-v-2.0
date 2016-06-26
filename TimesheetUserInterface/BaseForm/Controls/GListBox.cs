@@ -25,17 +25,19 @@ namespace BaseForm
         public delegate void ScrollDel();
         public Delegate Scrolling;
 
+        int numItems = 0;
+
         public GListBox()
         {
             palette = null;
             this.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            SetStyle(ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
+            SetStyle(ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.UserMouse, true);
 
             MouseDelegate = new GetMousePos(GetMousePosition);
             FadeTimer.Elapsed += new System.Timers.ElapsedEventHandler(FadeTimer_Tick);
 
-            Scrolling = new ScrollDel(scroll);
-            ScrollTimer.Elapsed += new System.Timers.ElapsedEventHandler(ScrollTimer_Tick);
+            //Scrolling = new ScrollDel(scroll);
+            //ScrollTimer.Elapsed += new System.Timers.ElapsedEventHandler(ScrollTimer_Tick);
             //ScrollTimer.Enabled = true;
             //FadeTimer.Enabled = true;
         }
@@ -108,6 +110,11 @@ namespace BaseForm
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
+
+            int index = (e.Y / ItemHeight) + TopIndex;
+
+            SelectedIndex = index >= Items.Count ? Items.Count - 1 : index;
+            
             this.Invalidate();
             this.Update();
         }
@@ -135,9 +142,11 @@ namespace BaseForm
         protected override void OnPaint(PaintEventArgs e)
         {
             //e.Graphics.Clear(BackColor);
-            //e.Graphics.TranslateTransform(0, -top);
+            e.Graphics.TranslateTransform(0, 0);
+
             PaintItems(e.Graphics);
             PaintBorder(e.Graphics);
+            PaintScrollBar(e.Graphics);
         }
 
         protected override void OnMouseWheel(MouseEventArgs e)
@@ -175,8 +184,12 @@ namespace BaseForm
                 IEnumerable<object> objs = Items.Cast<object>();
 
                 Font DrawFont = new Font(Font.FontFamily, Font.Size, Font.Style);
+                
+                numItems = Height / ItemHeight + 1;
 
-                foreach (object item in objs.Skip(TopIndex))
+
+
+                foreach (object item in objs.Skip(TopIndex).Take(numItems))
                 {
                     string s = item.GetType().GetProperty(DisplayMember).GetValue(item).ToString();
 
@@ -199,6 +212,16 @@ namespace BaseForm
 
                     j += ItemHeight;
                 }
+            }
+        }
+
+        void PaintScrollBar(Graphics g)
+        {
+            if(Items.Count > numItems)
+            {
+                int scrollBarHeight = (Height * numItems) / Items.Count;
+                int scrollBarTop = TopIndex * (Height - scrollBarHeight) / (Items.Count - numItems);
+                g.FillRectangle(new SolidBrush(Color.FromArgb(fade, Palette.Palette[borderSwatch])), Width - 4,scrollBarTop, 4, scrollBarHeight);
             }
         }
 
@@ -227,36 +250,36 @@ namespace BaseForm
             this.Invoke(this.MouseDelegate);
         }
 
-        int Momentum = 0;
-        int top = 0;
+        //int Momentum = 0;
+        //int top = 0;
 
-        private void scroll()
-        {
-            if(Momentum != 0)
-            {
-                if(Momentum > 0)
-                {
-                    top += Momentum;
-                    Momentum -= 1;
-                }
-                if(Momentum < 0)
-                {
-                    top += Momentum;
-                    Momentum += 1;
-                }
-                this.Invalidate();
-                this.Update();
-            }
-            else
-            {
-                TopIndex = (int)(top / (ItemHeight));
-            }
-        }
+        //private void scroll()
+        //{
+        //    if(Momentum != 0)
+        //    {
+        //        if(Momentum > 0)
+        //        {
+        //            top += Momentum;
+        //            Momentum -= 1;
+        //        }
+        //        if(Momentum < 0)
+        //        {
+        //            top += Momentum;
+        //            Momentum += 1;
+        //        }
+        //        this.Invalidate();
+        //        this.Update();
+        //    }
+        //    else
+        //    {
+        //        TopIndex = (int)(top / (ItemHeight));
+        //    }
+        //}
 
-        private void ScrollTimer_Tick(object sender, EventArgs e)
-        {
-            this.Invoke(this.Scrolling);
-        }
+        //private void ScrollTimer_Tick(object sender, EventArgs e)
+        //{
+        //    this.Invoke(this.Scrolling);
+        //}
         
         #region Pallete
 

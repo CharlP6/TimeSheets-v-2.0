@@ -19,7 +19,6 @@ namespace TimesheetUserInterface
         public UserProjectForm()
         {
             InitializeComponent();
-
         }
 
         private void UserProjectForm_Load(object sender, EventArgs e)
@@ -62,6 +61,13 @@ namespace TimesheetUserInterface
         {
             UserProjectList.Remove(glUProjects.SelectedItem as UserProjects);
             RefreshItems();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            glAllProjects.DataSource = null;
+            glAllProjects.DisplayMember = "PName";
+            glAllProjects.DataSource = AllProjects.Where(w => !UserProjectList.Select(s => s.ProjectID).Contains(w.ID) && w.PName.ToUpper().Contains(textBox1.Text.ToUpper())).ToList();
         }
     }
 }

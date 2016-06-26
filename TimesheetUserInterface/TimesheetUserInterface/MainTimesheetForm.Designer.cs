@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            BaseForm.ColorPalette colorPalette4 = new BaseForm.ColorPalette();
+            BaseForm.ColorPalette colorPalette6 = new BaseForm.ColorPalette();
             this.btnDelete = new BaseForm.TSButton();
             this.lstTimeSheets = new BaseForm.TSListBox();
             this.btnAddProject = new BaseForm.TSButton();
@@ -43,7 +43,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.gListRole = new BaseForm.GListBox();
             this.gListAdditional = new BaseForm.GListBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnAddEntry = new BaseForm.TSButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -64,9 +63,9 @@
             this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.Color.White;
             this.btnDelete.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnDelete.Location = new System.Drawing.Point(1192, 315);
+            this.btnDelete.Location = new System.Drawing.Point(1131, 315);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(154, 30);
+            this.btnDelete.Size = new System.Drawing.Size(104, 30);
             this.btnDelete.TabIndex = 1;
             this.btnDelete.Text = "Delete Entry";
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -85,9 +84,12 @@
             this.lstTimeSheets.ItemHeight = 17;
             this.lstTimeSheets.Location = new System.Drawing.Point(15, 351);
             this.lstTimeSheets.Name = "lstTimeSheets";
-            this.lstTimeSheets.Size = new System.Drawing.Size(1331, 334);
+            this.lstTimeSheets.Size = new System.Drawing.Size(1220, 334);
             this.lstTimeSheets.Sorted = true;
             this.lstTimeSheets.TabIndex = 2;
+            this.lstTimeSheets.Click += new System.EventHandler(this.lstTimeSheets_Click);
+            this.lstTimeSheets.SelectedIndexChanged += new System.EventHandler(this.lstTimeSheets_SelectedIndexChanged);
+            this.lstTimeSheets.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstTimeSheets_MouseDown);
             // 
             // btnAddProject
             // 
@@ -98,11 +100,11 @@
             this.btnAddProject.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddProject.ForeColor = System.Drawing.Color.White;
             this.btnAddProject.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnAddProject.Location = new System.Drawing.Point(561, 315);
+            this.btnAddProject.Location = new System.Drawing.Point(501, 315);
             this.btnAddProject.Name = "btnAddProject";
-            this.btnAddProject.Size = new System.Drawing.Size(85, 30);
+            this.btnAddProject.Size = new System.Drawing.Size(114, 30);
             this.btnAddProject.TabIndex = 5;
-            this.btnAddProject.Text = "Add Project";
+            this.btnAddProject.Text = "Edit Poject List";
             this.btnAddProject.Click += new System.EventHandler(this.btnAddProject_Click);
             // 
             // gListFunctions
@@ -128,7 +130,7 @@
             this.gListActivities.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gListActivities.FormattingEnabled = true;
             this.gListActivities.ItemHeight = 16;
-            this.gListActivities.Location = new System.Drawing.Point(780, 57);
+            this.gListActivities.Location = new System.Drawing.Point(749, 57);
             this.gListActivities.Name = "gListActivities";
             this.gListActivities.Size = new System.Drawing.Size(174, 288);
             this.gListActivities.TabIndex = 8;
@@ -149,7 +151,7 @@
             // 
             this.label3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label3.Location = new System.Drawing.Point(780, 41);
+            this.label3.Location = new System.Drawing.Point(749, 41);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(174, 13);
             this.label3.TabIndex = 6;
@@ -215,7 +217,7 @@
             this.gListProjects.ItemHeight = 16;
             this.gListProjects.Location = new System.Drawing.Point(420, 57);
             this.gListProjects.Name = "gListProjects";
-            this.gListProjects.Size = new System.Drawing.Size(226, 256);
+            this.gListProjects.Size = new System.Drawing.Size(195, 256);
             this.gListProjects.Sorted = true;
             this.gListProjects.TabIndex = 11;
             // 
@@ -238,7 +240,7 @@
             this.gListRole.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gListRole.FormattingEnabled = true;
             this.gListRole.ItemHeight = 16;
-            this.gListRole.Location = new System.Drawing.Point(652, 57);
+            this.gListRole.Location = new System.Drawing.Point(621, 57);
             this.gListRole.Name = "gListRole";
             this.gListRole.Size = new System.Drawing.Size(122, 96);
             this.gListRole.TabIndex = 12;
@@ -251,18 +253,10 @@
             this.gListAdditional.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gListAdditional.FormattingEnabled = true;
             this.gListAdditional.ItemHeight = 16;
-            this.gListAdditional.Location = new System.Drawing.Point(960, 57);
+            this.gListAdditional.Location = new System.Drawing.Point(929, 57);
             this.gListAdditional.Name = "gListAdditional";
             this.gListAdditional.Size = new System.Drawing.Size(145, 288);
             this.gListAdditional.TabIndex = 13;
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(420, 322);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(90, 23);
-            this.textBox1.TabIndex = 14;
             // 
             // btnAddEntry
             // 
@@ -273,9 +267,9 @@
             this.btnAddEntry.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddEntry.ForeColor = System.Drawing.Color.White;
             this.btnAddEntry.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnAddEntry.Location = new System.Drawing.Point(1192, 172);
+            this.btnAddEntry.Location = new System.Drawing.Point(1131, 172);
             this.btnAddEntry.Name = "btnAddEntry";
-            this.btnAddEntry.Size = new System.Drawing.Size(154, 30);
+            this.btnAddEntry.Size = new System.Drawing.Size(104, 30);
             this.btnAddEntry.TabIndex = 15;
             this.btnAddEntry.Text = "Add Entry";
             this.btnAddEntry.Click += new System.EventHandler(this.btnAddEntry_Click);
@@ -284,7 +278,7 @@
             // 
             this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label1.Location = new System.Drawing.Point(652, 41);
+            this.label1.Location = new System.Drawing.Point(621, 41);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(122, 13);
             this.label1.TabIndex = 16;
@@ -305,19 +299,19 @@
             // txtComments
             // 
             this.txtComments.BackColor = System.Drawing.Color.White;
-            this.txtComments.Location = new System.Drawing.Point(1111, 57);
+            this.txtComments.Location = new System.Drawing.Point(1080, 57);
             this.txtComments.Multiline = true;
             this.txtComments.Name = "txtComments";
-            this.txtComments.Size = new System.Drawing.Size(235, 109);
+            this.txtComments.Size = new System.Drawing.Size(155, 109);
             this.txtComments.TabIndex = 17;
             // 
             // label7
             // 
             this.label7.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label7.Location = new System.Drawing.Point(1111, 41);
+            this.label7.Location = new System.Drawing.Point(1077, 41);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(154, 13);
+            this.label7.Size = new System.Drawing.Size(158, 13);
             this.label7.TabIndex = 16;
             this.label7.Text = "Comments:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -326,7 +320,7 @@
             // 
             this.label8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label8.Location = new System.Drawing.Point(960, 41);
+            this.label8.Location = new System.Drawing.Point(929, 41);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(145, 13);
             this.label8.TabIndex = 6;
@@ -344,18 +338,18 @@
             this.gListDomains.ItemHeight = 16;
             this.gListDomains.Location = new System.Drawing.Point(249, 57);
             this.gListDomains.Name = "gListDomains";
-            colorPalette4.Palette = new System.Drawing.Color[] {
+            colorPalette6.Palette = new System.Drawing.Color[] {
         System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))))};
-            colorPalette4.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
-            colorPalette4.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            colorPalette4.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
-            colorPalette4.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
-            colorPalette4.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
-            this.gListDomains.Palette = colorPalette4;
+            colorPalette6.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
+            colorPalette6.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            colorPalette6.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
+            colorPalette6.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
+            colorPalette6.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
+            this.gListDomains.Palette = colorPalette6;
             this.gListDomains.Size = new System.Drawing.Size(165, 96);
             this.gListDomains.TabIndex = 4;
             this.gListDomains.SelectedIndexChanged += new System.EventHandler(this.gListDomains_SelectedIndexChanged);
@@ -369,9 +363,9 @@
             this.btnUpdate.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUpdate.ForeColor = System.Drawing.Color.White;
             this.btnUpdate.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnUpdate.Location = new System.Drawing.Point(1192, 208);
+            this.btnUpdate.Location = new System.Drawing.Point(1131, 208);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(154, 30);
+            this.btnUpdate.Size = new System.Drawing.Size(104, 30);
             this.btnUpdate.TabIndex = 18;
             this.btnUpdate.Text = "Update Entry";
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
@@ -382,14 +376,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.BorderWidth = 2;
-            this.ClientSize = new System.Drawing.Size(1358, 697);
+            this.ClientSize = new System.Drawing.Size(1247, 697);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.txtComments);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnAddEntry);
             this.Controls.Add(this.gListProjects);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.gListAdditional);
             this.Controls.Add(this.gListRole);
             this.Controls.Add(this.numericUpDown1);
@@ -434,7 +427,6 @@
         private System.Windows.Forms.Label label5;
         private BaseForm.GListBox gListRole;
         private BaseForm.GListBox gListAdditional;
-        private System.Windows.Forms.TextBox textBox1;
         private BaseForm.TSButton btnAddEntry;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label6;

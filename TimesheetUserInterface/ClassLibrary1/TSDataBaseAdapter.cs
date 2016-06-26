@@ -256,7 +256,7 @@ namespace DataAdapter
             InsertDataIntoTable("Users", Headers, Values);
         }
 
-        public void AddTimeSheetEntry(DateTime date, float hours, int project, int domain, int function, int activity, int? additional, int role, string software, string comments, DateTime timestamp)
+        public void AddTimeSheetEntry(DateTime date, float hours, int project, int domain, int function, int? activity, int? additional, int role, string software, string comments, DateTime timestamp)
         {
             string[] Headers = { "User ID", "Work Date", "Time", "Project ID", "Domain ID", "Function ID", "Activity ID", "Additional ID", "Role ID", "Software Package", "Comments", "Time Stamp" };
             object[] Values = { UserID, date, hours, project, domain, function, activity, additional, role, software, comments, timestamp };
@@ -299,7 +299,7 @@ namespace DataAdapter
                         int Project = (int)DR["Project ID"];
                         int Domain = (int)DR["Domain ID"];
                         int Function = (int)DR["Function ID"];
-                        int Activity = (int)DR["Activity ID"];
+                        int Activity = DR["Activity ID"] == DBNull.Value ? -1 : (int)DR["Activity ID"];
                         int Additional = DR["Additional ID"] == DBNull.Value ? -1 : (int)DR["Additional ID"];
                         int Role = (int)DR["Role ID"];
                         string Software = DR["Software Package"] == DBNull.Value ? "" : (string)DR["Software Package"];

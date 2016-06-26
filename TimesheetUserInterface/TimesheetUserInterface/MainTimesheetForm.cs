@@ -31,7 +31,10 @@ namespace TimesheetUserInterface
 
         private void LoadDatabase()
         {
-            dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
+            //dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
+            dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=E:\\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
+            
+            
             if (dba.UserID == -1)
             {
                 UserProfileForm upf = new UserProfileForm();
@@ -116,6 +119,12 @@ namespace TimesheetUserInterface
                 gListActivities.DisplayMember = "Name";
                 gListActivities.ValueMember = "ID";
                 gListActivities.DataSource = dba.Activities.Where(w => w.FunctionID == (gListFunctions.SelectedItem as FunctionTable).ID).ToList();
+
+                if(gListActivities.Items.Count == 0)
+                {
+                    gListAdditional.DataSource = null;
+                }
+
             }
         }
 
@@ -140,6 +149,7 @@ namespace TimesheetUserInterface
                 lstTimeSheets.DataSource = null;
                 lstTimeSheets.DisplayMember = "WorkDate";
                 lstTimeSheets.DataSource = dba.TimeSheetEntries.Where(w => w.WorkDate >= tsCalendar.SelectedDays.Min() && w.WorkDate <= tsCalendar.SelectedDays.Max()).ToList();
+                lstTimeSheets.SelectedItems.Clear();
                 tsCalendar.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
             }
             catch 
@@ -194,7 +204,7 @@ namespace TimesheetUserInterface
             int prID = (gListProjects.SelectedItem as ProjectTable).ID;
             int domID = (gListDomains.SelectedItem as DomainTable).ID;
             int funcID = (gListFunctions.SelectedItem as FunctionTable).ID;
-            int actID = (gListActivities.SelectedItem as ActivitiesTable).ID;
+            int? actID = gListActivities.SelectedIndex != -1 ? (gListActivities.SelectedItem as ActivitiesTable).ID : new int?();
             int? addID = gListAdditional.SelectedIndex != -1 ? (gListAdditional.SelectedItem as AdditionalTable).ID : new int?();
 
             int roleID = (gListRole.SelectedItem as RSTable).ID;
@@ -234,7 +244,7 @@ namespace TimesheetUserInterface
             int prID = (gListProjects.SelectedItem as ProjectTable).ID;
             int domID = (gListDomains.SelectedItem as DomainTable).ID;
             int funcID = (gListFunctions.SelectedItem as FunctionTable).ID;
-            int actID = (gListActivities.SelectedItem as ActivitiesTable).ID;
+            int? actID = gListActivities.SelectedIndex != -1 ? (gListActivities.SelectedItem as ActivitiesTable).ID : new int?();
             int? addID = gListAdditional.SelectedIndex != -1 ? (gListAdditional.SelectedItem as AdditionalTable).ID : new int?();
 
             int roleID = (gListRole.SelectedItem as RSTable).ID;
@@ -253,6 +263,33 @@ namespace TimesheetUserInterface
         ProjectTable ConvertUserProject(UserProjects up)
         {
             return dba.Projects.Where(w => w.ID == up.ProjectID).FirstOrDefault();
+        }
+
+        bool mouseClicked = false;
+
+        private void lstTimeSheets_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (mouseClicked)
+            {
+                TimeSheetEntry tse = lstTimeSheets.SelectedItem as TimeSheetEntry;
+                tsCalendar.CurrentDate = tse.WorkDate;
+                gListDomains.SelectedValue = tse.DomainID;
+                gListFunctions.SelectedValue = tse.FunctionID;
+                gListRole.SelectedValue = tse.RoleID;
+                gListActivities.SelectedValue = tse.ActivityID;
+                gListAdditional.SelectedValue = tse.AdditionalID;
+                txtComments.Text = tse.Comments;
+            }
+            mouseClicked = false;
+        }
+
+        private void lstTimeSheets_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseClicked = true;
+        }
+
+        private void lstTimeSheets_Click(object sender, EventArgs e)
+        {
         }
     }
 
