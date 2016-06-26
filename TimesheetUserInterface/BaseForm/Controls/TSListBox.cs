@@ -134,7 +134,7 @@ namespace BaseForm
         protected override void OnDrawItem(DrawItemEventArgs e)
         {
             //base.OnDrawItem(e);
-            e.Graphics.Clear(BackColor);
+            //e.Graphics.Clear(BackColor);
         }
 
         void PaintLines(Graphics g)

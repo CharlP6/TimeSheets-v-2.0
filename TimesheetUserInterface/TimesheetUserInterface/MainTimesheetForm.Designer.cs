@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            BaseForm.ColorPalette colorPalette6 = new BaseForm.ColorPalette();
+            BaseForm.ColorPalette colorPalette1 = new BaseForm.ColorPalette();
             this.btnDelete = new BaseForm.TSButton();
             this.lstTimeSheets = new BaseForm.TSListBox();
             this.btnAddProject = new BaseForm.TSButton();
@@ -51,6 +51,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.gListDomains = new BaseForm.GListBox();
             this.btnUpdate = new BaseForm.TSButton();
+            this.tsButton1 = new BaseForm.TSButton();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -90,6 +91,7 @@
             this.lstTimeSheets.Click += new System.EventHandler(this.lstTimeSheets_Click);
             this.lstTimeSheets.SelectedIndexChanged += new System.EventHandler(this.lstTimeSheets_SelectedIndexChanged);
             this.lstTimeSheets.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstTimeSheets_MouseDown);
+            this.lstTimeSheets.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lstTimeSheets_MouseUp);
             // 
             // btnAddProject
             // 
@@ -267,7 +269,7 @@
             this.btnAddEntry.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddEntry.ForeColor = System.Drawing.Color.White;
             this.btnAddEntry.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnAddEntry.Location = new System.Drawing.Point(1131, 172);
+            this.btnAddEntry.Location = new System.Drawing.Point(1131, 169);
             this.btnAddEntry.Name = "btnAddEntry";
             this.btnAddEntry.Size = new System.Drawing.Size(104, 30);
             this.btnAddEntry.TabIndex = 15;
@@ -338,18 +340,18 @@
             this.gListDomains.ItemHeight = 16;
             this.gListDomains.Location = new System.Drawing.Point(249, 57);
             this.gListDomains.Name = "gListDomains";
-            colorPalette6.Palette = new System.Drawing.Color[] {
+            colorPalette1.Palette = new System.Drawing.Color[] {
         System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))))};
-            colorPalette6.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
-            colorPalette6.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            colorPalette6.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
-            colorPalette6.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
-            colorPalette6.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
-            this.gListDomains.Palette = colorPalette6;
+            colorPalette1.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
+            colorPalette1.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            colorPalette1.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
+            colorPalette1.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
+            colorPalette1.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
+            this.gListDomains.Palette = colorPalette1;
             this.gListDomains.Size = new System.Drawing.Size(165, 96);
             this.gListDomains.TabIndex = 4;
             this.gListDomains.SelectedIndexChanged += new System.EventHandler(this.gListDomains_SelectedIndexChanged);
@@ -363,12 +365,28 @@
             this.btnUpdate.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUpdate.ForeColor = System.Drawing.Color.White;
             this.btnUpdate.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnUpdate.Location = new System.Drawing.Point(1131, 208);
+            this.btnUpdate.Location = new System.Drawing.Point(1131, 205);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(104, 30);
             this.btnUpdate.TabIndex = 18;
             this.btnUpdate.Text = "Update Entry";
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // tsButton1
+            // 
+            this.tsButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            this.tsButton1.BackColorSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton1.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton1.ClickSwatch = BaseForm.Swatch.Tint1;
+            this.tsButton1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsButton1.ForeColor = System.Drawing.Color.White;
+            this.tsButton1.HoverSwatch = BaseForm.Swatch.Primary;
+            this.tsButton1.Location = new System.Drawing.Point(621, 159);
+            this.tsButton1.Name = "tsButton1";
+            this.tsButton1.Size = new System.Drawing.Size(85, 30);
+            this.tsButton1.TabIndex = 19;
+            this.tsButton1.Text = "tsButton1";
+            this.tsButton1.Click += new System.EventHandler(this.tsButton1_Click);
             // 
             // MainTimesheetForm
             // 
@@ -377,6 +395,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.BorderWidth = 2;
             this.ClientSize = new System.Drawing.Size(1247, 697);
+            this.Controls.Add(this.tsButton1);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.txtComments);
             this.Controls.Add(this.label7);
@@ -405,6 +424,7 @@
             this.Name = "MainTimesheetForm";
             this.SecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(212)))), ((int)(((byte)(255)))));
             this.Text = "G5 Engineering Timesheets";
+            this.Load += new System.EventHandler(this.MainTimesheetForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -435,6 +455,7 @@
         private System.Windows.Forms.Label label8;
         private BaseForm.GListBox gListDomains;
         private BaseForm.TSButton btnUpdate;
+        private BaseForm.TSButton tsButton1;
 
     }
 }

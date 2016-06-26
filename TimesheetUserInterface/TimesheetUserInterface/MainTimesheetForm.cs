@@ -86,6 +86,7 @@ namespace TimesheetUserInterface
             {
                 gListProjects.DisplayMember = "PName";
                 gListProjects.ValueMember = "ID";
+
                 gListProjects.DataSource = dba.UserProjectList.ConvertAll<ProjectTable>(new Converter<UserProjects, ProjectTable>(ConvertUserProject));
             }
 
@@ -152,9 +153,9 @@ namespace TimesheetUserInterface
                 lstTimeSheets.SelectedItems.Clear();
                 tsCalendar.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
             }
-            catch 
+            catch (Exception ex)
             {
-                
+                MessageBox.Show("Could not update timesheet list." + Environment.NewLine + ex.Message);
             }
 
         }
@@ -214,6 +215,7 @@ namespace TimesheetUserInterface
             dba.RefreshTimeSheets();
 
             UpdateList();
+            txtComments.Text = "";
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -239,23 +241,34 @@ namespace TimesheetUserInterface
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            DateTime entryDate = tsCalendar.CurrentDate;
-            float entryHours = (float)numericUpDown1.Value;
-            int prID = (gListProjects.SelectedItem as ProjectTable).ID;
-            int domID = (gListDomains.SelectedItem as DomainTable).ID;
-            int funcID = (gListFunctions.SelectedItem as FunctionTable).ID;
-            int? actID = gListActivities.SelectedIndex != -1 ? (gListActivities.SelectedItem as ActivitiesTable).ID : new int?();
-            int? addID = gListAdditional.SelectedIndex != -1 ? (gListAdditional.SelectedItem as AdditionalTable).ID : new int?();
+            if (lstTimeSheets.SelectedIndex != -1)
+            {
 
-            int roleID = (gListRole.SelectedItem as RSTable).ID;
+                DateTime entryDate = tsCalendar.CurrentDate;
+                float entryHours = (float)numericUpDown1.Value;
+                int prID = (gListProjects.SelectedItem as ProjectTable).ID;
+                int domID = (gListDomains.SelectedItem as DomainTable).ID;
+                int funcID = (gListFunctions.SelectedItem as FunctionTable).ID;
+                int? actID = gListActivities.SelectedIndex != -1 ? (gListActivities.SelectedItem as ActivitiesTable).ID : new int?();
+                int? addID = gListAdditional.SelectedIndex != -1 ? (gListAdditional.SelectedItem as AdditionalTable).ID : new int?();
 
-            object[] editEntry = { entryDate, entryHours, prID, domID, funcID, actID, roleID, "", txtComments.Text, DateTime.Now.RomoveMiliSeconds(), addID };
-            string[] Headers = { "Work Date", "Time", "Project ID", "Domain ID", "Function ID", "Activity ID", "Role ID", "Software Package", "Comments", "Time Stamp", "Additional ID" };
+                int roleID = (gListRole.SelectedItem as RSTable).ID;
 
-            dba.ModifyItemInTable("TimeSheets", Headers, editEntry, "ID", (lstTimeSheets.SelectedItem as TimeSheetEntry).ID);
-            dba.RefreshTimeSheets();
+                object[] editEntry = { entryDate, entryHours, prID, domID, funcID, actID, roleID, "", txtComments.Text, DateTime.Now.RomoveMiliSeconds(), addID };
+                string[] Headers = { "Work Date", "Time", "Project ID", "Domain ID", "Function ID", "Activity ID", "Role ID", "Software Package", "Comments", "Time Stamp", "Additional ID" };
 
-            UpdateList();
+                dba.ModifyItemInTable("TimeSheets", Headers, editEntry, "ID", (lstTimeSheets.SelectedItem as TimeSheetEntry).ID);
+                dba.RefreshTimeSheets();
+
+                UpdateList();
+            }
+            else
+            {
+                MessageBox.Show("No entry edited, please select an entry to edit.");
+            }
+
+
+
         }
 
         #endregion
@@ -272,6 +285,21 @@ namespace TimesheetUserInterface
             if (mouseClicked)
             {
                 TimeSheetEntry tse = lstTimeSheets.SelectedItem as TimeSheetEntry;
+
+                ProjectTable pt = dba.Projects.Where(w => w.ID == tse.ProjectID).First();
+
+                if(!gListProjects.Items.Contains(pt))
+                {
+                    dba.AddUserProject(tse.ProjectID, -1);
+                    dba.RefreshUserProjects();
+                    gListProjects.DisplayMember = "PName";
+                    gListProjects.ValueMember = "ID";
+                    gListProjects.DataSource = dba.UserProjectList.ConvertAll<ProjectTable>(new Converter<UserProjects, ProjectTable>(ConvertUserProject));
+                }
+
+                gListProjects.SelectedItem = pt;
+
+                //MessageBox.Show(tse.ProjectID.ToString());
                 tsCalendar.CurrentDate = tse.WorkDate;
                 gListDomains.SelectedValue = tse.DomainID;
                 gListFunctions.SelectedValue = tse.FunctionID;
@@ -290,6 +318,21 @@ namespace TimesheetUserInterface
 
         private void lstTimeSheets_Click(object sender, EventArgs e)
         {
+        }
+
+        private void MainTimesheetForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tsButton1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void lstTimeSheets_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseClicked = false;
         }
     }
 

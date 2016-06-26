@@ -14,7 +14,8 @@ namespace BaseForm
     public class GListBox : ListBox
     {
         Rectangle SelectRect = new Rectangle(0, 0, 1, 1);
-        int fade = 100;
+        const int baseFade = 150;
+        int fade = 150;
 
         System.Timers.Timer FadeTimer = new System.Timers.Timer(10);
         System.Timers.Timer ScrollTimer = new System.Timers.Timer(30);
@@ -31,7 +32,7 @@ namespace BaseForm
         {
             palette = null;
             this.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            SetStyle(ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.UserMouse, true);
+            SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.UserMouse, true);
 
             MouseDelegate = new GetMousePos(GetMousePosition);
             FadeTimer.Elapsed += new System.Timers.ElapsedEventHandler(FadeTimer_Tick);
@@ -120,8 +121,7 @@ namespace BaseForm
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
-        {
-            
+        {            
             base.OnMouseMove(e);
 
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
@@ -137,16 +137,22 @@ namespace BaseForm
             this.Focus();
             FadeTimer.Enabled = true;
         }
+
+        protected override void OnDrawItem(DrawItemEventArgs e)
+        {
+            //base.OnDrawItem(e);
+            e.Graphics.TranslateTransform(0, 0);
+        }
         #endregion
 
         protected override void OnPaint(PaintEventArgs e)
         {
             //e.Graphics.Clear(BackColor);
             e.Graphics.TranslateTransform(0, 0);
-
+            PaintScrollBar(e.Graphics);
             PaintItems(e.Graphics);
             PaintBorder(e.Graphics);
-            PaintScrollBar(e.Graphics);
+
         }
 
         protected override void OnMouseWheel(MouseEventArgs e)
@@ -196,7 +202,7 @@ namespace BaseForm
                     if (j / ItemHeight == SelectedIndex-TopIndex)
                     {
                         DrawFont = new Font(Font.FontFamily, Font.Size, FontStyle.Bold);
-                        b.Color = Palette.Primary;
+                        b.Color = Palette.Shade1;
                     }
                     else
                     {
@@ -234,8 +240,8 @@ namespace BaseForm
             if (ClientRectangle.Contains(mPos))
                 fade = fade + 10 <= 255 ? fade + 10 : 255;
             else
-                fade = fade - 10 >= 100 ? fade - 10 : 100;
-            if (fade <= 100)
+                fade = fade - 10 >= baseFade ? fade - 10 : baseFade;
+            if (fade <= baseFade)
             {
                 FadeTimer.Enabled = false;
             }

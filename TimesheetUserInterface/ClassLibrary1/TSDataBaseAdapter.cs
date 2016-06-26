@@ -369,7 +369,7 @@ namespace DataAdapter
                     {
                         foreach (DataRow DR in TimeSheetDataSet.Tables["Roles"].Rows)
                         {
-                            Roles.Add(new RSTable((int)DR[0], (string)DR[1]));
+                            Roles.Add(new RSTable((int)DR["Role ID"], (string)DR["Role"],(bool)DR["Bim Role"]));
                         }
                     }
                 }
@@ -636,11 +636,13 @@ namespace DataAdapter
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public bool BimRole { get; set; }
 
-        public RSTable(int id, string name)
+        public RSTable(int id, string name, bool bimrole)
         {
             ID = id;
             Name = name;
+            BimRole = bimrole;
         }
     }
 

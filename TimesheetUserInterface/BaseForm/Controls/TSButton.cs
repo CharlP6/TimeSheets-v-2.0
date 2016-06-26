@@ -118,7 +118,7 @@ namespace BaseForm
             {
                 this.BackColor = Palette.Palette[hoverSwatch];
                 this.BorderSwatch = HoverSwatch;
-                this.ForeColor = Palette.Palette[3];
+                this.ForeColor = Color.White;
             }
             catch
             {
