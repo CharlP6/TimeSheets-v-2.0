@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            BaseForm.ColorPalette colorPalette1 = new BaseForm.ColorPalette();
+            BaseForm.ColorPalette colorPalette2 = new BaseForm.ColorPalette();
             this.btnDelete = new BaseForm.TSButton();
             this.lstTimeSheets = new BaseForm.TSListBox();
             this.btnAddProject = new BaseForm.TSButton();
@@ -362,18 +362,18 @@
             this.gListDomains.Location = new System.Drawing.Point(249, 57);
             this.gListDomains.Margin = new System.Windows.Forms.Padding(3, 3, 7, 7);
             this.gListDomains.Name = "gListDomains";
-            colorPalette1.Palette = new System.Drawing.Color[] {
+            colorPalette2.Palette = new System.Drawing.Color[] {
         System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))))};
-            colorPalette1.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
-            colorPalette1.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            colorPalette1.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
-            colorPalette1.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
-            colorPalette1.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
-            this.gListDomains.Palette = colorPalette1;
+            colorPalette2.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
+            colorPalette2.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            colorPalette2.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
+            colorPalette2.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
+            colorPalette2.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
+            this.gListDomains.Palette = colorPalette2;
             this.gListDomains.Size = new System.Drawing.Size(161, 96);
             this.gListDomains.TabIndex = 4;
             this.gListDomains.Click += new System.EventHandler(this.gListDomains_Click);

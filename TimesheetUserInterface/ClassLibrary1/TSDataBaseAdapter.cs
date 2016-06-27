@@ -601,7 +601,56 @@ namespace DataAdapter
             }
         }
         #endregion
+
+        void LoadAllTimeSheets()
+        {
+            TimeSheetEntries.Clear();
+
+            if (userID != -1)
+            {
+                DataTable DT = LoadDataFromTable("TimeSheets", "SELECT * FROM TimeSheets");
+
+
+                if (DT.Rows.Count > 0)
+                {
+                    foreach (DataRow DR in DT.Rows)
+                    {
+                        int ID = (int)DR["ID"];
+                        int UID = (int)DR["User ID"];
+                        DateTime Date = (DateTime)DR["Work Date"];
+                        float Time = (float)DR["Time"];
+                        int Project = (int)DR["Project ID"];
+                        int Domain = (int)DR["Domain ID"];
+                        int Function = (int)DR["Function ID"];
+                        int Activity = DR["Activity ID"] == DBNull.Value ? -1 : (int)DR["Activity ID"];
+                        int Additional = DR["Additional ID"] == DBNull.Value ? -1 : (int)DR["Additional ID"];
+                        int Role = DR["Role ID"] == DBNull.Value ? -1 : (int)DR["Role ID"];
+                        string Software = DR["Software Package"] == DBNull.Value ? "" : (string)DR["Software Package"];
+                        string Comments = DR["Comments"] == DBNull.Value ? "" : (string)DR["Comments"];
+                        DateTime TimeStamp = (DateTime)DR["Time Stamp"];
+                        TimeSheetEntries.Add(new TimeSheetEntry(
+                                    ID,
+                                    UID,
+                                    Date,
+                                    Time,
+                                    Project,
+                                    Domain,
+                                    Function,
+                                    Activity,
+                                    Additional,
+                                    Role,
+                                    Software,
+                                    Comments,
+                                    TimeStamp));
+                    }
+                }
+            }
+        }
+
     }
+
+
+
 
     public class DomainTable
     {
