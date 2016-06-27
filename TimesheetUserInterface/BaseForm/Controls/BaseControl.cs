@@ -29,6 +29,8 @@ namespace BaseForm
             }
         }
 
+        public bool PaintOnlyTop { get; set; }
+
         public BaseControl()
         {
             palette = null;
@@ -46,7 +48,10 @@ namespace BaseForm
         {
             using (Pen P = new Pen(Palette.Palette[borderSwatch], 1))
             {
-                g.DrawRectangle(P, new Rectangle((int)(P.Width / 2), (int)(P.Width / 2), this.Width - (int)(P.Width), this.Height - (int)(P.Width)));
+                if (!PaintOnlyTop)
+                    g.DrawRectangle(P, new Rectangle((int)(P.Width / 2), (int)(P.Width / 2), this.Width - (int)(P.Width), this.Height - (int)(P.Width)));
+                else
+                    g.DrawLine(P, 0, 0, Width, 0);
             }
         }
         

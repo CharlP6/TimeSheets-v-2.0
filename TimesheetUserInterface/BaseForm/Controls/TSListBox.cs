@@ -20,19 +20,28 @@ namespace BaseForm
 
         public List<string[]> items = new List<string[]>();
 
+        const int drw = 75;
+        const int trw = 35;
+        const int prw = 280;
+        const int dfrw = 200;
+        const int arw = 200;
+        const int rrw = 120;
+        const int crw = 270;
+        const int irw = 40;
+
         Rectangle DateRect = new Rectangle(0, 0, 75, 18);
-        Rectangle TimeRect = new Rectangle(75, 0, 35, 18);
-        Rectangle ProjectRect = new Rectangle(75 + 35, 0, 220, 18);
-        Rectangle DomainRect = new Rectangle(75 + 35 + 220, 0, 150, 18);
-        Rectangle FunctionRect = new Rectangle(75 + 35 + 220 + 150, 0, 150, 18);
-        Rectangle AcivityRect = new Rectangle(75 + 35 + 220 + 300, 0, 150, 18);
-        Rectangle RoleRect = new Rectangle(75 + 35 + 220 + 450, 0, 120, 18);
-        Rectangle CommentsRect = new Rectangle(75 + 35 + 220 + 450 + 120, 0, 200, 18);
-        Rectangle IDRect = new Rectangle(75 + 35 + 220 + 450 + 120 + 200, 0, 35, 18);
+        Rectangle TimeRect = new Rectangle(drw, 0, trw, 18);
+        Rectangle ProjectRect = new Rectangle(drw + trw, 0, prw, 18);
+        Rectangle DomainRect = new Rectangle(drw + trw + prw, 0, dfrw, 18);
+        //Rectangle FunctionRect = new Rectangle(drw + trw + prw + dfrw, 0, 150, 18);
+        Rectangle AcivityRect = new Rectangle(drw + trw + prw + dfrw, 0, arw, 18);
+        Rectangle RoleRect = new Rectangle(drw + trw + prw + dfrw + arw, 0, rrw, 18);
+        Rectangle CommentsRect = new Rectangle(drw + trw + prw + dfrw + arw + rrw, 0, crw, 18);
+        Rectangle IDRect = new Rectangle(drw + trw + prw + dfrw + arw + rrw + crw, 0, irw, 18);
 
         Rectangle DataRect;
 
-        string[] HeaderText = { "Date", "Time", "Project", "Domain", "Function", "Activity", "Role", "Comments", "ID" };
+        public string[] HeaderText = { "Date", "Time", "Project", "Domain", "Activity", "Role/Function", "Comments", "ID" };
         
         public int TopMostItem = 0;
 
@@ -64,7 +73,7 @@ namespace BaseForm
             HeaderRects.Add(TimeRect);
             HeaderRects.Add(ProjectRect);
             HeaderRects.Add(DomainRect);
-            HeaderRects.Add(FunctionRect);
+            //HeaderRects.Add(FunctionRect);
             HeaderRects.Add(AcivityRect);
             HeaderRects.Add(RoleRect);
             HeaderRects.Add(CommentsRect);
@@ -76,6 +85,7 @@ namespace BaseForm
             DisplayedItems = (DataRect.Height / ItemHeight) + 1;        
         }
 
+        #region Overrides
         protected override System.Windows.Forms.CreateParams CreateParams
         {
             get
@@ -136,6 +146,7 @@ namespace BaseForm
             //base.OnDrawItem(e);
             //e.Graphics.Clear(BackColor);
         }
+        #endregion
 
         void PaintLines(Graphics g)
         {
@@ -245,8 +256,8 @@ namespace BaseForm
             str.Add(tse.WorkDate.ToShortDateString());
             str.Add(tse.Time.ToString());
             str.Add(Projects.Where(w => w.ID == tse.ProjectID).First().PName);
-            str.Add(Domains.Where(w => w.ID == tse.DomainID).First().Name);
-            str.Add(Functions.Where(w => w.ID == tse.FunctionID).First().Name);
+            str.Add(Domains.Where(w => w.ID == tse.DomainID).First().Name + " - " + Functions.Where(w => w.ID == tse.FunctionID).First().Name);
+            //str.Add(Functions.Where(w => w.ID == tse.FunctionID).First().Name);
 
             if (tse.ActivityID != -1)
             {
@@ -266,10 +277,13 @@ namespace BaseForm
             {
                 str.Add("-");
             }
+            if (tse.RoleID != -1)
+            {
+                str.Add(Roles.Where(w => w.ID == tse.RoleID).First().Name);
+            }
+            else
+                str.Add("-");
 
-
-
-            str.Add(Roles.Where(w => w.ID == tse.RoleID).First().Name);
             str.Add(tse.Comments);
             str.Add(tse.ID.ToString());
 

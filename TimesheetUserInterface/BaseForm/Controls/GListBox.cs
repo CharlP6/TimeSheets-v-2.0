@@ -32,6 +32,7 @@ namespace BaseForm
         {
             palette = null;
             this.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.UserMouse, true);
 
             MouseDelegate = new GetMousePos(GetMousePosition);
@@ -146,13 +147,10 @@ namespace BaseForm
         #endregion
 
         protected override void OnPaint(PaintEventArgs e)
-        {
-            //e.Graphics.Clear(BackColor);
-            e.Graphics.TranslateTransform(0, 0);
-            PaintScrollBar(e.Graphics);
+        {            
             PaintItems(e.Graphics);
             PaintBorder(e.Graphics);
-
+            PaintScrollBar(e.Graphics);
         }
 
         protected override void OnMouseWheel(MouseEventArgs e)
@@ -173,9 +171,10 @@ namespace BaseForm
 
         void PaintBorder(Graphics g)
         {
-            using (Pen P = new Pen(Color.FromArgb(fade, Palette.Tint1), 1))
+            using (Pen P = new Pen(Color.FromArgb(fade,Palette.Shade1), 1))
             {
-                g.DrawRectangle(P, new Rectangle((int)(P.Width / 2), (int)(P.Width / 2), this.Width - (int)(P.Width), this.Height - (int)(P.Width)));
+                //g.DrawRectangle(P, new Rectangle((int)(P.Width / 2), (int)(P.Width / 2), this.Width - (int)(P.Width), this.Height - (int)(P.Width)));
+                g.DrawLine(P, 0, 0, Width, 0);
             }
         }
 
@@ -191,7 +190,7 @@ namespace BaseForm
 
                 Font DrawFont = new Font(Font.FontFamily, Font.Size, Font.Style);
                 
-                numItems = Height / ItemHeight + 1;
+                numItems = Height / ItemHeight;
 
 
 
@@ -207,7 +206,7 @@ namespace BaseForm
                     else
                     {
                         DrawFont = new Font(Font.FontFamily, Font.Size, FontStyle.Regular);
-                        b.Color = Color.FromArgb(fade, Palette.Primary);
+                        b.Color = Color.FromArgb(fade, Palette.Shade1);
                     }
 
                     string printString = s.ReduceLength(Width, Font);

@@ -121,6 +121,8 @@ namespace BaseForm
         bool maxHover = false;
         bool minHover = false;
 
+        public bool Resizable { get; set; }
+
         Color colClose;
         Color colMax;
         Color colMin;
@@ -194,7 +196,7 @@ namespace BaseForm
             bool handled = false;
 
 
-            if (m.Msg == WM_NCHITTEST)
+            if (m.Msg == WM_NCHITTEST && Resizable)
             {
                 Size formSize = this.Size;
                 Point screenPoint = new Point(m.LParam.ToInt32());
@@ -257,9 +259,6 @@ namespace BaseForm
                 //    m.Result = (IntPtr)HTCLOSE;
                 //    handled = true;
                 //}
-
-
-
             }
             if (!handled)
                 base.WndProc(ref m);

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,10 +32,18 @@ namespace TimesheetUserInterface
 
         private void LoadDatabase()
         {
-            //dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=\\g5ho-fs02\Public-ENC\Design and Planning\Timesheets\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
-            dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=E:\\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
-            
-            
+            string SettingsString = Application.StartupPath + "/Management/Config.cfg";
+
+            using (FileStream fs = new FileStream(SettingsString, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    string connectionString = sr.ReadLine();
+                    dba = new TSDataBaseAdapter(connectionString, Environment.UserName);
+                }
+            }
+            //dba = new TSDataBaseAdapter(@"provider=Microsoft.ACE.OLEDB.12.0; Data Source=E:\\V2\Engineering Timesheets Dev Test.accdb ", Environment.UserName);
+
             if (dba.UserID == -1)
             {
                 UserProfileForm upf = new UserProfileForm();
@@ -50,7 +59,7 @@ namespace TimesheetUserInterface
                 }
             }
         }
-        
+
         #region UpdateUI
 
         private void InitializeUI()
@@ -77,9 +86,13 @@ namespace TimesheetUserInterface
 
             if (gListFunctions.SelectedItem != null)
             {
+                gListRole.DisplayMember = "Name";
+                gListRole.ValueMember = "ID";
+                gListRole.DataSource = dba.Roles.Where(w => w.FunctionID == (gListFunctions.SelectedItem as FunctionTable).ID).ToList();
+
                 gListActivities.DisplayMember = "Name";
                 gListActivities.ValueMember = "ID";
-                gListActivities.DataSource = dba.Activities.Where(w => w.FunctionID == (gListFunctions.SelectedItem as FunctionTable).ID).ToList();
+                gListActivities.DataSource = dba.Activities.Where(w => w.FunctionID == (gListFunctions.SelectedItem as FunctionTable).ID && w.BimRole == (gListRole.SelectedItem as RSTable).BimRole).ToList();
             }
 
             if (dba.UserProjectList.Count > 0)
@@ -89,11 +102,6 @@ namespace TimesheetUserInterface
 
                 gListProjects.DataSource = dba.UserProjectList.ConvertAll<ProjectTable>(new Converter<UserProjects, ProjectTable>(ConvertUserProject));
             }
-
-
-            gListRole.DisplayMember = "Name";
-            gListRole.ValueMember = "ID";
-            gListRole.DataSource = dba.Roles;
 
             tsCalendar.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
         }
@@ -110,6 +118,11 @@ namespace TimesheetUserInterface
                 gListFunctions.DisplayMember = "Name";
                 gListFunctions.ValueMember = "ID";
                 gListFunctions.DataSource = dba.Functions.Where(w => w.DomainID == (gListDomains.SelectedItem as DomainTable).ID).ToList();
+
+                if (gListProjects.Items.Count > 0)
+                {
+                    gListProjects.SelectedIndex = 0;
+                }
             }
         }
 
@@ -117,11 +130,23 @@ namespace TimesheetUserInterface
         {
             if (gListFunctions.SelectedItem != null)
             {
+                IEnumerable<ActivitiesTable> acts;
+                FunctionTable ft = gListFunctions.SelectedItem as FunctionTable;
+
+                //if (ft.Name == "Research and Development")
+                //{
+
+                //}
+
+                gListRole.DisplayMember = "Name";
+                gListRole.ValueMember = "ID";
+                gListRole.DataSource = dba.Roles.Where(w => w.FunctionID == ft.ID).ToList();
+
                 gListActivities.DisplayMember = "Name";
                 gListActivities.ValueMember = "ID";
-                gListActivities.DataSource = dba.Activities.Where(w => w.FunctionID == (gListFunctions.SelectedItem as FunctionTable).ID).ToList();
+                gListActivities.DataSource = dba.Activities.Where(w => w.FunctionID == ft.ID && w.BimRole == (gListRole.SelectedItem as RSTable).BimRole).ToList();
 
-                if(gListActivities.Items.Count == 0)
+                if (gListActivities.Items.Count == 0)
                 {
                     gListAdditional.DataSource = null;
                 }
@@ -131,7 +156,7 @@ namespace TimesheetUserInterface
 
         private void gListActivities_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if((gListActivities.SelectedItem as ActivitiesTable).AddTable != "")
+            if ((gListActivities.SelectedItem as ActivitiesTable).AddTable != "")
             {
                 gListAdditional.DisplayMember = "Name";
                 gListAdditional.ValueMember = "ID";
@@ -140,6 +165,73 @@ namespace TimesheetUserInterface
             else
             {
                 gListAdditional.DataSource = null;
+            }
+        }
+
+        ProjectTable ConvertUserProject(UserProjects up)
+        {
+            return dba.Projects.Where(w => w.ID == up.ProjectID).FirstOrDefault();
+        }
+
+        bool mouseClicked = false;
+
+        private void lstTimeSheets_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (mouseClicked)
+            {
+                TimeSheetEntry tse = lstTimeSheets.SelectedItem as TimeSheetEntry;
+
+                ProjectTable pt = dba.Projects.Where(w => w.ID == tse.ProjectID).First();
+
+
+
+
+
+                //MessageBox.Show(tse.ProjectID.ToString());
+                tsCalendar.CurrentDate = tse.WorkDate;
+                gListDomains.SelectedValue = tse.DomainID;
+                gListFunctions.SelectedValue = tse.FunctionID;
+                gListRole.SelectedValue = tse.RoleID;
+                gListActivities.SelectedValue = tse.ActivityID;
+                gListAdditional.SelectedValue = tse.AdditionalID;
+                numericUpDown1.Value = (decimal)tse.Time;
+                txtComments.Text = tse.Comments;
+
+                if (!gListProjects.Items.Contains(pt))
+                {
+                    dba.AddUserProject(tse.ProjectID, -1);
+                    dba.RefreshUserProjects();
+                    gListProjects.DisplayMember = "PName";
+                    gListProjects.ValueMember = "ID";
+                    gListProjects.DataSource = dba.UserProjectList.ConvertAll<ProjectTable>(new Converter<UserProjects, ProjectTable>(ConvertUserProject));
+                }
+                gListProjects.SelectedItem = pt;
+            }
+            mouseClicked = false;
+        }
+
+        private void lstTimeSheets_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseClicked = true;
+        }
+
+        private void lstTimeSheets_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseClicked = false;
+        }
+
+        private void gListRole_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (gListRole.SelectedIndex != -1)
+            {
+                gListActivities.DisplayMember = "Name";
+                gListActivities.ValueMember = "ID";
+                gListActivities.DataSource = dba.Activities.Where(w => w.FunctionID == (gListFunctions.SelectedItem as FunctionTable).ID && w.BimRole == (gListRole.SelectedItem as RSTable).BimRole).ToList();
+
+                if (gListActivities.Items.Count == 0)
+                {
+                    gListAdditional.DataSource = null;
+                }
             }
         }
 
@@ -157,7 +249,7 @@ namespace TimesheetUserInterface
             {
                 MessageBox.Show("Could not update timesheet list." + Environment.NewLine + ex.Message);
             }
-
+            txtComments.Text = "";
         }
         #endregion
 
@@ -170,16 +262,14 @@ namespace TimesheetUserInterface
                 uprform.AllProjects = dba.Projects;
                 uprform.UserProjectList.AddRange(dba.UserProjectList);
 
+                uprform.StartPosition = FormStartPosition.CenterParent;
+
+                //uprform.Top = Top - (Height / 2) - (uprform.Height / 2);
+
                 DialogResult dr = uprform.ShowDialog();
+
                 if (dr == System.Windows.Forms.DialogResult.OK)
                 {
-                    foreach (UserProjects up in uprform.UserProjectList)
-                    {
-                        if (!dba.UserProjectList.Select(s => s.ProjectID).Contains(up.ProjectID))
-                        {
-                            dba.AddUserProject(up.ProjectID, up.RoleID);
-                        }
-                    }
                     foreach (UserProjects up in dba.UserProjectList)
                     {
                         if (!uprform.UserProjectList.Contains(up))
@@ -188,6 +278,16 @@ namespace TimesheetUserInterface
                         }
                     }
                     dba.RefreshUserProjects();
+
+                    foreach (UserProjects up in uprform.UserProjectList)
+                    {
+                        if (!dba.UserProjectList.Select(s => s.ProjectID).Contains(up.ProjectID))
+                        {
+                            dba.AddUserProject(up.ProjectID, up.RoleID);
+                        }
+                    }
+                    dba.RefreshUserProjects();
+
                     if (dba.UserProjectList.Count > 0)
                     {
                         gListProjects.DisplayMember = "PName";
@@ -200,22 +300,58 @@ namespace TimesheetUserInterface
 
         private void btnAddEntry_Click(object sender, EventArgs e)
         {
-            DateTime entryDate = tsCalendar.CurrentDate;
-            float entryHours = (float)numericUpDown1.Value;
-            int prID = (gListProjects.SelectedItem as ProjectTable).ID;
-            int domID = (gListDomains.SelectedItem as DomainTable).ID;
-            int funcID = (gListFunctions.SelectedItem as FunctionTable).ID;
-            int? actID = gListActivities.SelectedIndex != -1 ? (gListActivities.SelectedItem as ActivitiesTable).ID : new int?();
-            int? addID = gListAdditional.SelectedIndex != -1 ? (gListAdditional.SelectedItem as AdditionalTable).ID : new int?();
+            if (tsCalendar.SelectedDays.Count != 1)
+            {
+                MessageBox.Show("Please select only one date from the calendar.");
+            }
+            else
+            {
+                DateTime entryDate = tsCalendar.CurrentDate;
+                float entryHours = (float)numericUpDown1.Value;
+                int prID = (gListProjects.SelectedItem as ProjectTable).ID;
+                int domID = (gListDomains.SelectedItem as DomainTable).ID;
+                int funcID = (gListFunctions.SelectedItem as FunctionTable).ID;
+                int? actID = gListActivities.SelectedIndex != -1 ? (gListActivities.SelectedItem as ActivitiesTable).ID : new int?();
+                int? addID = gListAdditional.SelectedIndex != -1 ? (gListAdditional.SelectedItem as AdditionalTable).ID : new int?();
+                int? roleID = gListRole.SelectedIndex != -1 ? (gListRole.SelectedItem as RSTable).ID : new int?();
 
-            int roleID = (gListRole.SelectedItem as RSTable).ID;
+                dba.AddTimeSheetEntry(entryDate, entryHours, prID, domID, funcID, actID, addID, roleID, "", txtComments.Text, DateTime.Now.RomoveMiliSeconds());
 
-            dba.AddTimeSheetEntry(entryDate, entryHours, prID, domID, funcID, actID, addID, roleID, "", txtComments.Text, DateTime.Now.RomoveMiliSeconds());
-            
-            dba.RefreshTimeSheets();
+                dba.RefreshTimeSheets();
 
-            UpdateList();
-            txtComments.Text = "";
+                UpdateList();
+                txtComments.Text = "";
+            }
+
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            if (lstTimeSheets.SelectedIndex != -1)
+            {
+                TimeSheetEntry tse = lstTimeSheets.SelectedItem as TimeSheetEntry;
+
+                DateTime entryDate = tsCalendar.CurrentDate;
+                float entryHours = (float)numericUpDown1.Value;
+                int prID = (gListProjects.SelectedItem as ProjectTable).ID;
+                int domID = (gListDomains.SelectedItem as DomainTable).ID;
+                int funcID = (gListFunctions.SelectedItem as FunctionTable).ID;
+                int? actID = gListActivities.SelectedIndex != -1 ? (gListActivities.SelectedItem as ActivitiesTable).ID : new int?();
+                int? addID = gListAdditional.SelectedIndex != -1 ? (gListAdditional.SelectedItem as AdditionalTable).ID : new int?();
+                int? roleID = gListRole.SelectedIndex != -1 ? (gListRole.SelectedItem as RSTable).ID : new int?();
+
+                object[] editEntry = { entryDate, entryHours, prID, domID, funcID, actID, roleID, "", txtComments.Text, tse.TimeStamp, addID };
+                string[] Headers = { "Work Date", "Time", "Project ID", "Domain ID", "Function ID", "Activity ID", "Role ID", "Software Package", "Comments", "Time Stamp", "Additional ID" };
+
+                dba.ModifyItemInTable("TimeSheets", Headers, editEntry, "ID", (lstTimeSheets.SelectedItem as TimeSheetEntry).ID);
+                dba.RefreshTimeSheets();
+
+                UpdateList();
+            }
+            else
+            {
+                MessageBox.Show("No entry edited, please select an entry to edit.");
+            }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -238,101 +374,76 @@ namespace TimesheetUserInterface
                 }
             }
         }
-
-        private void btnUpdate_Click(object sender, EventArgs e)
-        {
-            if (lstTimeSheets.SelectedIndex != -1)
-            {
-
-                DateTime entryDate = tsCalendar.CurrentDate;
-                float entryHours = (float)numericUpDown1.Value;
-                int prID = (gListProjects.SelectedItem as ProjectTable).ID;
-                int domID = (gListDomains.SelectedItem as DomainTable).ID;
-                int funcID = (gListFunctions.SelectedItem as FunctionTable).ID;
-                int? actID = gListActivities.SelectedIndex != -1 ? (gListActivities.SelectedItem as ActivitiesTable).ID : new int?();
-                int? addID = gListAdditional.SelectedIndex != -1 ? (gListAdditional.SelectedItem as AdditionalTable).ID : new int?();
-
-                int roleID = (gListRole.SelectedItem as RSTable).ID;
-
-                object[] editEntry = { entryDate, entryHours, prID, domID, funcID, actID, roleID, "", txtComments.Text, DateTime.Now.RomoveMiliSeconds(), addID };
-                string[] Headers = { "Work Date", "Time", "Project ID", "Domain ID", "Function ID", "Activity ID", "Role ID", "Software Package", "Comments", "Time Stamp", "Additional ID" };
-
-                dba.ModifyItemInTable("TimeSheets", Headers, editEntry, "ID", (lstTimeSheets.SelectedItem as TimeSheetEntry).ID);
-                dba.RefreshTimeSheets();
-
-                UpdateList();
-            }
-            else
-            {
-                MessageBox.Show("No entry edited, please select an entry to edit.");
-            }
-
-
-
-        }
-
         #endregion
-        
-        ProjectTable ConvertUserProject(UserProjects up)
-        {
-            return dba.Projects.Where(w => w.ID == up.ProjectID).FirstOrDefault();
-        }
 
-        bool mouseClicked = false;
-
-        private void lstTimeSheets_SelectedIndexChanged(object sender, EventArgs e)
+        private void gListDomains_Click(object sender, EventArgs e)
         {
-            if (mouseClicked)
+            if (gListDomains.SelectedIndex != -1)
             {
-                TimeSheetEntry tse = lstTimeSheets.SelectedItem as TimeSheetEntry;
-
-                ProjectTable pt = dba.Projects.Where(w => w.ID == tse.ProjectID).First();
-
-                if(!gListProjects.Items.Contains(pt))
+                string searchString = (gListDomains.SelectedItem as DomainTable).Name;
+                if (dba.Descriptions.Select(s => s.Item).Contains(searchString))
                 {
-                    dba.AddUserProject(tse.ProjectID, -1);
-                    dba.RefreshUserProjects();
-                    gListProjects.DisplayMember = "PName";
-                    gListProjects.ValueMember = "ID";
-                    gListProjects.DataSource = dba.UserProjectList.ConvertAll<ProjectTable>(new Converter<UserProjects, ProjectTable>(ConvertUserProject));
+                    lblDescription.Text = searchString + ": " + dba.Descriptions.Where(w => w.Item == searchString).First().Description;
                 }
-
-                gListProjects.SelectedItem = pt;
-
-                //MessageBox.Show(tse.ProjectID.ToString());
-                tsCalendar.CurrentDate = tse.WorkDate;
-                gListDomains.SelectedValue = tse.DomainID;
-                gListFunctions.SelectedValue = tse.FunctionID;
-                gListRole.SelectedValue = tse.RoleID;
-                gListActivities.SelectedValue = tse.ActivityID;
-                gListAdditional.SelectedValue = tse.AdditionalID;
-                txtComments.Text = tse.Comments;
+                else
+                    lblDescription.Text = "";
             }
-            mouseClicked = false;
         }
 
-        private void lstTimeSheets_MouseDown(object sender, MouseEventArgs e)
+        private void gListFunctions_Click(object sender, EventArgs e)
         {
-            mouseClicked = true;
+            if (gListFunctions.SelectedIndex != -1)
+            {
+                string searchString = (gListFunctions.SelectedItem as FunctionTable).Name;
+                if (dba.Descriptions.Select(s => s.Item).Contains(searchString))
+                {
+                    lblDescription.Text = searchString + ": " + dba.Descriptions.Where(w => w.Item == searchString).First().Description;
+                }
+                else
+                    lblDescription.Text = "";
+            }
         }
 
-        private void lstTimeSheets_Click(object sender, EventArgs e)
+        private void gListRole_Click(object sender, EventArgs e)
         {
+            if (gListRole.SelectedIndex != -1)
+            {
+                string searchString = (gListRole.SelectedItem as RSTable).Name;
+                if (dba.Descriptions.Select(s => s.Item).Contains(searchString))
+                {
+                    lblDescription.Text = searchString + ": " + dba.Descriptions.Where(w => w.Item == searchString).First().Description;
+                }
+                else
+                    lblDescription.Text = "";
+            }
         }
 
-        private void MainTimesheetForm_Load(object sender, EventArgs e)
+        private void gListActivities_Click(object sender, EventArgs e)
         {
-
+            if (gListActivities.SelectedIndex != -1)
+            {
+                string searchString = (gListActivities.SelectedItem as ActivitiesTable).Name;
+                if (dba.Descriptions.Select(s => s.Item).Contains(searchString))
+                {
+                    lblDescription.Text = searchString + ": " + dba.Descriptions.Where(w => w.Item == searchString).First().Description;
+                }
+                else
+                    lblDescription.Text = "";
+            }
         }
 
-        private void tsButton1_Click(object sender, EventArgs e)
+        private void gListAdditional_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
-        }
-
-        private void lstTimeSheets_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseClicked = false;
+            if (gListAdditional.SelectedIndex != -1)
+            {
+                string searchString = (gListAdditional.SelectedItem as AdditionalTable).Name;
+                if (dba.Descriptions.Select(s => s.Item).Contains(searchString))
+                {
+                    lblDescription.Text = searchString + ": " + dba.Descriptions.Where(w => w.Item == searchString).First().Description;
+                }
+                else
+                    lblDescription.Text = "";
+            }
         }
     }
 

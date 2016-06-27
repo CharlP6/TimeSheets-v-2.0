@@ -16,6 +16,9 @@ namespace BaseForm
         private Rectangle HeaderRectangle = new Rectangle(0, 0, 224, 17);
         private Rectangle DaysRectangle = new Rectangle(0, 17, 224, 20);
 
+        private Rectangle PrevRect = new Rectangle(0, 0, 17, 17);
+        private Rectangle NextRect = new Rectangle(224 - 17, 0, 17, 17);
+
         private Rectangle CalendarRectangle = new Rectangle(0, 37, 224, 120);
 
         private Rectangle[] DayButtons = new Rectangle[42];
@@ -209,7 +212,23 @@ namespace BaseForm
             base.OnClick(e);
         }
 
-        
+        protected override void OnMouseClick(System.Windows.Forms.MouseEventArgs e)
+        {
+            if (NextRect.Contains(e.Location))
+            {
+                CurrentDate = CurrentDate.AddMonths(1);
+                SelectedDays.Clear();
+                SelectedDays.Add(date);
+            }
+            if (PrevRect.Contains(e.Location))
+            {
+                CurrentDate = CurrentDate.AddMonths(-1);
+                SelectedDays.Clear();
+                SelectedDays.Add(date);
+            }
+
+            base.OnMouseClick(e);
+        }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
@@ -234,6 +253,18 @@ namespace BaseForm
                 B.Color = Palette.Shade2;
 
                 g.DrawString(HeaderText, this.Font, B, new PointF(sX, sY));
+
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.Default;
+
+                Point[] triangle = { new Point(5, 8), new Point(11, 14), new Point(11, 2) };
+                g.FillPolygon(B, triangle);
+
+                triangle[0] = new Point(HeaderRectangle.Width - 5, 8);
+                triangle[1] = new Point(HeaderRectangle.Width - 11, 14);
+                triangle[2] = new Point(HeaderRectangle.Width - 11, 2);
+
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.Default;
+                g.FillPolygon(B, triangle);
 
                 for (int i = 0; i <= 6; i++)
                 {
@@ -269,7 +300,7 @@ namespace BaseForm
 
                     if (DisplayDays[i] != DateTime.Today)
                     {
-                        if(SelectedDays.Contains(DisplayDays[i]))
+                        if (SelectedDays.Contains(DisplayDays[i]) || CurrentDate == DisplayDays[i])
                         {
                             g.FillRectangle(new SolidBrush(Palette.Tint1), db);
                         }

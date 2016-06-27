@@ -30,6 +30,8 @@ namespace DataAdapter
 
         public List<string[]> TimeSheetData = new List<string[]>();
 
+        public List<ItemDescriptions> Descriptions = new List<ItemDescriptions>();
+
         private int userID = -1;
 
         public int UserID
@@ -56,6 +58,30 @@ namespace DataAdapter
             //LoadSoftware();
             LoadProjects();
             LoadUserProjects();
+
+            if (!UserProjectList.Select(s => s.ProjectID).Contains(156))
+                AddUserProject(156, -1);
+
+            RefreshUserProjects();
+
+            LoadDescriptions();
+
+            LoadTimeSheets();
+        }
+
+        public TSDataBaseAdapter(string ConnectionString)
+        {
+            TimeSheetDataSet = new DataSet();
+
+            dbConnectionString = ConnectionString;
+
+            GetUserID();
+            LoadDomains();
+            LoadFunctions();
+            LoadActivities();
+            LoadAdditionalTable();
+            LoadRoles();
+            LoadProjects();
             LoadTimeSheets();
         }
 
@@ -226,132 +252,6 @@ namespace DataAdapter
             }
         }
 
-        void GetUserID()
-        {
-            string Table = "Users";
-            string Command = string.Format("SELECT * FROM {0} WHERE [Login ID] = ?", Table);
-
-            OleDbParameter[] parameters = new OleDbParameter[1];
-            parameters[0] = new OleDbParameter("?", UserName);
-
-            DataTable UserTable = LoadDataFromTable(Table, Command, parameters);
-
-            if (UserTable.Rows.Count == 1)
-            {
-                DataRow DR = UserTable.Rows[0];
-                userID = (int)DR["User ID"];
-                CurrentUser = new UserData { ID = userID, LoginID = (string)DR["Login ID"], Name = (string)DR["User Name"], Surname = (string)DR["Last Name"] };
-            }
-            else if (UserTable.Rows.Count > 1)
-            {
-                MessageBox.Show("Error: Duplicate user data found.");
-                Application.Exit();
-            }
-        }
-
-        public void AddUserParameters(string FirstName, string LastName)
-        {
-            string[] Headers = { "Login ID", "User Name", "Last Name" };
-            object[] Values = { Environment.UserName, FirstName, LastName };
-            InsertDataIntoTable("Users", Headers, Values);
-        }
-
-        public void AddTimeSheetEntry(DateTime date, float hours, int project, int domain, int function, int? activity, int? additional, int role, string software, string comments, DateTime timestamp)
-        {
-            string[] Headers = { "User ID", "Work Date", "Time", "Project ID", "Domain ID", "Function ID", "Activity ID", "Additional ID", "Role ID", "Software Package", "Comments", "Time Stamp" };
-            object[] Values = { UserID, date, hours, project, domain, function, activity, additional, role, software, comments, timestamp };
-            InsertDataIntoTable("TimeSheets", Headers, Values);            
-        }
-
-        public void RefreshTimeSheets()
-        {
-            try
-            {
-                TimeSheetDataSet.Tables["TimeSheets"].Reset();
-            }
-            catch
-            {
-
-            }            
-            LoadTimeSheets();
-        }
-
-        void LoadTimeSheets()
-        {
-            TimeSheetEntries.Clear();
-
-            OleDbParameter[] parameters = { new OleDbParameter("?", UserID) };
-            parameters[0].Value = UserID;
-
-            if (userID != -1)
-            {
-                DataTable DT = LoadDataFromTable("TimeSheets", "SELECT * FROM TimeSheets WHERE [User ID] = ?", parameters);
-
-
-                if (DT.Rows.Count > 0)
-                {
-                    foreach (DataRow DR in DT.Rows)
-                    {
-                        int ID = (int)DR["ID"];
-                        int UID = (int)DR["User ID"];
-                        DateTime Date = (DateTime)DR["Work Date"];
-                        float Time = (float)DR["Time"];
-                        int Project = (int)DR["Project ID"];
-                        int Domain = (int)DR["Domain ID"];
-                        int Function = (int)DR["Function ID"];
-                        int Activity = DR["Activity ID"] == DBNull.Value ? -1 : (int)DR["Activity ID"];
-                        int Additional = DR["Additional ID"] == DBNull.Value ? -1 : (int)DR["Additional ID"];
-                        int Role = (int)DR["Role ID"];
-                        string Software = DR["Software Package"] == DBNull.Value ? "" : (string)DR["Software Package"];
-                        string Comments = DR["Comments"] == DBNull.Value ? "" : (string)DR["Comments"];
-                        DateTime TimeStamp = (DateTime)DR["Time Stamp"];
-                        TimeSheetEntries.Add(new TimeSheetEntry(
-                                    ID,
-                                    UID,
-                                    Date,
-                                    Time,
-                                    Project,
-                                    Domain,
-                                    Function,
-                                    Activity,
-                                    Additional,
-                                    Role,
-                                    Software,
-                                    Comments,
-                                    TimeStamp));
-                    }
-                }
-            }
-        }        
-
-        void LoadSoftware()
-        {
-            //Software.Clear();
-
-            //string RolesDataQuery = "SELECT * FROM Roles";
-
-            //using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
-            //{
-            //    OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(RolesDataQuery, DBConnection);
-            //    try
-            //    {
-            //        DBConnection.Open();
-            //        UserDataAdapter.Fill(TimeSheetDataSet, "Software");
-            //        if (TimeSheetDataSet.Tables["Software"].Rows.Count > 0)
-            //        {
-            //            foreach (DataRow DR in TimeSheetDataSet.Tables["Software"].Rows)
-            //            {
-            //                Software.Add(new RSTable((int)DR[0], (string)DR[1]));
-            //            }
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show(ex.Message);
-            //    }
-            //}
-        }
-
         void LoadRoles()
         {
             Roles.Clear();
@@ -369,7 +269,7 @@ namespace DataAdapter
                     {
                         foreach (DataRow DR in TimeSheetDataSet.Tables["Roles"].Rows)
                         {
-                            Roles.Add(new RSTable((int)DR["Role ID"], (string)DR["Role"],(bool)DR["Bim Role"]));
+                            Roles.Add(new RSTable((int)DR["Role ID"], (string)DR["Role"], (bool)DR["Bim Role"], (int)DR["Function ID"]));
                         }
                     }
                 }
@@ -394,11 +294,11 @@ namespace DataAdapter
                 {
                     if (DR[3] == DBNull.Value)
                     {
-                        Activities.Add(new ActivitiesTable((int)DR[0], (string)DR[1], (int)DR[2], ""));
+                        Activities.Add(new ActivitiesTable((int)DR["Activity ID"], (string)DR["Activity"], (int)DR["Function ID"], "", (bool)DR["BIM Role"]));
                     }
                     else
                     {
-                        Activities.Add(new ActivitiesTable((int)DR[0], (string)DR[1], (int)DR[2], (string)DR[3]));
+                        Activities.Add(new ActivitiesTable((int)DR[0], (string)DR[1], (int)DR[2], (string)DR["Optional Table"], (bool)DR["BIM Role"]));
                     }
                 }
             }
@@ -502,7 +402,7 @@ namespace DataAdapter
                     {
                         foreach (DataRow DR in TimeSheetDataSet.Tables["Projects"].Rows)
                         {
-                            Projects.Add(new ProjectTable((int)DR["Project ID"], DR["Project Name"] == DBNull.Value ? "" : (string)DR["Project Name"], DR["Project Number"] == DBNull.Value ? "" : (string)DR["Project Number"]));
+                            Projects.Add(new ProjectTable((int)DR["Project ID"], DR["Project Name"] == DBNull.Value ? "" : (string)DR["Project Name"], DR["Project Number"] == DBNull.Value ? "" : (string)DR["Project Number"], (bool)DR["Admin Only"]));
                         }
                     }
                 }
@@ -513,10 +413,112 @@ namespace DataAdapter
             }
         }
 
+        #region UserData
+        void GetUserID()
+        {
+            string Table = "Users";
+            string Command = string.Format("SELECT * FROM {0} WHERE [Login ID] = ?", Table);
+
+            OleDbParameter[] parameters = new OleDbParameter[1];
+            parameters[0] = new OleDbParameter("?", UserName);
+
+            DataTable UserTable = LoadDataFromTable(Table, Command, parameters);
+
+            if (UserTable.Rows.Count == 1)
+            {
+                DataRow DR = UserTable.Rows[0];
+                userID = (int)DR["User ID"];
+                CurrentUser = new UserData { ID = userID, LoginID = (string)DR["Login ID"], Name = (string)DR["User Name"], Surname = (string)DR["Last Name"] };
+            }
+            else if (UserTable.Rows.Count > 1)
+            {
+                MessageBox.Show("Error: Duplicate user data found.");
+                Application.Exit();
+            }
+        }
+
+        public void AddUserParameters(string FirstName, string LastName)
+        {
+            string[] Headers = { "Login ID", "User Name", "Last Name" };
+            object[] Values = { Environment.UserName, FirstName, LastName };
+            InsertDataIntoTable("Users", Headers, Values);
+        }
+
+        void LoadTimeSheets()
+        {
+            TimeSheetEntries.Clear();
+
+            OleDbParameter[] parameters = { new OleDbParameter("?", UserID) };
+            parameters[0].Value = UserID;
+
+            if (userID != -1)
+            {
+                DataTable DT = LoadDataFromTable("TimeSheets", "SELECT * FROM TimeSheets WHERE [User ID] = ?", parameters);
+
+
+                if (DT.Rows.Count > 0)
+                {
+                    foreach (DataRow DR in DT.Rows)
+                    {
+                        int ID = (int)DR["ID"];
+                        int UID = (int)DR["User ID"];
+                        DateTime Date = (DateTime)DR["Work Date"];
+                        float Time = (float)DR["Time"];
+                        int Project = (int)DR["Project ID"];
+                        int Domain = (int)DR["Domain ID"];
+                        int Function = (int)DR["Function ID"];
+                        int Activity = DR["Activity ID"] == DBNull.Value ? -1 : (int)DR["Activity ID"];
+                        int Additional = DR["Additional ID"] == DBNull.Value ? -1 : (int)DR["Additional ID"];
+                        int Role = DR["Role ID"] == DBNull.Value ? -1 : (int)DR["Role ID"];
+                        string Software = DR["Software Package"] == DBNull.Value ? "" : (string)DR["Software Package"];
+                        string Comments = DR["Comments"] == DBNull.Value ? "" : (string)DR["Comments"];
+                        DateTime TimeStamp = (DateTime)DR["Time Stamp"];
+                        TimeSheetEntries.Add(new TimeSheetEntry(
+                                    ID,
+                                    UID,
+                                    Date,
+                                    Time,
+                                    Project,
+                                    Domain,
+                                    Function,
+                                    Activity,
+                                    Additional,
+                                    Role,
+                                    Software,
+                                    Comments,
+                                    TimeStamp));
+                    }
+                }
+            }
+        }
+  
+        public void AddTimeSheetEntry(DateTime date, float hours, int project, int domain, int function, int? activity, int? additional, int? role, string software, string comments, DateTime timestamp)
+        {
+            string[] Headers = { "User ID", "Work Date", "Time", "Project ID", "Domain ID", "Function ID", "Activity ID", "Additional ID", "Role ID", "Software Package", "Comments", "Time Stamp" };
+            object[] Values = { UserID, date, hours, project, domain, function, activity, additional, role, software, comments, timestamp };
+            InsertDataIntoTable("TimeSheets", Headers, Values);            
+        }
+
+        public void RefreshTimeSheets()
+        {
+            try
+            {
+                TimeSheetDataSet.Tables["TimeSheets"].Reset();
+            }
+            catch
+            {
+
+            }            
+            LoadTimeSheets();
+        }
+
         public void RefreshUserProjects()
         {
             try
             {
+                if (!UserProjectList.Select(s => s.ProjectID).Contains(156))
+                    AddUserProject(156, -1);
+
                 TimeSheetDataSet.Tables["UserProjects"].Reset();
             }
             catch 
@@ -588,6 +590,17 @@ namespace DataAdapter
                 }
             }
         }
+
+        void LoadDescriptions()
+        {
+            Descriptions.Clear();
+            DataTable DT = LoadDataFromTable("Descriptions", "SELECT * FROM Descriptions");
+            foreach (DataRow DR in DT.Rows)
+            {
+                Descriptions.Add(new ItemDescriptions((string)DR["Item"], (string)DR["Description"]));
+            }
+        }
+        #endregion
     }
 
     public class DomainTable
@@ -622,13 +635,15 @@ namespace DataAdapter
         public string Name { get; set; }
         public int FunctionID { get; set; }
         public string AddTable { get; set; }
+        public bool BimRole { get; set; }
 
-        public ActivitiesTable(int id, string name, int functionID, string addtable)
+        public ActivitiesTable(int id, string name, int functionID, string addtable, bool bimrole)
         {
             ID = id;
             Name = name;
             FunctionID = functionID;
             AddTable = addtable;
+            BimRole = bimrole;
         }
     }
 
@@ -637,12 +652,14 @@ namespace DataAdapter
         public int ID { get; set; }
         public string Name { get; set; }
         public bool BimRole { get; set; }
+        public int FunctionID { get; set; }
 
-        public RSTable(int id, string name, bool bimrole)
+        public RSTable(int id, string name, bool bimrole, int functionid)
         {
             ID = id;
             Name = name;
             BimRole = bimrole;
+            FunctionID = functionid;
         }
     }
 
@@ -669,15 +686,18 @@ namespace DataAdapter
         {
             get
             {
-                return ProjectNumber + " " + Name;
+                return (ProjectNumber + " " + Name).Trim();
             }
         }
 
-        public ProjectTable(int id, string name, string projectnum)
+        public bool AdminOnly { get; set; }
+
+        public ProjectTable(int id, string name, string projectnum, bool adminonly)
         {
             ID = id;
             Name = name;
             ProjectNumber = projectnum;
+            AdminOnly = adminonly;
         }
     }
 
@@ -737,6 +757,18 @@ namespace DataAdapter
         public int ProjectID { get; set; }
         public int RoleID { get; set; }
         public string PName { get; set; }
+    }
+
+    public class ItemDescriptions
+    {
+        public string Item { get; set; }
+        public string Description { get; set; }
+
+        public ItemDescriptions(string item, string description)
+        {
+            Item = item;
+            Description = description;
+        }
     }
 
 }

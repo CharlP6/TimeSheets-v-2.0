@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            BaseForm.ColorPalette colorPalette2 = new BaseForm.ColorPalette();
+            BaseForm.ColorPalette colorPalette1 = new BaseForm.ColorPalette();
             this.glAllProjects = new BaseForm.GListBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tsButton1 = new BaseForm.TSButton();
@@ -37,18 +37,22 @@
             this.tsButton3 = new BaseForm.TSButton();
             this.tsButton4 = new BaseForm.TSButton();
             this.label5 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // glAllProjects
             // 
             this.glAllProjects.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.glAllProjects.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.glAllProjects.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.glAllProjects.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.glAllProjects.FormattingEnabled = true;
             this.glAllProjects.ItemHeight = 16;
-            this.glAllProjects.Location = new System.Drawing.Point(12, 38);
+            this.glAllProjects.Location = new System.Drawing.Point(12, 54);
             this.glAllProjects.Name = "glAllProjects";
-            this.glAllProjects.Size = new System.Drawing.Size(191, 176);
+            this.glAllProjects.Size = new System.Drawing.Size(191, 160);
+            this.glAllProjects.Sorted = true;
             this.glAllProjects.TabIndex = 0;
             // 
             // textBox1
@@ -71,6 +75,7 @@
             this.tsButton1.HoverSwatch = BaseForm.Swatch.Primary;
             this.tsButton1.Location = new System.Drawing.Point(209, 73);
             this.tsButton1.Name = "tsButton1";
+            this.tsButton1.PaintOnlyTop = false;
             this.tsButton1.Size = new System.Drawing.Size(51, 30);
             this.tsButton1.TabIndex = 2;
             this.tsButton1.Text = ">>";
@@ -80,12 +85,14 @@
             // 
             this.glUProjects.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.glUProjects.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.glUProjects.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.glUProjects.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.glUProjects.FormattingEnabled = true;
             this.glUProjects.ItemHeight = 16;
-            this.glUProjects.Location = new System.Drawing.Point(266, 38);
+            this.glUProjects.Location = new System.Drawing.Point(266, 54);
             this.glUProjects.Name = "glUProjects";
-            this.glUProjects.Size = new System.Drawing.Size(191, 176);
+            this.glUProjects.Size = new System.Drawing.Size(191, 160);
+            this.glUProjects.Sorted = true;
             this.glUProjects.TabIndex = 3;
             // 
             // tsButton2
@@ -99,18 +106,19 @@
             this.tsButton2.HoverSwatch = BaseForm.Swatch.Primary;
             this.tsButton2.Location = new System.Drawing.Point(209, 149);
             this.tsButton2.Name = "tsButton2";
-            colorPalette2.Palette = new System.Drawing.Color[] {
+            this.tsButton2.PaintOnlyTop = false;
+            colorPalette1.Palette = new System.Drawing.Color[] {
         System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))))};
-            colorPalette2.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
-            colorPalette2.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            colorPalette2.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
-            colorPalette2.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
-            colorPalette2.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
-            this.tsButton2.Palette = colorPalette2;
+            colorPalette1.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
+            colorPalette1.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            colorPalette1.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
+            colorPalette1.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
+            colorPalette1.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
+            this.tsButton2.Palette = colorPalette1;
             this.tsButton2.Size = new System.Drawing.Size(51, 30);
             this.tsButton2.TabIndex = 2;
             this.tsButton2.Text = "<<";
@@ -127,6 +135,7 @@
             this.tsButton3.HoverSwatch = BaseForm.Swatch.Primary;
             this.tsButton3.Location = new System.Drawing.Point(372, 220);
             this.tsButton3.Name = "tsButton3";
+            this.tsButton3.PaintOnlyTop = false;
             this.tsButton3.Size = new System.Drawing.Size(85, 30);
             this.tsButton3.TabIndex = 4;
             this.tsButton3.Text = "OK";
@@ -143,6 +152,7 @@
             this.tsButton4.HoverSwatch = BaseForm.Swatch.Primary;
             this.tsButton4.Location = new System.Drawing.Point(266, 220);
             this.tsButton4.Name = "tsButton4";
+            this.tsButton4.PaintOnlyTop = false;
             this.tsButton4.Size = new System.Drawing.Size(85, 30);
             this.tsButton4.TabIndex = 5;
             this.tsButton4.Text = "Cancel";
@@ -159,12 +169,36 @@
             this.label5.Text = "Search Projects:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            this.label1.Location = new System.Drawing.Point(9, 38);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(194, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "All Projects:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            this.label2.Location = new System.Drawing.Point(263, 38);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(193, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Displayed Project:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // UserProjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(468, 260);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.tsButton4);
             this.Controls.Add(this.tsButton3);
@@ -191,5 +225,7 @@
         private BaseForm.TSButton tsButton3;
         private BaseForm.TSButton tsButton4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
