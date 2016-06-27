@@ -32,6 +32,8 @@ namespace DataAdapter
 
         public List<ItemDescriptions> Descriptions = new List<ItemDescriptions>();
 
+        public List<UserData> AllUsers = new List<UserData>();
+
         private int userID = -1;
 
         public int UserID
@@ -46,7 +48,7 @@ namespace DataAdapter
         {
             TimeSheetDataSet = new DataSet();
 
-            dbConnectionString = ConnectionString;            
+            dbConnectionString = ConnectionString;
             UserName = userName;
 
             GetUserID();
@@ -75,14 +77,14 @@ namespace DataAdapter
 
             dbConnectionString = ConnectionString;
 
-            GetUserID();
+            LoadAllUsers();
             LoadDomains();
             LoadFunctions();
             LoadActivities();
             LoadAdditionalTable();
             LoadRoles();
             LoadProjects();
-            LoadTimeSheets();
+            LoadAllTimeSheets();
         }
 
         /// <summary>
@@ -152,13 +154,13 @@ namespace DataAdapter
                 string vals = "(" + string.Join(", ", Values.Select(s => "?").ToArray()) + ")";
 
                 string InsertString = string.Format("INSERT INTO {0} {1} VALUES {2}", TableName, Columns, vals);
-                
+
                 using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
                 {
                     OleDbDataAdapter InsertAdapter = new OleDbDataAdapter("SELECT * FROM " + TableName, DBConnection);
                     InsertAdapter.InsertCommand = new OleDbCommand(InsertString, DBConnection);
 
-                    for(int i = 0; i < ColumnHeaders.Length; i++)
+                    for (int i = 0; i < ColumnHeaders.Length; i++)
                     {
                         if (Values[i] == null)
                             InsertAdapter.InsertCommand.Parameters.AddWithValue("@" + ColumnHeaders[i], DBNull.Value);
@@ -186,11 +188,11 @@ namespace DataAdapter
                 MessageBox.Show("Error trying to insert data into" + TableName + ". Column and data count mismatch");
             }
         }
-        
+
         public void DeleteItemFromTable(string TableName, string IDColumn, object ID)
         {
 
-            string DeleteString = string.Format("DELETE FROM {0} WHERE [{1}] = ?",TableName,IDColumn);
+            string DeleteString = string.Format("DELETE FROM {0} WHERE [{1}] = ?", TableName, IDColumn);
 
             using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
             {
@@ -206,9 +208,9 @@ namespace DataAdapter
                     DeleteAdapter.DeleteCommand.ExecuteNonQuery();
                 }
                 catch (Exception)
-                {                    
+                {
                     throw;
-                }                     
+                }
             }
         }
 
@@ -491,12 +493,12 @@ namespace DataAdapter
                 }
             }
         }
-  
+
         public void AddTimeSheetEntry(DateTime date, float hours, int project, int domain, int function, int? activity, int? additional, int? role, string software, string comments, DateTime timestamp)
         {
             string[] Headers = { "User ID", "Work Date", "Time", "Project ID", "Domain ID", "Function ID", "Activity ID", "Additional ID", "Role ID", "Software Package", "Comments", "Time Stamp" };
             object[] Values = { UserID, date, hours, project, domain, function, activity, additional, role, software, comments, timestamp };
-            InsertDataIntoTable("TimeSheets", Headers, Values);            
+            InsertDataIntoTable("TimeSheets", Headers, Values);
         }
 
         public void RefreshTimeSheets()
@@ -508,7 +510,7 @@ namespace DataAdapter
             catch
             {
 
-            }            
+            }
             LoadTimeSheets();
         }
 
@@ -521,7 +523,7 @@ namespace DataAdapter
 
                 TimeSheetDataSet.Tables["UserProjects"].Reset();
             }
-            catch 
+            catch
             {
 
             }
@@ -605,45 +607,51 @@ namespace DataAdapter
         void LoadAllTimeSheets()
         {
             TimeSheetEntries.Clear();
+            DataTable DT = LoadDataFromTable("TimeSheets", "SELECT * FROM TimeSheets");
 
-            if (userID != -1)
+
+            if (DT.Rows.Count > 0)
             {
-                DataTable DT = LoadDataFromTable("TimeSheets", "SELECT * FROM TimeSheets");
-
-
-                if (DT.Rows.Count > 0)
+                foreach (DataRow DR in DT.Rows)
                 {
-                    foreach (DataRow DR in DT.Rows)
-                    {
-                        int ID = (int)DR["ID"];
-                        int UID = (int)DR["User ID"];
-                        DateTime Date = (DateTime)DR["Work Date"];
-                        float Time = (float)DR["Time"];
-                        int Project = (int)DR["Project ID"];
-                        int Domain = (int)DR["Domain ID"];
-                        int Function = (int)DR["Function ID"];
-                        int Activity = DR["Activity ID"] == DBNull.Value ? -1 : (int)DR["Activity ID"];
-                        int Additional = DR["Additional ID"] == DBNull.Value ? -1 : (int)DR["Additional ID"];
-                        int Role = DR["Role ID"] == DBNull.Value ? -1 : (int)DR["Role ID"];
-                        string Software = DR["Software Package"] == DBNull.Value ? "" : (string)DR["Software Package"];
-                        string Comments = DR["Comments"] == DBNull.Value ? "" : (string)DR["Comments"];
-                        DateTime TimeStamp = (DateTime)DR["Time Stamp"];
-                        TimeSheetEntries.Add(new TimeSheetEntry(
-                                    ID,
-                                    UID,
-                                    Date,
-                                    Time,
-                                    Project,
-                                    Domain,
-                                    Function,
-                                    Activity,
-                                    Additional,
-                                    Role,
-                                    Software,
-                                    Comments,
-                                    TimeStamp));
-                    }
+                    int ID = (int)DR["ID"];
+                    int UID = (int)DR["User ID"];
+                    DateTime Date = (DateTime)DR["Work Date"];
+                    float Time = (float)DR["Time"];
+                    int Project = (int)DR["Project ID"];
+                    int Domain = (int)DR["Domain ID"];
+                    int Function = (int)DR["Function ID"];
+                    int Activity = DR["Activity ID"] == DBNull.Value ? -1 : (int)DR["Activity ID"];
+                    int Additional = DR["Additional ID"] == DBNull.Value ? -1 : (int)DR["Additional ID"];
+                    int Role = DR["Role ID"] == DBNull.Value ? -1 : (int)DR["Role ID"];
+                    string Software = DR["Software Package"] == DBNull.Value ? "" : (string)DR["Software Package"];
+                    string Comments = DR["Comments"] == DBNull.Value ? "" : (string)DR["Comments"];
+                    DateTime TimeStamp = (DateTime)DR["Time Stamp"];
+                    TimeSheetEntries.Add(new TimeSheetEntry(
+                                ID,
+                                UID,
+                                Date,
+                                Time,
+                                Project,
+                                Domain,
+                                Function,
+                                Activity,
+                                Additional,
+                                Role,
+                                Software,
+                                Comments,
+                                TimeStamp));
                 }
+            }
+
+        }
+
+        void LoadAllUsers()
+        {
+            DataTable DT = LoadDataFromTable("Users", "SELECT * FROM Users");
+            foreach(DataRow DR in DT.Rows)
+            {
+                AllUsers.Add(new UserData { ID = (int)DR["User ID"], LoginID = (string)DR["Login ID"], Name = (string)DR["User Name"], Surname = (string)DR["Last Name"] });
             }
         }
 

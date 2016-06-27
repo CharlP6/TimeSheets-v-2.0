@@ -39,10 +39,14 @@ namespace MainManagementSystem
 
         private void tsButton1_Click(object sender, EventArgs e)
         {
-            foreach(TimeSheetEntry tse in dba.TimeSheetEntries)
-            {
-                gListBox1.Items.Add(tse.UserID.ToString());
-            }
+            gListBox1.DisplayMember = "LoginID";
+            gListBox1.DataSource = dba.AllUsers;
         }
+    }
+
+    public class UserHours
+    {
+        public UserData User { get; set; }
+        public float Hours { get; set; }
     }
 }
