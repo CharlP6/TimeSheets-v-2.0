@@ -23,9 +23,9 @@ namespace BaseForm
         const int drw = 75;
         const int trw = 35;
         const int prw = 280;
-        const int dfrw = 200;
-        const int arw = 200;
-        const int rrw = 120;
+        const int dfrw = 213;
+        const int arw = 213;
+        const int rrw = 96;
         const int crw = 270;
         const int irw = 40;
 

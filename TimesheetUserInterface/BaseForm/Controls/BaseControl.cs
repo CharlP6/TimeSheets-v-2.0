@@ -31,6 +31,36 @@ namespace BaseForm
 
         public bool PaintOnlyTop { get; set; }
 
+        private bool paintborder = true;
+
+        public bool BorderPaint
+        {
+            get
+            {
+                return paintborder;
+            }
+            set
+            {
+                paintborder = value;
+            }
+        }
+
+        private int borderWidth = -1;
+
+        public int BorderWidth
+        {
+            get
+            {
+                if (borderWidth == -1)
+                    return 1;
+                return borderWidth;
+            }
+            set
+            {
+                borderWidth = value;
+            }
+        }
+
         public BaseControl()
         {
             palette = null;
@@ -46,13 +76,17 @@ namespace BaseForm
 
         void PaintBorder(Graphics g)
         {
-            using (Pen P = new Pen(Palette.Palette[borderSwatch], 1))
+            if (BorderPaint)
             {
-                if (!PaintOnlyTop)
-                    g.DrawRectangle(P, new Rectangle((int)(P.Width / 2), (int)(P.Width / 2), this.Width - (int)(P.Width), this.Height - (int)(P.Width)));
-                else
-                    g.DrawLine(P, 0, 0, Width, 0);
+                using (Pen P = new Pen(Palette.Palette[borderSwatch], borderWidth))
+                {
+                    if (!PaintOnlyTop)
+                        g.DrawRectangle(P, new Rectangle((int)(P.Width / 2), (int)(P.Width / 2), this.Width - (int)(P.Width), this.Height - (int)(P.Width)));
+                    else
+                        g.DrawLine(P, 0, 0, Width, 0);
+                }
             }
+
         }
         
         #region Pallete

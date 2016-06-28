@@ -445,6 +445,11 @@ namespace TimesheetUserInterface
                     lblDescription.Text = "";
             }
         }
+
+        private void baseControl1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public static class ExtestionMethods

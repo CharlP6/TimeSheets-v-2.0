@@ -19,9 +19,18 @@ namespace MainManagementSystem
         {
             InitializeComponent();
             LoadDatabase();
+            tsCalendar1.SelectedDays.Add(DateTime.Today);
+            tsCalendar1.CurrentDate = DateTime.Today;
+
+            //gListBox1.CustomTabOffsets.Clear();
+            gListBox1.CustomTabOffsets.Add(100);
+            gListBox1.UseTabStops = true;
         }
 
         TSDataBaseAdapter dba;
+
+        List<string> AllData = new List<string>();
+        List<UserHours> UserHour = new List<UserHours>();
 
         void LoadDatabase()
         {
@@ -39,9 +48,16 @@ namespace MainManagementSystem
 
         private void tsButton1_Click(object sender, EventArgs e)
         {
-            gListBox1.DisplayMember = "LoginID";
-            gListBox1.DataSource = dba.AllUsers;
+            UserHour.Clear();
 
+            foreach(UserData user in dba.AllUsers)
+            {
+                float time = dba.TimeSheetEntries.Where(w => w.UserID == user.ID && w.WorkDate >= tsCalendar1.SelectedDays.Min() && w.WorkDate <= tsCalendar1.SelectedDays.Max()).Sum(s => s.Time);
+                UserHour.Add(new UserHours(user, time));
+            }
+            gListBox1.DataSource = null;
+            gListBox1.DisplayMember = "DisplayString";
+            gListBox1.DataSource = UserHour;
         }
     }
 
@@ -49,5 +65,20 @@ namespace MainManagementSystem
     {
         public UserData User { get; set; }
         public float Hours { get; set; }
+
+        public UserHours(UserData user, float hours)
+        {
+            User = user;
+            Hours = hours;
+        }
+
+        public string DisplayString
+        {
+            get
+            {
+                return User.LoginID + "\t" + Hours.ToString();
+            }
+        }
+
     }
 }

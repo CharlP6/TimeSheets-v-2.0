@@ -15,6 +15,7 @@ namespace BaseForm
     {
         Rectangle SelectRect = new Rectangle(0, 0, 1, 1);
         const int baseFade = 150;
+        const int fadeStep = 7;
         int fade = 150;
 
         System.Timers.Timer FadeTimer = new System.Timers.Timer(10);
@@ -237,9 +238,9 @@ namespace BaseForm
             mPos.X = this.Parent.PointToClient(Cursor.Position).X - this.Location.X;
             mPos.Y = this.Parent.PointToClient(Cursor.Position).Y - this.Location.Y;
             if (ClientRectangle.Contains(mPos))
-                fade = fade + 10 <= 255 ? fade + 10 : 255;
+                fade = fade + fadeStep <= 255 ? fade + fadeStep : 255;
             else
-                fade = fade - 10 >= baseFade ? fade - 10 : baseFade;
+                fade = fade - fadeStep >= baseFade ? fade - fadeStep : baseFade;
             if (fade <= baseFade)
             {
                 FadeTimer.Enabled = false;

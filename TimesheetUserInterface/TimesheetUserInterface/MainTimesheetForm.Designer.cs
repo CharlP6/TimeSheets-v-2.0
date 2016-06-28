@@ -55,6 +55,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.baseControl2 = new BaseForm.BaseControl();
             this.lblDescription = new System.Windows.Forms.Label();
+            this.btnSuggestion = new BaseForm.TSButton();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,15 +63,17 @@
             // 
             this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.btnDelete.BackColorSwatch = BaseForm.Swatch.Shade1;
+            this.btnDelete.BorderPaint = true;
             this.btnDelete.BorderSwatch = BaseForm.Swatch.Shade2;
+            this.btnDelete.BorderWidth = 1;
             this.btnDelete.ClickSwatch = BaseForm.Swatch.Tint1;
             this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.Color.White;
             this.btnDelete.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnDelete.Location = new System.Drawing.Point(1131, 315);
+            this.btnDelete.Location = new System.Drawing.Point(1082, 311);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.PaintOnlyTop = false;
-            this.btnDelete.Size = new System.Drawing.Size(104, 30);
+            this.btnDelete.Size = new System.Drawing.Size(155, 30);
             this.btnDelete.TabIndex = 1;
             this.btnDelete.Text = "Delete Entry";
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -87,9 +90,9 @@
             this.lstTimeSheets.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstTimeSheets.IntegralHeight = false;
             this.lstTimeSheets.ItemHeight = 17;
-            this.lstTimeSheets.Location = new System.Drawing.Point(15, 351);
+            this.lstTimeSheets.Location = new System.Drawing.Point(15, 347);
             this.lstTimeSheets.Name = "lstTimeSheets";
-            this.lstTimeSheets.Size = new System.Drawing.Size(1220, 348);
+            this.lstTimeSheets.Size = new System.Drawing.Size(1221, 392);
             this.lstTimeSheets.Sorted = true;
             this.lstTimeSheets.TabIndex = 2;
             this.lstTimeSheets.SelectedIndexChanged += new System.EventHandler(this.lstTimeSheets_SelectedIndexChanged);
@@ -100,15 +103,17 @@
             // 
             this.btnAddProject.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.btnAddProject.BackColorSwatch = BaseForm.Swatch.Shade1;
+            this.btnAddProject.BorderPaint = true;
             this.btnAddProject.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.btnAddProject.BorderWidth = 1;
             this.btnAddProject.ClickSwatch = BaseForm.Swatch.Tint1;
-            this.btnAddProject.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddProject.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddProject.ForeColor = System.Drawing.Color.White;
             this.btnAddProject.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnAddProject.Location = new System.Drawing.Point(423, 315);
+            this.btnAddProject.Location = new System.Drawing.Point(423, 311);
             this.btnAddProject.Name = "btnAddProject";
             this.btnAddProject.PaintOnlyTop = false;
-            this.btnAddProject.Size = new System.Drawing.Size(122, 30);
+            this.btnAddProject.Size = new System.Drawing.Size(188, 30);
             this.btnAddProject.TabIndex = 5;
             this.btnAddProject.Text = "Edit Poject List";
             this.btnAddProject.Click += new System.EventHandler(this.btnAddProject_Click);
@@ -122,7 +127,7 @@
             this.gListFunctions.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gListFunctions.FormattingEnabled = true;
             this.gListFunctions.ItemHeight = 16;
-            this.gListFunctions.Location = new System.Drawing.Point(249, 169);
+            this.gListFunctions.Location = new System.Drawing.Point(249, 165);
             this.gListFunctions.Margin = new System.Windows.Forms.Padding(3, 3, 7, 7);
             this.gListFunctions.Name = "gListFunctions";
             this.gListFunctions.Size = new System.Drawing.Size(161, 176);
@@ -139,10 +144,11 @@
             this.gListActivities.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gListActivities.FormattingEnabled = true;
             this.gListActivities.ItemHeight = 16;
-            this.gListActivities.Location = new System.Drawing.Point(749, 57);
+            this.gListActivities.Location = new System.Drawing.Point(749, 53);
             this.gListActivities.Margin = new System.Windows.Forms.Padding(3, 3, 7, 7);
             this.gListActivities.Name = "gListActivities";
             this.gListActivities.Size = new System.Drawing.Size(170, 288);
+            this.gListActivities.Sorted = true;
             this.gListActivities.TabIndex = 8;
             this.gListActivities.Click += new System.EventHandler(this.gListActivities_Click);
             this.gListActivities.SelectedIndexChanged += new System.EventHandler(this.gListActivities_SelectedIndexChanged);
@@ -151,9 +157,9 @@
             // 
             this.label2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label2.Location = new System.Drawing.Point(249, 41);
+            this.label2.Location = new System.Drawing.Point(249, 37);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(165, 13);
+            this.label2.Size = new System.Drawing.Size(161, 13);
             this.label2.TabIndex = 6;
             this.label2.Text = "Domain:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -162,19 +168,21 @@
             // 
             this.label3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label3.Location = new System.Drawing.Point(749, 41);
+            this.label3.Location = new System.Drawing.Point(746, 37);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(174, 13);
+            this.label3.Size = new System.Drawing.Size(173, 13);
             this.label3.TabIndex = 6;
             this.label3.Text = "Activity:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tsCalendar
             // 
+            this.tsCalendar.BorderPaint = true;
             this.tsCalendar.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.tsCalendar.BorderWidth = 1;
             this.tsCalendar.CurrentDate = new System.DateTime(2016, 6, 14, 0, 0, 0, 0);
             this.tsCalendar.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsCalendar.Location = new System.Drawing.Point(12, 73);
+            this.tsCalendar.Location = new System.Drawing.Point(12, 69);
             this.tsCalendar.Name = "tsCalendar";
             this.tsCalendar.PaintOnlyTop = false;
             this.tsCalendar.Size = new System.Drawing.Size(224, 157);
@@ -193,7 +201,7 @@
             0,
             0,
             65536});
-            this.numericUpDown1.Location = new System.Drawing.Point(116, 44);
+            this.numericUpDown1.Location = new System.Drawing.Point(116, 40);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             12,
             0,
@@ -213,7 +221,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label4.Location = new System.Drawing.Point(12, 47);
+            this.label4.Location = new System.Drawing.Point(12, 43);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(91, 13);
             this.label4.TabIndex = 6;
@@ -228,7 +236,7 @@
             this.gListProjects.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gListProjects.FormattingEnabled = true;
             this.gListProjects.ItemHeight = 16;
-            this.gListProjects.Location = new System.Drawing.Point(420, 57);
+            this.gListProjects.Location = new System.Drawing.Point(420, 53);
             this.gListProjects.Margin = new System.Windows.Forms.Padding(3, 3, 7, 7);
             this.gListProjects.Name = "gListProjects";
             this.gListProjects.Size = new System.Drawing.Size(191, 256);
@@ -239,9 +247,9 @@
             // 
             this.label5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label5.Location = new System.Drawing.Point(420, 41);
+            this.label5.Location = new System.Drawing.Point(420, 37);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(174, 13);
+            this.label5.Size = new System.Drawing.Size(191, 13);
             this.label5.TabIndex = 6;
             this.label5.Text = "Project:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -255,7 +263,7 @@
             this.gListRole.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gListRole.FormattingEnabled = true;
             this.gListRole.ItemHeight = 16;
-            this.gListRole.Location = new System.Drawing.Point(621, 57);
+            this.gListRole.Location = new System.Drawing.Point(621, 53);
             this.gListRole.Margin = new System.Windows.Forms.Padding(3, 3, 7, 7);
             this.gListRole.Name = "gListRole";
             this.gListRole.Size = new System.Drawing.Size(118, 96);
@@ -272,10 +280,11 @@
             this.gListAdditional.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gListAdditional.FormattingEnabled = true;
             this.gListAdditional.ItemHeight = 16;
-            this.gListAdditional.Location = new System.Drawing.Point(929, 57);
+            this.gListAdditional.Location = new System.Drawing.Point(929, 53);
             this.gListAdditional.Margin = new System.Windows.Forms.Padding(3, 3, 7, 7);
             this.gListAdditional.Name = "gListAdditional";
             this.gListAdditional.Size = new System.Drawing.Size(141, 288);
+            this.gListAdditional.Sorted = true;
             this.gListAdditional.TabIndex = 13;
             this.gListAdditional.SelectedIndexChanged += new System.EventHandler(this.gListAdditional_SelectedIndexChanged);
             // 
@@ -283,15 +292,17 @@
             // 
             this.btnAddEntry.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.btnAddEntry.BackColorSwatch = BaseForm.Swatch.Shade1;
+            this.btnAddEntry.BorderPaint = true;
             this.btnAddEntry.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.btnAddEntry.BorderWidth = 1;
             this.btnAddEntry.ClickSwatch = BaseForm.Swatch.Tint1;
             this.btnAddEntry.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddEntry.ForeColor = System.Drawing.Color.White;
             this.btnAddEntry.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnAddEntry.Location = new System.Drawing.Point(1131, 172);
+            this.btnAddEntry.Location = new System.Drawing.Point(1080, 168);
             this.btnAddEntry.Name = "btnAddEntry";
             this.btnAddEntry.PaintOnlyTop = false;
-            this.btnAddEntry.Size = new System.Drawing.Size(104, 30);
+            this.btnAddEntry.Size = new System.Drawing.Size(155, 30);
             this.btnAddEntry.TabIndex = 15;
             this.btnAddEntry.Text = "Add Entry";
             this.btnAddEntry.Click += new System.EventHandler(this.btnAddEntry_Click);
@@ -300,7 +311,7 @@
             // 
             this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label1.Location = new System.Drawing.Point(621, 41);
+            this.label1.Location = new System.Drawing.Point(618, 37);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(122, 13);
             this.label1.TabIndex = 16;
@@ -311,9 +322,9 @@
             // 
             this.label6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label6.Location = new System.Drawing.Point(249, 153);
+            this.label6.Location = new System.Drawing.Point(246, 148);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(165, 13);
+            this.label6.Size = new System.Drawing.Size(164, 13);
             this.label6.TabIndex = 6;
             this.label6.Text = "Specify:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -322,7 +333,7 @@
             // 
             this.txtComments.BackColor = System.Drawing.Color.White;
             this.txtComments.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtComments.Location = new System.Drawing.Point(1081, 58);
+            this.txtComments.Location = new System.Drawing.Point(1081, 54);
             this.txtComments.Multiline = true;
             this.txtComments.Name = "txtComments";
             this.txtComments.Size = new System.Drawing.Size(153, 107);
@@ -332,7 +343,7 @@
             // 
             this.label7.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label7.Location = new System.Drawing.Point(1077, 41);
+            this.label7.Location = new System.Drawing.Point(1078, 37);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(158, 13);
             this.label7.TabIndex = 16;
@@ -343,9 +354,9 @@
             // 
             this.label8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label8.Location = new System.Drawing.Point(929, 41);
+            this.label8.Location = new System.Drawing.Point(926, 37);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(145, 13);
+            this.label8.Size = new System.Drawing.Size(144, 13);
             this.label8.TabIndex = 6;
             this.label8.Text = "Specify:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -359,7 +370,7 @@
             this.gListDomains.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gListDomains.FormattingEnabled = true;
             this.gListDomains.ItemHeight = 16;
-            this.gListDomains.Location = new System.Drawing.Point(249, 57);
+            this.gListDomains.Location = new System.Drawing.Point(249, 53);
             this.gListDomains.Margin = new System.Windows.Forms.Padding(3, 3, 7, 7);
             this.gListDomains.Name = "gListDomains";
             colorPalette2.Palette = new System.Drawing.Color[] {
@@ -383,34 +394,39 @@
             // 
             this.btnUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.btnUpdate.BackColorSwatch = BaseForm.Swatch.Shade1;
+            this.btnUpdate.BorderPaint = true;
             this.btnUpdate.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.btnUpdate.BorderWidth = 1;
             this.btnUpdate.ClickSwatch = BaseForm.Swatch.Tint1;
             this.btnUpdate.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUpdate.ForeColor = System.Drawing.Color.White;
             this.btnUpdate.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnUpdate.Location = new System.Drawing.Point(1131, 208);
+            this.btnUpdate.Location = new System.Drawing.Point(1080, 204);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.PaintOnlyTop = false;
-            this.btnUpdate.Size = new System.Drawing.Size(104, 30);
+            this.btnUpdate.Size = new System.Drawing.Size(155, 30);
             this.btnUpdate.TabIndex = 18;
             this.btnUpdate.Text = "Update Entry";
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // baseControl1
             // 
+            this.baseControl1.BorderPaint = true;
             this.baseControl1.BorderSwatch = BaseForm.Swatch.Primary;
-            this.baseControl1.Location = new System.Drawing.Point(1080, 57);
+            this.baseControl1.BorderWidth = 1;
+            this.baseControl1.Location = new System.Drawing.Point(1080, 53);
             this.baseControl1.Name = "baseControl1";
             this.baseControl1.PaintOnlyTop = false;
             this.baseControl1.Size = new System.Drawing.Size(155, 109);
             this.baseControl1.TabIndex = 19;
             this.baseControl1.Text = "baseControl1";
+            this.baseControl1.Click += new System.EventHandler(this.baseControl1_Click);
             // 
             // label9
             // 
             this.label9.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label9.Location = new System.Drawing.Point(12, 233);
+            this.label9.Location = new System.Drawing.Point(12, 229);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(224, 13);
             this.label9.TabIndex = 20;
@@ -419,8 +435,10 @@
             // 
             // baseControl2
             // 
+            this.baseControl2.BorderPaint = true;
             this.baseControl2.BorderSwatch = BaseForm.Swatch.Shade1;
-            this.baseControl2.Location = new System.Drawing.Point(12, 249);
+            this.baseControl2.BorderWidth = 1;
+            this.baseControl2.Location = new System.Drawing.Point(12, 245);
             this.baseControl2.Name = "baseControl2";
             this.baseControl2.PaintOnlyTop = true;
             this.baseControl2.Size = new System.Drawing.Size(224, 2);
@@ -431,10 +449,28 @@
             // 
             this.lblDescription.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDescription.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.lblDescription.Location = new System.Drawing.Point(12, 254);
+            this.lblDescription.Location = new System.Drawing.Point(12, 250);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(224, 91);
             this.lblDescription.TabIndex = 22;
+            // 
+            // btnSuggestion
+            // 
+            this.btnSuggestion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            this.btnSuggestion.BackColorSwatch = BaseForm.Swatch.Shade1;
+            this.btnSuggestion.BorderPaint = true;
+            this.btnSuggestion.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.btnSuggestion.BorderWidth = 1;
+            this.btnSuggestion.ClickSwatch = BaseForm.Swatch.Tint1;
+            this.btnSuggestion.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSuggestion.ForeColor = System.Drawing.Color.White;
+            this.btnSuggestion.HoverSwatch = BaseForm.Swatch.Primary;
+            this.btnSuggestion.Location = new System.Drawing.Point(1126, 745);
+            this.btnSuggestion.Name = "btnSuggestion";
+            this.btnSuggestion.PaintOnlyTop = false;
+            this.btnSuggestion.Size = new System.Drawing.Size(111, 27);
+            this.btnSuggestion.TabIndex = 23;
+            this.btnSuggestion.Text = "Suggestion Box";
             // 
             // MainTimesheetForm
             // 
@@ -442,7 +478,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.BorderWidth = 2;
-            this.ClientSize = new System.Drawing.Size(1247, 711);
+            this.ClientSize = new System.Drawing.Size(1247, 784);
+            this.Controls.Add(this.btnSuggestion);
             this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.baseControl2);
             this.Controls.Add(this.label9);
@@ -509,6 +546,7 @@
         private System.Windows.Forms.Label label9;
         private BaseForm.BaseControl baseControl2;
         private System.Windows.Forms.Label lblDescription;
+        private BaseForm.TSButton btnSuggestion;
 
     }
 }

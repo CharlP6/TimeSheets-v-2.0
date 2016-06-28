@@ -34,6 +34,7 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtSurname = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tsButton1
@@ -45,8 +46,9 @@
             this.tsButton1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton1.ForeColor = System.Drawing.Color.White;
             this.tsButton1.HoverSwatch = BaseForm.Swatch.Primary;
-            this.tsButton1.Location = new System.Drawing.Point(359, 130);
+            this.tsButton1.Location = new System.Drawing.Point(359, 143);
             this.tsButton1.Name = "tsButton1";
+            this.tsButton1.PaintOnlyTop = false;
             this.tsButton1.Size = new System.Drawing.Size(85, 30);
             this.tsButton1.TabIndex = 0;
             this.tsButton1.Text = "OK";
@@ -61,8 +63,9 @@
             this.tsButton2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton2.ForeColor = System.Drawing.Color.White;
             this.tsButton2.HoverSwatch = BaseForm.Swatch.Primary;
-            this.tsButton2.Location = new System.Drawing.Point(268, 130);
+            this.tsButton2.Location = new System.Drawing.Point(268, 143);
             this.tsButton2.Name = "tsButton2";
+            this.tsButton2.PaintOnlyTop = false;
             this.tsButton2.Size = new System.Drawing.Size(85, 30);
             this.tsButton2.TabIndex = 1;
             this.tsButton2.Text = "Cancel";
@@ -73,7 +76,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label1.Location = new System.Drawing.Point(47, 71);
+            this.label1.Location = new System.Drawing.Point(47, 83);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(42, 15);
             this.label1.TabIndex = 2;
@@ -81,7 +84,7 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(95, 68);
+            this.txtName.Location = new System.Drawing.Point(95, 80);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(100, 22);
             this.txtName.TabIndex = 3;
@@ -91,7 +94,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label2.Location = new System.Drawing.Point(32, 105);
+            this.label2.Location = new System.Drawing.Point(32, 117);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(57, 15);
             this.label2.TabIndex = 2;
@@ -99,17 +102,29 @@
             // 
             // txtSurname
             // 
-            this.txtSurname.Location = new System.Drawing.Point(95, 103);
+            this.txtSurname.Location = new System.Drawing.Point(95, 115);
             this.txtSurname.Name = "txtSurname";
             this.txtSurname.Size = new System.Drawing.Size(100, 22);
             this.txtSurname.TabIndex = 4;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            this.label3.Location = new System.Drawing.Point(32, 45);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(269, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "No Information found. Please update your details.";
             // 
             // UserProfileForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(456, 172);
+            this.ClientSize = new System.Drawing.Size(456, 185);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.txtSurname);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.label2);
@@ -132,6 +147,7 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtSurname;
+        private System.Windows.Forms.Label label3;
 
     }
 }

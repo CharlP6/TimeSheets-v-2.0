@@ -61,8 +61,11 @@ namespace DataAdapter
             LoadProjects();
             LoadUserProjects();
 
-            if (!UserProjectList.Select(s => s.ProjectID).Contains(156))
-                AddUserProject(156, -1);
+            if (userID != -1)
+            {
+                if (!UserProjectList.Select(s => s.ProjectID).Contains(156))
+                    AddUserProject(156, -1);
+            }
 
             RefreshUserProjects();
 
@@ -654,7 +657,6 @@ namespace DataAdapter
                 AllUsers.Add(new UserData { ID = (int)DR["User ID"], LoginID = (string)DR["Login ID"], Name = (string)DR["User Name"], Surname = (string)DR["Last Name"] });
             }
         }
-
     }
 
 

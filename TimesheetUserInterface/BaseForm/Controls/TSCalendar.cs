@@ -321,7 +321,7 @@ namespace BaseForm
                         }
                         else
                         {
-                            g.DrawString(text, btnFont, B, drawPoint);
+                            g.DrawString(text, btnFont, new SolidBrush(Palette.Shade1), drawPoint);
                         }
 
                     }
@@ -337,9 +337,7 @@ namespace BaseForm
                             g.FillRectangle(new SolidBrush(Palette.Shade1), db);
                             g.DrawString(text, btnFont, new SolidBrush(this.Palette.Tint2), drawPoint);
                         }
-
                     }
-
                     i++;
                 }
             }

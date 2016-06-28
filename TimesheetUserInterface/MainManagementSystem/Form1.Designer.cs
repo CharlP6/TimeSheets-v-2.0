@@ -42,10 +42,10 @@
             this.tsButton1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton1.ForeColor = System.Drawing.Color.White;
             this.tsButton1.HoverSwatch = BaseForm.Swatch.Primary;
-            this.tsButton1.Location = new System.Drawing.Point(12, 179);
+            this.tsButton1.Location = new System.Drawing.Point(430, 52);
             this.tsButton1.Name = "tsButton1";
             this.tsButton1.PaintOnlyTop = false;
-            this.tsButton1.Size = new System.Drawing.Size(85, 30);
+            this.tsButton1.Size = new System.Drawing.Size(88, 30);
             this.tsButton1.TabIndex = 0;
             this.tsButton1.Text = "tsButton1";
             this.tsButton1.Click += new System.EventHandler(this.tsButton1_Click);
@@ -68,9 +68,10 @@
             this.gListBox1.BorderSwatch = BaseForm.Swatch.Shade1;
             this.gListBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.gListBox1.FormattingEnabled = true;
-            this.gListBox1.Location = new System.Drawing.Point(242, 50);
+            this.gListBox1.Location = new System.Drawing.Point(246, 52);
+            this.gListBox1.Margin = new System.Windows.Forms.Padding(7, 3, 7, 3);
             this.gListBox1.Name = "gListBox1";
-            this.gListBox1.Size = new System.Drawing.Size(120, 260);
+            this.gListBox1.Size = new System.Drawing.Size(174, 247);
             this.gListBox1.TabIndex = 2;
             // 
             // frmManagement
@@ -78,7 +79,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(476, 317);
+            this.ClientSize = new System.Drawing.Size(530, 317);
             this.Controls.Add(this.gListBox1);
             this.Controls.Add(this.tsCalendar1);
             this.Controls.Add(this.tsButton1);

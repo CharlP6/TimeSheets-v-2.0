@@ -188,7 +188,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(193, 13);
             this.label2.TabIndex = 8;
-            this.label2.Text = "Displayed Project:";
+            this.label2.Text = "Displayed Projects:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // UserProjectForm
@@ -208,7 +208,7 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.glAllProjects);
             this.Name = "UserProjectForm";
-            this.Text = "UserProjectForm";
+            this.Text = "User Projects";
             this.Load += new System.EventHandler(this.UserProjectForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
