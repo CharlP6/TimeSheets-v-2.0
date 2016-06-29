@@ -112,6 +112,7 @@ namespace DataAdapter
                 }
                 catch (Exception ex)
                 {
+                    MessageBox.Show(ex.Message);
                     throw ex;
                 }
             }
