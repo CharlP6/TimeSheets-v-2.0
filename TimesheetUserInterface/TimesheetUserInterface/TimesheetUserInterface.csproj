@@ -114,6 +114,12 @@
     <Compile Include="Old\TSListBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SuggestionBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SuggestionBox.Designer.cs">
+      <DependentUpon>SuggestionBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserProfileForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,6 +148,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Old\TSCalendar.resx">
       <DependentUpon>TSCalendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SuggestionBox.resx">
+      <DependentUpon>SuggestionBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserProfileForm.resx">
       <DependentUpon>UserProfileForm.cs</DependentUpon>

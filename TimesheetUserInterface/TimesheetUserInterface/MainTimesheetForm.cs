@@ -450,6 +450,29 @@ namespace TimesheetUserInterface
         {
 
         }
+
+        private void btnSuggestion_Click(object sender, EventArgs e)
+        {
+            SuggestionBox frmSuggestion = new SuggestionBox();
+            frmSuggestion.StartPosition = FormStartPosition.CenterParent;
+            DialogResult DR = frmSuggestion.ShowDialog();
+
+            if(DR == System.Windows.Forms.DialogResult.OK)
+            {
+                string[] headers = { "User", "TimeStamp", "Suggestion" };
+                object[] Data = new object[3];
+
+                Data[0] = Environment.UserName;
+                Data[1] = DateTime.Now.RomoveMiliSeconds();
+                Data[2] = frmSuggestion.Area + " - " + frmSuggestion.Content;
+                dba.InsertDataIntoTable("SuggestionTable", headers, Data);
+            }
+        }
+
+        private void tsButton1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public static class ExtestionMethods

@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            BaseForm.ColorPalette colorPalette2 = new BaseForm.ColorPalette();
+            BaseForm.ColorPalette colorPalette5 = new BaseForm.ColorPalette();
+            BaseForm.ColorPalette colorPalette6 = new BaseForm.ColorPalette();
+            BaseForm.ColorPalette colorPalette7 = new BaseForm.ColorPalette();
             this.btnDelete = new BaseForm.TSButton();
             this.lstTimeSheets = new BaseForm.TSListBox();
             this.btnAddProject = new BaseForm.TSButton();
@@ -56,6 +58,8 @@
             this.baseControl2 = new BaseForm.BaseControl();
             this.lblDescription = new System.Windows.Forms.Label();
             this.btnSuggestion = new BaseForm.TSButton();
+            this.tsButton1 = new BaseForm.TSButton();
+            this.tsButton2 = new BaseForm.TSButton();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -92,7 +96,7 @@
             this.lstTimeSheets.ItemHeight = 17;
             this.lstTimeSheets.Location = new System.Drawing.Point(15, 347);
             this.lstTimeSheets.Name = "lstTimeSheets";
-            this.lstTimeSheets.Size = new System.Drawing.Size(1221, 392);
+            this.lstTimeSheets.Size = new System.Drawing.Size(1222, 407);
             this.lstTimeSheets.Sorted = true;
             this.lstTimeSheets.TabIndex = 2;
             this.lstTimeSheets.SelectedIndexChanged += new System.EventHandler(this.lstTimeSheets_SelectedIndexChanged);
@@ -373,18 +377,18 @@
             this.gListDomains.Location = new System.Drawing.Point(249, 53);
             this.gListDomains.Margin = new System.Windows.Forms.Padding(3, 3, 7, 7);
             this.gListDomains.Name = "gListDomains";
-            colorPalette2.Palette = new System.Drawing.Color[] {
+            colorPalette5.Palette = new System.Drawing.Color[] {
         System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))))};
-            colorPalette2.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
-            colorPalette2.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            colorPalette2.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
-            colorPalette2.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
-            colorPalette2.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
-            this.gListDomains.Palette = colorPalette2;
+            colorPalette5.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
+            colorPalette5.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            colorPalette5.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
+            colorPalette5.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
+            colorPalette5.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
+            this.gListDomains.Palette = colorPalette5;
             this.gListDomains.Size = new System.Drawing.Size(161, 96);
             this.gListDomains.TabIndex = 4;
             this.gListDomains.Click += new System.EventHandler(this.gListDomains_Click);
@@ -465,12 +469,81 @@
             this.btnSuggestion.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSuggestion.ForeColor = System.Drawing.Color.White;
             this.btnSuggestion.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnSuggestion.Location = new System.Drawing.Point(1126, 745);
+            this.btnSuggestion.Location = new System.Drawing.Point(1140, 760);
             this.btnSuggestion.Name = "btnSuggestion";
             this.btnSuggestion.PaintOnlyTop = false;
-            this.btnSuggestion.Size = new System.Drawing.Size(111, 27);
+            this.btnSuggestion.Size = new System.Drawing.Size(97, 23);
             this.btnSuggestion.TabIndex = 23;
             this.btnSuggestion.Text = "Suggestion Box";
+            this.btnSuggestion.Click += new System.EventHandler(this.btnSuggestion_Click);
+            // 
+            // tsButton1
+            // 
+            this.tsButton1.AccentColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(213)))), ((int)(((byte)(255)))));
+            this.tsButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            this.tsButton1.BackColorSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton1.BorderPaint = true;
+            this.tsButton1.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton1.BorderWidth = 1;
+            this.tsButton1.ClickSwatch = BaseForm.Swatch.Tint1;
+            this.tsButton1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsButton1.ForeColor = System.Drawing.Color.White;
+            this.tsButton1.HoverSwatch = BaseForm.Swatch.Primary;
+            this.tsButton1.Location = new System.Drawing.Point(1037, 760);
+            this.tsButton1.MainColor = System.Drawing.Color.DarkBlue;
+            this.tsButton1.Name = "tsButton1";
+            this.tsButton1.PaintOnlyTop = false;
+            colorPalette6.Palette = new System.Drawing.Color[] {
+        System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))))};
+            colorPalette6.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
+            colorPalette6.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            colorPalette6.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
+            colorPalette6.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
+            colorPalette6.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
+            this.tsButton1.Palette = colorPalette6;
+            this.tsButton1.SecondaryColor = System.Drawing.Color.AliceBlue;
+            this.tsButton1.Size = new System.Drawing.Size(97, 23);
+            this.tsButton1.TabIndex = 24;
+            this.tsButton1.Text = "Coming Soon";
+            this.tsButton1.Click += new System.EventHandler(this.tsButton1_Click);
+            // 
+            // tsButton2
+            // 
+            this.tsButton2.AccentColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(213)))), ((int)(((byte)(255)))));
+            this.tsButton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            this.tsButton2.BackColorSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton2.BorderPaint = true;
+            this.tsButton2.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton2.BorderWidth = 1;
+            this.tsButton2.ClickSwatch = BaseForm.Swatch.Tint1;
+            this.tsButton2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsButton2.ForeColor = System.Drawing.Color.White;
+            this.tsButton2.HoverSwatch = BaseForm.Swatch.Primary;
+            this.tsButton2.Location = new System.Drawing.Point(934, 760);
+            this.tsButton2.MainColor = System.Drawing.Color.DarkBlue;
+            this.tsButton2.Name = "tsButton2";
+            this.tsButton2.PaintOnlyTop = false;
+            colorPalette7.Palette = new System.Drawing.Color[] {
+        System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))))};
+            colorPalette7.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
+            colorPalette7.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            colorPalette7.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
+            colorPalette7.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
+            colorPalette7.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
+            this.tsButton2.Palette = colorPalette7;
+            this.tsButton2.SecondaryColor = System.Drawing.Color.AliceBlue;
+            this.tsButton2.Size = new System.Drawing.Size(97, 23);
+            this.tsButton2.TabIndex = 24;
+            this.tsButton2.Text = "Coming Soon";
+            this.tsButton2.Click += new System.EventHandler(this.tsButton1_Click);
             // 
             // MainTimesheetForm
             // 
@@ -479,6 +552,8 @@
             this.BackColor = System.Drawing.Color.White;
             this.BorderWidth = 2;
             this.ClientSize = new System.Drawing.Size(1247, 784);
+            this.Controls.Add(this.tsButton2);
+            this.Controls.Add(this.tsButton1);
             this.Controls.Add(this.btnSuggestion);
             this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.baseControl2);
@@ -547,6 +622,8 @@
         private BaseForm.BaseControl baseControl2;
         private System.Windows.Forms.Label lblDescription;
         private BaseForm.TSButton btnSuggestion;
+        private BaseForm.TSButton tsButton1;
+        private BaseForm.TSButton tsButton2;
 
     }
 }
