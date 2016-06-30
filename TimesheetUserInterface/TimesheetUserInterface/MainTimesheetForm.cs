@@ -469,6 +469,25 @@ namespace TimesheetUserInterface
                     lblDescription.Text = searchString;
             }
         }
+
+        private void tsButton1_Click(object sender, EventArgs e)
+        {
+            //string[] displayEntry = new string[5];
+
+            //displayEntry[0] = DateTime.Today.ToShortDateString();
+            //displayEntry[2] = (gListDomains.SelectedItem as DomainTable).Name + " - " + (gListFunctions.SelectedItem as FunctionTable).Name;
+            //displayEntry[1] = (gListProjects.SelectedItem as ProjectTable).PName;
+            //displayEntry[3] = gListActivities.SelectedIndex != -1 ? (gListActivities.SelectedItem as ActivitiesTable).Name : " - ";
+            //displayEntry[3] += " - " + (gListAdditional.SelectedIndex != -1 ? (gListAdditional.SelectedItem as AdditionalTable).Name : "");
+            //displayEntry[4] = gListRole.SelectedIndex != -1 ? (gListRole.SelectedItem as RSTable).Name : " - ";
+
+
+            //AutoTimer frmAutoTime = new AutoTimer(string.Join("   |   ", displayEntry));
+            //frmAutoTime.StartPosition = FormStartPosition.CenterParent;
+
+            //frmAutoTime.ShowDialog();
+
+        }
     }
 
     public static class ExtestionMethods

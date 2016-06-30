@@ -84,6 +84,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoTimer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutoTimer.Designer.cs">
+      <DependentUpon>AutoTimer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Old\BaseControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -132,6 +138,9 @@
     <Compile Include="UserProjectForm.Designer.cs">
       <DependentUpon>UserProjectForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AutoTimer.resx">
+      <DependentUpon>AutoTimer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Old\GListBox.resx">
       <DependentUpon>GListBox.cs</DependentUpon>
     </EmbeddedResource>
