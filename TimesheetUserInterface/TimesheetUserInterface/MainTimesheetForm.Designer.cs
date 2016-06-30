@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            BaseForm.ColorPalette colorPalette4 = new BaseForm.ColorPalette();
             BaseForm.ColorPalette colorPalette5 = new BaseForm.ColorPalette();
             BaseForm.ColorPalette colorPalette6 = new BaseForm.ColorPalette();
-            BaseForm.ColorPalette colorPalette7 = new BaseForm.ColorPalette();
             this.btnDelete = new BaseForm.TSButton();
             this.lstTimeSheets = new BaseForm.TSListBox();
             this.btnAddProject = new BaseForm.TSButton();
@@ -60,6 +60,7 @@
             this.btnSuggestion = new BaseForm.TSButton();
             this.tsButton1 = new BaseForm.TSButton();
             this.tsButton2 = new BaseForm.TSButton();
+            this.lblStatus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,7 +97,7 @@
             this.lstTimeSheets.ItemHeight = 17;
             this.lstTimeSheets.Location = new System.Drawing.Point(15, 347);
             this.lstTimeSheets.Name = "lstTimeSheets";
-            this.lstTimeSheets.Size = new System.Drawing.Size(1222, 407);
+            this.lstTimeSheets.Size = new System.Drawing.Size(1222, 391);
             this.lstTimeSheets.Sorted = true;
             this.lstTimeSheets.TabIndex = 2;
             this.lstTimeSheets.SelectedIndexChanged += new System.EventHandler(this.lstTimeSheets_SelectedIndexChanged);
@@ -185,6 +186,7 @@
             this.tsCalendar.BorderSwatch = BaseForm.Swatch.Shade1;
             this.tsCalendar.BorderWidth = 1;
             this.tsCalendar.CurrentDate = new System.DateTime(2016, 6, 14, 0, 0, 0, 0);
+            this.tsCalendar.DisplayDate = new System.DateTime(2016, 6, 1, 0, 0, 0, 0);
             this.tsCalendar.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsCalendar.Location = new System.Drawing.Point(12, 69);
             this.tsCalendar.Name = "tsCalendar";
@@ -290,7 +292,7 @@
             this.gListAdditional.Size = new System.Drawing.Size(141, 288);
             this.gListAdditional.Sorted = true;
             this.gListAdditional.TabIndex = 13;
-            this.gListAdditional.SelectedIndexChanged += new System.EventHandler(this.gListAdditional_SelectedIndexChanged);
+            this.gListAdditional.Click += new System.EventHandler(this.gListAdditional_Click);
             // 
             // btnAddEntry
             // 
@@ -377,18 +379,18 @@
             this.gListDomains.Location = new System.Drawing.Point(249, 53);
             this.gListDomains.Margin = new System.Windows.Forms.Padding(3, 3, 7, 7);
             this.gListDomains.Name = "gListDomains";
-            colorPalette5.Palette = new System.Drawing.Color[] {
+            colorPalette4.Palette = new System.Drawing.Color[] {
         System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))))};
-            colorPalette5.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
-            colorPalette5.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            colorPalette5.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
-            colorPalette5.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
-            colorPalette5.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
-            this.gListDomains.Palette = colorPalette5;
+            colorPalette4.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
+            colorPalette4.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            colorPalette4.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
+            colorPalette4.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
+            colorPalette4.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
+            this.gListDomains.Palette = colorPalette4;
             this.gListDomains.Size = new System.Drawing.Size(161, 96);
             this.gListDomains.TabIndex = 4;
             this.gListDomains.Click += new System.EventHandler(this.gListDomains_Click);
@@ -424,7 +426,6 @@
             this.baseControl1.Size = new System.Drawing.Size(155, 109);
             this.baseControl1.TabIndex = 19;
             this.baseControl1.Text = "baseControl1";
-            this.baseControl1.Click += new System.EventHandler(this.baseControl1_Click);
             // 
             // label9
             // 
@@ -460,6 +461,7 @@
             // 
             // btnSuggestion
             // 
+            this.btnSuggestion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnSuggestion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.btnSuggestion.BackColorSwatch = BaseForm.Swatch.Shade1;
             this.btnSuggestion.BorderPaint = true;
@@ -469,7 +471,7 @@
             this.btnSuggestion.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSuggestion.ForeColor = System.Drawing.Color.White;
             this.btnSuggestion.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnSuggestion.Location = new System.Drawing.Point(1140, 760);
+            this.btnSuggestion.Location = new System.Drawing.Point(1140, 744);
             this.btnSuggestion.Name = "btnSuggestion";
             this.btnSuggestion.PaintOnlyTop = false;
             this.btnSuggestion.Size = new System.Drawing.Size(97, 23);
@@ -480,6 +482,7 @@
             // tsButton1
             // 
             this.tsButton1.AccentColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(213)))), ((int)(((byte)(255)))));
+            this.tsButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.tsButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.tsButton1.BackColorSwatch = BaseForm.Swatch.Shade1;
             this.tsButton1.BorderPaint = true;
@@ -489,10 +492,44 @@
             this.tsButton1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton1.ForeColor = System.Drawing.Color.White;
             this.tsButton1.HoverSwatch = BaseForm.Swatch.Primary;
-            this.tsButton1.Location = new System.Drawing.Point(1037, 760);
+            this.tsButton1.Location = new System.Drawing.Point(1037, 744);
             this.tsButton1.MainColor = System.Drawing.Color.DarkBlue;
             this.tsButton1.Name = "tsButton1";
             this.tsButton1.PaintOnlyTop = false;
+            colorPalette5.Palette = new System.Drawing.Color[] {
+        System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))))};
+            colorPalette5.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
+            colorPalette5.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            colorPalette5.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
+            colorPalette5.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
+            colorPalette5.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
+            this.tsButton1.Palette = colorPalette5;
+            this.tsButton1.SecondaryColor = System.Drawing.Color.AliceBlue;
+            this.tsButton1.Size = new System.Drawing.Size(97, 23);
+            this.tsButton1.TabIndex = 24;
+            this.tsButton1.Text = "Coming Soon";
+            // 
+            // tsButton2
+            // 
+            this.tsButton2.AccentColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(213)))), ((int)(((byte)(255)))));
+            this.tsButton2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.tsButton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            this.tsButton2.BackColorSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton2.BorderPaint = true;
+            this.tsButton2.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton2.BorderWidth = 1;
+            this.tsButton2.ClickSwatch = BaseForm.Swatch.Tint1;
+            this.tsButton2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsButton2.ForeColor = System.Drawing.Color.White;
+            this.tsButton2.HoverSwatch = BaseForm.Swatch.Primary;
+            this.tsButton2.Location = new System.Drawing.Point(934, 744);
+            this.tsButton2.MainColor = System.Drawing.Color.DarkBlue;
+            this.tsButton2.Name = "tsButton2";
+            this.tsButton2.PaintOnlyTop = false;
             colorPalette6.Palette = new System.Drawing.Color[] {
         System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
         System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
@@ -504,46 +541,24 @@
             colorPalette6.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
             colorPalette6.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
             colorPalette6.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
-            this.tsButton1.Palette = colorPalette6;
-            this.tsButton1.SecondaryColor = System.Drawing.Color.AliceBlue;
-            this.tsButton1.Size = new System.Drawing.Size(97, 23);
-            this.tsButton1.TabIndex = 24;
-            this.tsButton1.Text = "Coming Soon";
-            this.tsButton1.Click += new System.EventHandler(this.tsButton1_Click);
-            // 
-            // tsButton2
-            // 
-            this.tsButton2.AccentColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(213)))), ((int)(((byte)(255)))));
-            this.tsButton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.tsButton2.BackColorSwatch = BaseForm.Swatch.Shade1;
-            this.tsButton2.BorderPaint = true;
-            this.tsButton2.BorderSwatch = BaseForm.Swatch.Shade1;
-            this.tsButton2.BorderWidth = 1;
-            this.tsButton2.ClickSwatch = BaseForm.Swatch.Tint1;
-            this.tsButton2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsButton2.ForeColor = System.Drawing.Color.White;
-            this.tsButton2.HoverSwatch = BaseForm.Swatch.Primary;
-            this.tsButton2.Location = new System.Drawing.Point(934, 760);
-            this.tsButton2.MainColor = System.Drawing.Color.DarkBlue;
-            this.tsButton2.Name = "tsButton2";
-            this.tsButton2.PaintOnlyTop = false;
-            colorPalette7.Palette = new System.Drawing.Color[] {
-        System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
-        System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
-        System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204))))),
-        System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230))))),
-        System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))))};
-            colorPalette7.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
-            colorPalette7.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            colorPalette7.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
-            colorPalette7.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
-            colorPalette7.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
-            this.tsButton2.Palette = colorPalette7;
+            this.tsButton2.Palette = colorPalette6;
             this.tsButton2.SecondaryColor = System.Drawing.Color.AliceBlue;
             this.tsButton2.Size = new System.Drawing.Size(97, 23);
             this.tsButton2.TabIndex = 24;
             this.tsButton2.Text = "Coming Soon";
-            this.tsButton2.Click += new System.EventHandler(this.tsButton1_Click);
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            this.lblStatus.Location = new System.Drawing.Point(12, 746);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(76, 13);
+            this.lblStatus.TabIndex = 6;
+            this.lblStatus.Text = "Hours Today:";
+            this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MainTimesheetForm
             // 
@@ -551,7 +566,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.BorderWidth = 2;
-            this.ClientSize = new System.Drawing.Size(1247, 784);
+            this.ClientSize = new System.Drawing.Size(1247, 768);
             this.Controls.Add(this.tsButton2);
             this.Controls.Add(this.tsButton1);
             this.Controls.Add(this.btnSuggestion);
@@ -573,6 +588,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label6);
+            this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnAddProject);
@@ -624,6 +640,7 @@
         private BaseForm.TSButton btnSuggestion;
         private BaseForm.TSButton tsButton1;
         private BaseForm.TSButton tsButton2;
+        private System.Windows.Forms.Label lblStatus;
 
     }
 }

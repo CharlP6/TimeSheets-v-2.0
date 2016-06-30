@@ -58,6 +58,9 @@ namespace TimesheetUserInterface
                     Application.Exit();
                 }
             }
+
+            if (!dba.UserProjectList.Select(s => s.ProjectID).Contains(156))
+                dba.AddUserProject(156, -1);
         }
 
         #region UpdateUI
@@ -104,6 +107,7 @@ namespace TimesheetUserInterface
             }
 
             tsCalendar.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
+            UpdateList();
         }
 
         private void tsCalendar_Click(object sender, EventArgs e)
@@ -244,6 +248,8 @@ namespace TimesheetUserInterface
                 lstTimeSheets.DataSource = dba.TimeSheetEntries.Where(w => w.WorkDate >= tsCalendar.SelectedDays.Min() && w.WorkDate <= tsCalendar.SelectedDays.Max()).ToList();
                 lstTimeSheets.SelectedItems.Clear();
                 tsCalendar.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
+                lblStatus.Text = "Hours Today: " + dba.TimeSheetEntries.Where(w => w.WorkDate == DateTime.Today).Sum(s => s.Time).ToString();
+                lblStatus.Text += "   -   Hours Selected: " + dba.TimeSheetEntries.Where(w => w.WorkDate >= tsCalendar.SelectedDays.Min() && w.WorkDate <= tsCalendar.SelectedDays.Max()).Sum(s => s.Time).ToString();
             }
             catch (Exception ex)
             {
@@ -386,7 +392,7 @@ namespace TimesheetUserInterface
                     lblDescription.Text = searchString + ": " + dba.Descriptions.Where(w => w.Item == searchString).First().Description;
                 }
                 else
-                    lblDescription.Text = "";
+                    lblDescription.Text = searchString;
             }
         }
 
@@ -400,7 +406,7 @@ namespace TimesheetUserInterface
                     lblDescription.Text = searchString + ": " + dba.Descriptions.Where(w => w.Item == searchString).First().Description;
                 }
                 else
-                    lblDescription.Text = "";
+                    lblDescription.Text = searchString;
             }
         }
 
@@ -414,7 +420,7 @@ namespace TimesheetUserInterface
                     lblDescription.Text = searchString + ": " + dba.Descriptions.Where(w => w.Item == searchString).First().Description;
                 }
                 else
-                    lblDescription.Text = "";
+                    lblDescription.Text = searchString;
             }
         }
 
@@ -428,27 +434,8 @@ namespace TimesheetUserInterface
                     lblDescription.Text = searchString + ": " + dba.Descriptions.Where(w => w.Item == searchString).First().Description;
                 }
                 else
-                    lblDescription.Text = "";
+                    lblDescription.Text = searchString;
             }
-        }
-
-        private void gListAdditional_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (gListAdditional.SelectedIndex != -1)
-            {
-                string searchString = (gListAdditional.SelectedItem as AdditionalTable).Name;
-                if (dba.Descriptions.Select(s => s.Item).Contains(searchString))
-                {
-                    lblDescription.Text = searchString + ": " + dba.Descriptions.Where(w => w.Item == searchString).First().Description;
-                }
-                else
-                    lblDescription.Text = "";
-            }
-        }
-
-        private void baseControl1_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnSuggestion_Click(object sender, EventArgs e)
@@ -469,9 +456,18 @@ namespace TimesheetUserInterface
             }
         }
 
-        private void tsButton1_Click(object sender, EventArgs e)
+        private void gListAdditional_Click(object sender, EventArgs e)
         {
-
+            if (gListAdditional.SelectedIndex != -1)
+            {
+                string searchString = (gListAdditional.SelectedItem as AdditionalTable).Name;
+                if (dba.Descriptions.Select(s => s.Item).Contains(searchString))
+                {
+                    lblDescription.Text = searchString + ": " + dba.Descriptions.Where(w => w.Item == searchString).First().Description;
+                }
+                else
+                    lblDescription.Text = searchString;
+            }
         }
     }
 

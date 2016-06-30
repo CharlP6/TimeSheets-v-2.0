@@ -61,11 +61,11 @@ namespace DataAdapter
             LoadProjects();
             LoadUserProjects();
 
-            if (userID != -1)
-            {
-                if (!UserProjectList.Select(s => s.ProjectID).Contains(156))
-                    AddUserProject(156, -1);
-            }
+            //if (userID != -1)
+            //{
+            //    if (!UserProjectList.Select(s => s.ProjectID).Contains(156))
+            //        AddUserProject(156, -1);
+            //}
 
             RefreshUserProjects();
 

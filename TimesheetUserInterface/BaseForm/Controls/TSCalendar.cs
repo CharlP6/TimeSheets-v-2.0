@@ -36,6 +36,23 @@ namespace BaseForm
         private DateTime initDate;
         private DateTime date;
 
+        DateTime displayDate = DateTime.MinValue;
+
+        public DateTime DisplayDate
+        {
+            get
+            {
+                if (displayDate == DateTime.MinValue)
+                    return new DateTime(CurrentDate.Year, CurrentDate.Month, 1);
+                return displayDate;
+            }
+            set
+            {
+                displayDate = value;
+                fillDays();
+            }
+        }
+
         public DateTime CurrentDate
         {
             get
@@ -57,6 +74,7 @@ namespace BaseForm
         {
             InitializeComponent();
             InitializeRectangles();
+            this.SetStyle(System.Windows.Forms.ControlStyles.StandardDoubleClick, false);
         }
 
         void InitializeRectangles()
@@ -73,7 +91,7 @@ namespace BaseForm
 
         private void fillDays()
         {
-            DateTime day1 = new DateTime(CurrentDate.Year, CurrentDate.Month, 1);
+            DateTime day1 = DisplayDate;
             DateTime monday1 = day1.StartOfWeek(DayOfWeek.Monday);
 
             for(int i = 0; i <= 41; i++)
@@ -216,15 +234,15 @@ namespace BaseForm
         {
             if (NextRect.Contains(e.Location))
             {
-                CurrentDate = CurrentDate.AddMonths(1);
-                SelectedDays.Clear();
-                SelectedDays.Add(date);
+                DateTime nDate = DisplayDate.AddMonths(1);
+                DisplayDate = new DateTime(nDate.Year, nDate.Month, 1);
+                fillDays();
             }
             if (PrevRect.Contains(e.Location))
             {
-                CurrentDate = CurrentDate.AddMonths(-1);
-                SelectedDays.Clear();
-                SelectedDays.Add(date);
+                DateTime nDate = DisplayDate.AddMonths(-1);
+                DisplayDate = new DateTime(nDate.Year, nDate.Month, 1);
+                fillDays();
             }
 
             base.OnMouseClick(e);
@@ -243,7 +261,7 @@ namespace BaseForm
                 g.FillRectangle(B, HeaderRectangle);
                 
                 //Prepare to paint month name
-                string HeaderText = CurrentDate.ToString("MMMM") + " " + CurrentDate.Year.ToString();
+                string HeaderText = DisplayDate.ToString("MMMM") + " " + DisplayDate.Year.ToString();
                 int sLen = (int)g.MeasureString(HeaderText, this.Font).Width;
                 int sHeight = (int)g.MeasureString(HeaderText, this.Font).Height;
 
