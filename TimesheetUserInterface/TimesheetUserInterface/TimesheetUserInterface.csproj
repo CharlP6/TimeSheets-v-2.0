@@ -71,6 +71,9 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>1467626238_preferences-system-time.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -192,6 +195,12 @@
       <Project>{e068e3cd-0926-488c-9dee-49d7b6634fa5}</Project>
       <Name>DataAdapter</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="1467625843_calendar.ico" />
+    <Content Include="1467625874_organizer.ico" />
+    <Content Include="1467625973_plan.ico" />
+    <Content Include="1467626238_preferences-system-time.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

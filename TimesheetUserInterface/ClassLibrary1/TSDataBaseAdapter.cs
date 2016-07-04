@@ -522,10 +522,13 @@ namespace DataAdapter
         {
             try
             {
-                if (!UserProjectList.Select(s => s.ProjectID).Contains(156))
-                    AddUserProject(156, -1);
+                if(UserID != -1)
+                {
+                    if (!UserProjectList.Select(s => s.ProjectID).Contains(156))
+                        AddUserProject(156, -1);
 
-                TimeSheetDataSet.Tables["UserProjects"].Reset();
+                    TimeSheetDataSet.Tables["UserProjects"].Reset();
+                }
             }
             catch
             {

@@ -31,6 +31,7 @@
             BaseForm.ColorPalette colorPalette1 = new BaseForm.ColorPalette();
             BaseForm.ColorPalette colorPalette2 = new BaseForm.ColorPalette();
             BaseForm.ColorPalette colorPalette3 = new BaseForm.ColorPalette();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainTimesheetForm));
             this.btnDelete = new BaseForm.TSButton();
             this.lstTimeSheets = new BaseForm.TSListBox();
             this.btnAddProject = new BaseForm.TSButton();
@@ -599,6 +600,7 @@
             this.Controls.Add(this.gListFunctions);
             this.Controls.Add(this.baseControl1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(89)))), ((int)(((byte)(158)))));
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "MainTimesheetForm";
