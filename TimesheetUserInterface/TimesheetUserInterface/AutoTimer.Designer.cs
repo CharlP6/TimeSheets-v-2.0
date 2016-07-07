@@ -56,7 +56,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.label2.Location = new System.Drawing.Point(31, 76);
+            this.label2.Location = new System.Drawing.Point(31, 48);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(37, 13);
             this.label2.TabIndex = 7;
@@ -73,6 +73,7 @@
             this.Controls.Add(this.tsButton1);
             this.Name = "AutoTimer";
             this.Text = "AutoTimer";
+            this.Load += new System.EventHandler(this.AutoTimer_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

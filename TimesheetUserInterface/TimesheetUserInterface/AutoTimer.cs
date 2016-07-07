@@ -23,5 +23,10 @@ namespace TimesheetUserInterface
         {
 
         }
+
+        private void AutoTimer_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

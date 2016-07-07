@@ -187,7 +187,7 @@
             this.tsCalendar.BorderSwatch = BaseForm.Swatch.Shade1;
             this.tsCalendar.BorderWidth = 1;
             this.tsCalendar.CurrentDate = new System.DateTime(2016, 6, 14, 0, 0, 0, 0);
-            this.tsCalendar.DisplayDate = new System.DateTime(2016, 6, 1, 0, 0, 0, 0);
+            this.tsCalendar.DisplayDate = new System.DateTime(System.DateTime.Today.Year, System.DateTime.Today.Month, 1, 0, 0, 0, 0);
             this.tsCalendar.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsCalendar.Location = new System.Drawing.Point(12, 69);
             this.tsCalendar.Name = "tsCalendar";
@@ -226,7 +226,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
             this.label4.Location = new System.Drawing.Point(12, 43);
             this.label4.Name = "label4";
@@ -493,7 +493,7 @@
             this.tsButton1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton1.ForeColor = System.Drawing.Color.White;
             this.tsButton1.HoverSwatch = BaseForm.Swatch.Primary;
-            this.tsButton1.Location = new System.Drawing.Point(1037, 744);
+            this.tsButton1.Location = new System.Drawing.Point(920, 744);
             this.tsButton1.MainColor = System.Drawing.Color.DarkBlue;
             this.tsButton1.Name = "tsButton1";
             this.tsButton1.PaintOnlyTop = false;
@@ -528,7 +528,7 @@
             this.tsButton2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton2.ForeColor = System.Drawing.Color.White;
             this.tsButton2.HoverSwatch = BaseForm.Swatch.Primary;
-            this.tsButton2.Location = new System.Drawing.Point(934, 744);
+            this.tsButton2.Location = new System.Drawing.Point(1030, 744);
             this.tsButton2.MainColor = System.Drawing.Color.DarkBlue;
             this.tsButton2.Name = "tsButton2";
             this.tsButton2.PaintOnlyTop = false;
@@ -547,7 +547,8 @@
             this.tsButton2.SecondaryColor = System.Drawing.Color.AliceBlue;
             this.tsButton2.Size = new System.Drawing.Size(97, 23);
             this.tsButton2.TabIndex = 24;
-            this.tsButton2.Text = "Coming Soon";
+            this.tsButton2.Text = "Pre-July 2016";
+            this.tsButton2.Click += new System.EventHandler(this.tsButton2_Click);
             // 
             // lblStatus
             // 

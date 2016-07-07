@@ -6,6 +6,8 @@ using System.Data.OleDb;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,7 +28,7 @@ namespace TimesheetUserInterface
 
             LoadDatabase();
             InitializeUI();
-
+            
             this.Text = "G5 Engineering Timesheets - Logged in as " + dba.CurrentUser.Name + " " + dba.CurrentUser.Surname;
         }
 
@@ -98,13 +100,7 @@ namespace TimesheetUserInterface
                 gListActivities.DataSource = dba.Activities.Where(w => w.FunctionID == (gListFunctions.SelectedItem as FunctionTable).ID && w.BimRole == (gListRole.SelectedItem as RSTable).BimRole).ToList();
             }
 
-            if (dba.UserProjectList.Count > 0)
-            {
-                gListProjects.DisplayMember = "PName";
-                gListProjects.ValueMember = "ID";
-
-                gListProjects.DataSource = dba.UserProjectList.ConvertAll<ProjectTable>(new Converter<UserProjects, ProjectTable>(ConvertUserProject));
-            }
+            UpdateProjects();
 
             tsCalendar.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
             UpdateList();
@@ -121,7 +117,12 @@ namespace TimesheetUserInterface
             {
                 gListFunctions.DisplayMember = "Name";
                 gListFunctions.ValueMember = "ID";
-                gListFunctions.DataSource = dba.Functions.Where(w => w.DomainID == (gListDomains.SelectedItem as DomainTable).ID).ToList();
+
+                DomainTable dt = gListDomains.SelectedItem as DomainTable;
+
+                gListFunctions.DataSource = dba.Functions.Where(w => w.DomainID == dt.ID).ToList();
+
+                UpdateProjects();
 
                 if (gListProjects.Items.Count > 0)
                 {
@@ -257,6 +258,38 @@ namespace TimesheetUserInterface
             }
             txtComments.Text = "";
         }
+
+        void UpdateProjects()
+        {
+            if (dba.UserProjectList.Count > 0)
+            {
+                DomainTable dt = gListDomains.SelectedItem as DomainTable;
+
+                List<ProjectTable> DisplayList = dba.UserProjectList.ConvertAll<ProjectTable>(new Converter<UserProjects, ProjectTable>(ConvertUserProject));
+
+                if(dt.Name == "Services")
+                {
+                    gListProjects.DisplayMember = "PName";
+                    gListProjects.ValueMember = "ID";
+                    gListProjects.DataSource = DisplayList.Where(w => !w.Name.Contains("Admin")).ToList();
+                }
+                else if(dt.Name != "Admin")
+                {
+                    gListProjects.DisplayMember = "PName";
+                    gListProjects.ValueMember = "ID";
+                    gListProjects.DataSource = DisplayList.Where(w => w.Name.Contains("Admin")).ToList();
+                }
+                else
+                {
+                    gListProjects.DisplayMember = "PName";
+                    gListProjects.ValueMember = "ID";
+                    gListProjects.DataSource = DisplayList;
+                }
+
+
+            }
+        }
+
         #endregion
 
         #region ManipulateData
@@ -306,29 +339,37 @@ namespace TimesheetUserInterface
 
         private void btnAddEntry_Click(object sender, EventArgs e)
         {
-            if (tsCalendar.SelectedDays.Count != 1)
+            if (tsCalendar.CurrentDate < new DateTime(2016, 7, 1))
             {
-                MessageBox.Show("Please select only one date from the calendar.");
+                MessageBox.Show("For timesheet entries older than 1 July 2016, please click on the \"Pre-July 2016\" button below to open the old application.");
             }
             else
             {
-                DateTime entryDate = tsCalendar.CurrentDate;
-                float entryHours = (float)numericUpDown1.Value;
-                int prID = (gListProjects.SelectedItem as ProjectTable).ID;
-                int domID = (gListDomains.SelectedItem as DomainTable).ID;
-                int funcID = (gListFunctions.SelectedItem as FunctionTable).ID;
-                int? actID = gListActivities.SelectedIndex != -1 ? (gListActivities.SelectedItem as ActivitiesTable).ID : new int?();
-                int? addID = gListAdditional.SelectedIndex != -1 ? (gListAdditional.SelectedItem as AdditionalTable).ID : new int?();
-                int? roleID = gListRole.SelectedIndex != -1 ? (gListRole.SelectedItem as RSTable).ID : new int?();
 
-                dba.AddTimeSheetEntry(entryDate, entryHours, prID, domID, funcID, actID, addID, roleID, "", txtComments.Text, DateTime.Now.RomoveMiliSeconds());
 
-                dba.RefreshTimeSheets();
+                if (tsCalendar.SelectedDays.Count != 1)
+                {
+                    MessageBox.Show("Please select only one date from the calendar.");
+                }
+                else
+                {
+                    DateTime entryDate = tsCalendar.CurrentDate;
+                    float entryHours = (float)numericUpDown1.Value;
+                    int prID = (gListProjects.SelectedItem as ProjectTable).ID;
+                    int domID = (gListDomains.SelectedItem as DomainTable).ID;
+                    int funcID = (gListFunctions.SelectedItem as FunctionTable).ID;
+                    int? actID = gListActivities.SelectedIndex != -1 ? (gListActivities.SelectedItem as ActivitiesTable).ID : new int?();
+                    int? addID = gListAdditional.SelectedIndex != -1 ? (gListAdditional.SelectedItem as AdditionalTable).ID : new int?();
+                    int? roleID = gListRole.SelectedIndex != -1 ? (gListRole.SelectedItem as RSTable).ID : new int?();
 
-                UpdateList();
-                txtComments.Text = "";
+                    dba.AddTimeSheetEntry(entryDate, entryHours, prID, domID, funcID, actID, addID, roleID, "", txtComments.Text, DateTime.Now.RomoveMiliSeconds());
+
+                    dba.RefreshTimeSheets();
+
+                    UpdateList();
+                    txtComments.Text = "";
+                }
             }
-
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -487,6 +528,13 @@ namespace TimesheetUserInterface
 
             //frmAutoTime.ShowDialog();
 
+        }
+
+        private void tsButton2_Click(object sender, EventArgs e)
+        {
+            Process LegacyProcess = new Process();
+            LegacyProcess.StartInfo.FileName = Application.StartupPath + "/TimeSheets-Legacy.exe"  ;
+            LegacyProcess.Start();
         }
     }
 
