@@ -19,9 +19,9 @@ namespace MainManagementSystem
         {
             InitializeComponent();
             LoadDatabase();
-            tsCalendar1.SelectedDays.Add(DateTime.Today);
+            //
             tsCalendar1.CurrentDate = DateTime.Today;
-
+            tsCalendar1.SelectedDays.Add(tsCalendar1.CurrentDate);
             //gListBox1.CustomTabOffsets.Clear();
             gListBox1.CustomTabOffsets.Add(100);
             gListBox1.UseTabStops = true;
@@ -76,7 +76,7 @@ namespace MainManagementSystem
         {
             get
             {
-                return User.LoginID + "\t" + Hours.ToString();
+                return User.Name + " " + User.Surname+ "          "  + "\t" + Hours.ToString();
             }
         }
 
