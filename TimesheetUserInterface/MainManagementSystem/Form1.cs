@@ -58,7 +58,28 @@ namespace MainManagementSystem
             gListBox1.DataSource = null;
             gListBox1.DisplayMember = "DisplayString";
             gListBox1.DataSource = UserHour;
+
+            gListBox2.DataSource = null;
+            gListBox2.DisplayMember = "PName";
+            gListBox2.DataSource = dba.Projects.Where(w => dba.TimeSheetEntries.Where(ww => ww.WorkDate >= tsCalendar1.SelectedDays.Min() && ww.WorkDate <= tsCalendar1.SelectedDays.Max()).Select(s => s.ProjectID).Contains(w.ID)).ToList();
+
+            EntryToList(dba.TimeSheetEntries[2]);
         }
+
+        void EntryToList(TimeSheetEntry te)
+        {
+            string date = te.WorkDate.ToShortDateString();
+            string hour = te.Time.ToString();
+            string project = dba.Projects.Where(w => te.ProjectID == w.ID).First().PName;
+            string domain = dba.Domains.Where(w => te.DomainID == w.ID).First().Name;
+            string function = dba.Functions.Where(w => w.ID == te.FunctionID).First().Name;
+            string activity = dba.Activities.Where(w => w.ID == te.ActivityID).First().Name;
+            string recorded = te.TimeStamp.ToLongTimeString();
+            string employee = dba.AllUsers.Where(w => w.ID == te.UserID).First().LoginID;
+            string comments = te.Comments;
+            MessageBox.Show(string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}", date, hour, project, domain, function, activity, recorded, employee, comments));
+        }
+
     }
 
     public class UserHours

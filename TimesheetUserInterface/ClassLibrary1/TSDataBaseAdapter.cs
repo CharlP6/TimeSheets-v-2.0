@@ -33,6 +33,8 @@ namespace DataAdapter
         public List<ItemDescriptions> Descriptions = new List<ItemDescriptions>();
 
         public List<UserData> AllUsers = new List<UserData>();
+        public List<ProjectTable> AllProjects = new List<ProjectTable>();
+
 
         private int userID = -1;
 
@@ -57,15 +59,8 @@ namespace DataAdapter
             LoadActivities();
             LoadAdditionalTable();
             LoadRoles();
-            //LoadSoftware();
             LoadProjects();
             LoadUserProjects();
-
-            //if (userID != -1)
-            //{
-            //    if (!UserProjectList.Select(s => s.ProjectID).Contains(156))
-            //        AddUserProject(156, -1);
-            //}
 
             RefreshUserProjects();
 
@@ -87,6 +82,7 @@ namespace DataAdapter
             LoadAdditionalTable();
             LoadRoles();
             LoadProjects();
+            LoadProjectData();
             LoadAllTimeSheets();
         }
 
@@ -123,7 +119,6 @@ namespace DataAdapter
         /// </summary>
         /// <param name="TableName"></param>
         /// <param name="SelectCommand"></param>
-        /// <param name="Parameters"></param>
         /// <returns></returns>
         private DataTable LoadDataFromTable(string TableName, string SelectCommand)
         {
@@ -419,7 +414,7 @@ namespace DataAdapter
             }
         }
 
-        #region UserData
+    #region UserData
         void GetUserID()
         {
             string Table = "Users";
@@ -609,13 +604,14 @@ namespace DataAdapter
                 Descriptions.Add(new ItemDescriptions((string)DR["Item"], (string)DR["Description"]));
             }
         }
-        #endregion
+    #endregion
+
+    #region Management Data
 
         void LoadAllTimeSheets()
         {
             TimeSheetEntries.Clear();
             DataTable DT = LoadDataFromTable("TimeSheets", "SELECT * FROM TimeSheets");
-
 
             if (DT.Rows.Count > 0)
             {
@@ -661,6 +657,28 @@ namespace DataAdapter
                 AllUsers.Add(new UserData { ID = (int)DR["User ID"], LoginID = (string)DR["Login ID"], Name = (string)DR["User Name"], Surname = (string)DR["Last Name"] });
             }
         }
+
+        void LoadProjectData()
+        {
+            DataTable pt = LoadDataFromTable("Projects", "SELECT * FROM Projects");
+            foreach(DataRow dr in pt.Rows)
+            {
+                int PID = (int)dr["Project ID"];
+                string pName = dr["Project Name"] == DBNull.Value ? "" : (string)dr["Project Name"];
+                string pNum = dr["Project Number"] == DBNull.Value ? "" : (string)dr["Project Number"];
+                bool admin = (bool)dr["Admin Only"];
+
+                int buid = dr["Business Unit ID"] == DBNull.Value ? -1 : (int)dr["Business Unit ID"];
+                int sectorID = dr["Sector ID"] == DBNull.Value ? -1 :(int)dr["Sector ID"];
+                int countryID = dr["Country ID"] == DBNull.Value ? -1 :(int)dr["Country ID"];
+                int contractID = dr["Contract ID"] == DBNull.Value ? -1 :(int)dr["Contract ID"];
+                int paymethod = dr["Pay Method ID"] == DBNull.Value ? -1 :(int)dr["Pay Method ID"];
+
+                AllProjects.Add(new ProjectTable(PID, pName, pNum, admin, buid, sectorID, countryID, contractID, paymethod));
+            }
+
+        }
+    #endregion
     }
 
 
@@ -745,6 +763,9 @@ namespace DataAdapter
         public int ID { get; set; }
         public string Name { get; set; }
         public string ProjectNumber { get; set; }
+
+        public int BUID, SectorID, ContractID, CountryID, PaymentMethod;
+
         public string PName
         {
             get
@@ -762,6 +783,22 @@ namespace DataAdapter
             ProjectNumber = projectnum;
             AdminOnly = adminonly;
         }
+
+        public ProjectTable(int id, string name, string projectnum, bool adminonly, int buID, int sectorID, int countryID, int contractID, int paymethod)
+        {
+            ID = id;
+            Name = name;
+            ProjectNumber = projectnum;
+            AdminOnly = adminonly;
+
+            BUID = buID;
+            SectorID = sectorID;
+            ContractID = contractID;
+            CountryID = countryID;
+            PaymentMethod = paymethod;
+        }
+
+
     }
 
     public class TimeSheetEntry
