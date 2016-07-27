@@ -86,6 +86,92 @@ namespace DataAdapter
             LoadAllTimeSheets();
         }
 
+        private void LoadAllData()
+        {
+            TimeSheetDataSet = new DataSet();
+            using (OleDbConnection conn = new OleDbConnection(dbConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    OleDbCommand cmd = new OleDbCommand();
+                    cmd.Connection = conn;
+                    DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+
+                    foreach (DataRow dr in dtSheet.Rows)
+                    {
+                        string sheetName = dr["TABLE_NAME"].ToString();
+
+                        cmd.CommandText = "SELECT * FROM [?]";
+                        cmd.Parameters.AddWithValue("TableName", sheetName);
+
+                        DataTable dt = new DataTable();
+                        dt.TableName = sheetName;
+
+                        try
+                        {
+                            OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                            da.Fill(dt);
+                        }
+                        catch { }
+                        TimeSheetDataSet.Tables.Add(dt);
+                    }
+
+                    cmd = null;
+                    conn.Close();
+                }
+                catch { }
+            }
+        }
+
+        private void LoadUserData()
+        {
+            TimeSheetDataSet = new DataSet();
+            using (OleDbConnection conn = new OleDbConnection(dbConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    OleDbCommand cmd = new OleDbCommand();
+                    cmd.Connection = conn;
+                    DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+
+                    foreach (DataRow dr in dtSheet.Rows)
+                    {
+                        string sheetName = dr["TABLE_NAME"].ToString();
+
+                        if (sheetName == "TimeSheets")
+                        {
+                            cmd.CommandText = "SELECT * FROM [?] WHERE [User ID] = ?";
+                            cmd.Parameters.AddWithValue("TableName", sheetName);
+                            cmd.Parameters.AddWithValue("UID", UserID);
+                        }
+                        else
+                        {
+                            cmd.CommandText = "SELECT * FROM [?]";
+                            cmd.Parameters.AddWithValue("TableName", sheetName);
+                        }
+
+
+                        DataTable dt = new DataTable();
+                        dt.TableName = sheetName;
+
+                        try
+                        {
+                            OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                            da.Fill(dt);
+                        }
+                        catch { }
+                        TimeSheetDataSet.Tables.Add(dt);
+                    }
+
+                    cmd = null;
+                    conn.Close();
+                }
+                catch { }
+            }
+        }
+
         /// <summary>
         /// A generic method for reading a data table from a database
         /// </summary>
