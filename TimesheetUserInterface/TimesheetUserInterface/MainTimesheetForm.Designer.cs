@@ -98,7 +98,7 @@
             this.lstTimeSheets.ItemHeight = 17;
             this.lstTimeSheets.Location = new System.Drawing.Point(15, 347);
             this.lstTimeSheets.Name = "lstTimeSheets";
-            this.lstTimeSheets.Size = new System.Drawing.Size(1222, 391);
+            this.lstTimeSheets.Size = new System.Drawing.Size(1222, 310);
             this.lstTimeSheets.Sorted = true;
             this.lstTimeSheets.TabIndex = 2;
             this.lstTimeSheets.SelectedIndexChanged += new System.EventHandler(this.lstTimeSheets_SelectedIndexChanged);
@@ -154,7 +154,6 @@
             this.gListActivities.Margin = new System.Windows.Forms.Padding(3, 3, 7, 7);
             this.gListActivities.Name = "gListActivities";
             this.gListActivities.Size = new System.Drawing.Size(170, 288);
-            this.gListActivities.Sorted = true;
             this.gListActivities.TabIndex = 8;
             this.gListActivities.Click += new System.EventHandler(this.gListActivities_Click);
             this.gListActivities.SelectedIndexChanged += new System.EventHandler(this.gListActivities_SelectedIndexChanged);
@@ -187,7 +186,7 @@
             this.tsCalendar.BorderSwatch = BaseForm.Swatch.Shade1;
             this.tsCalendar.BorderWidth = 1;
             this.tsCalendar.CurrentDate = new System.DateTime(2016, 6, 14, 0, 0, 0, 0);
-            this.tsCalendar.DisplayDate = new System.DateTime(System.DateTime.Today.Year, System.DateTime.Today.Month, 1, 0, 0, 0, 0);
+            this.tsCalendar.DisplayDate = new System.DateTime(2016, 7, 1, 0, 0, 0, 0);
             this.tsCalendar.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsCalendar.Location = new System.Drawing.Point(12, 69);
             this.tsCalendar.Name = "tsCalendar";
@@ -249,6 +248,7 @@
             this.gListProjects.Size = new System.Drawing.Size(191, 256);
             this.gListProjects.Sorted = true;
             this.gListProjects.TabIndex = 11;
+            this.gListProjects.SelectedIndexChanged += new System.EventHandler(this.gListProjects_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -472,7 +472,7 @@
             this.btnSuggestion.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSuggestion.ForeColor = System.Drawing.Color.White;
             this.btnSuggestion.HoverSwatch = BaseForm.Swatch.Primary;
-            this.btnSuggestion.Location = new System.Drawing.Point(1140, 744);
+            this.btnSuggestion.Location = new System.Drawing.Point(1140, 663);
             this.btnSuggestion.Name = "btnSuggestion";
             this.btnSuggestion.PaintOnlyTop = false;
             this.btnSuggestion.Size = new System.Drawing.Size(97, 23);
@@ -493,7 +493,7 @@
             this.tsButton1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton1.ForeColor = System.Drawing.Color.White;
             this.tsButton1.HoverSwatch = BaseForm.Swatch.Primary;
-            this.tsButton1.Location = new System.Drawing.Point(920, 744);
+            this.tsButton1.Location = new System.Drawing.Point(920, 663);
             this.tsButton1.MainColor = System.Drawing.Color.DarkBlue;
             this.tsButton1.Name = "tsButton1";
             this.tsButton1.PaintOnlyTop = false;
@@ -528,7 +528,7 @@
             this.tsButton2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsButton2.ForeColor = System.Drawing.Color.White;
             this.tsButton2.HoverSwatch = BaseForm.Swatch.Primary;
-            this.tsButton2.Location = new System.Drawing.Point(1030, 744);
+            this.tsButton2.Location = new System.Drawing.Point(1030, 663);
             this.tsButton2.MainColor = System.Drawing.Color.DarkBlue;
             this.tsButton2.Name = "tsButton2";
             this.tsButton2.PaintOnlyTop = false;
@@ -556,7 +556,7 @@
             this.lblStatus.AutoSize = true;
             this.lblStatus.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            this.lblStatus.Location = new System.Drawing.Point(12, 746);
+            this.lblStatus.Location = new System.Drawing.Point(12, 665);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(76, 13);
             this.lblStatus.TabIndex = 6;
@@ -569,7 +569,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.BorderWidth = 2;
-            this.ClientSize = new System.Drawing.Size(1247, 768);
+            this.ClientSize = new System.Drawing.Size(1247, 687);
             this.Controls.Add(this.tsButton2);
             this.Controls.Add(this.tsButton1);
             this.Controls.Add(this.btnSuggestion);

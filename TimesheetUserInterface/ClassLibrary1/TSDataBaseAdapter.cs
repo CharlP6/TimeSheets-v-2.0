@@ -52,8 +52,10 @@ namespace DataAdapter
 
             dbConnectionString = ConnectionString;
             UserName = userName;
-
             GetUserID();
+
+            LoadUserData();
+
             LoadDomains();
             LoadFunctions();
             LoadActivities();
@@ -74,6 +76,7 @@ namespace DataAdapter
             TimeSheetDataSet = new DataSet();
 
             dbConnectionString = ConnectionString;
+            LoadAllData();
 
             LoadAllUsers();
             LoadDomains();
@@ -81,7 +84,6 @@ namespace DataAdapter
             LoadActivities();
             LoadAdditionalTable();
             LoadRoles();
-            LoadProjects();
             LoadProjectData();
             LoadAllTimeSheets();
         }
@@ -102,25 +104,33 @@ namespace DataAdapter
                     {
                         string sheetName = dr["TABLE_NAME"].ToString();
 
-                        cmd.CommandText = "SELECT * FROM [?]";
-                        cmd.Parameters.AddWithValue("TableName", sheetName);
-
-                        DataTable dt = new DataTable();
-                        dt.TableName = sheetName;
-
-                        try
+                        if (!sheetName.Contains("MSys"))
                         {
-                            OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-                            da.Fill(dt);
+                            cmd.CommandText = "SELECT * FROM [" + sheetName + "]";
+
+                            DataTable dt = new DataTable();
+                            dt.TableName = sheetName;
+
+                            try
+                            {
+                                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                                da.Fill(dt);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
+                            TimeSheetDataSet.Tables.Add(dt);
                         }
-                        catch { }
-                        TimeSheetDataSet.Tables.Add(dt);
                     }
 
                     cmd = null;
                     conn.Close();
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
@@ -139,36 +149,37 @@ namespace DataAdapter
                     foreach (DataRow dr in dtSheet.Rows)
                     {
                         string sheetName = dr["TABLE_NAME"].ToString();
-
-                        if (sheetName == "TimeSheets")
+                        if (!sheetName.Contains("MSys"))
                         {
-                            cmd.CommandText = "SELECT * FROM [?] WHERE [User ID] = ?";
-                            cmd.Parameters.AddWithValue("TableName", sheetName);
-                            cmd.Parameters.AddWithValue("UID", UserID);
-                        }
-                        else
-                        {
-                            cmd.CommandText = "SELECT * FROM [?]";
-                            cmd.Parameters.AddWithValue("TableName", sheetName);
-                        }
+                            if (sheetName == "TimeSheets")
+                            {
+                                cmd.CommandText = "SELECT * FROM [" + sheetName + "] WHERE [User ID] = ?";
+                                cmd.Parameters.AddWithValue("UID", UserID);
+                            }
+                            else
+                            {
+                                cmd.CommandText = "SELECT * FROM [" + sheetName + "]";
+                            }
 
+                            DataTable dt = new DataTable();
+                            dt.TableName = sheetName;
 
-                        DataTable dt = new DataTable();
-                        dt.TableName = sheetName;
-
-                        try
-                        {
-                            OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-                            da.Fill(dt);
+                            try
+                            {
+                                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                                da.Fill(dt);
+                            }
+                            catch (Exception ex)
+                            { MessageBox.Show(ex.Message); }
+                            TimeSheetDataSet.Tables.Add(dt);
                         }
-                        catch { }
-                        TimeSheetDataSet.Tables.Add(dt);
                     }
 
                     cmd = null;
                     conn.Close();
                 }
-                catch { }
+                catch (Exception ex)
+                { MessageBox.Show(ex.Message); }
             }
         }
 
@@ -339,45 +350,13 @@ namespace DataAdapter
             }
         }
 
-        void LoadRoles()
-        {
-            Roles.Clear();
-
-            string RolesDataQuery = "SELECT * FROM Roles";
-
-            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
-            {
-                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(RolesDataQuery, DBConnection);
-                try
-                {
-                    DBConnection.Open();
-                    UserDataAdapter.Fill(TimeSheetDataSet, "Roles");
-                    if (TimeSheetDataSet.Tables["Roles"].Rows.Count > 0)
-                    {
-                        foreach (DataRow DR in TimeSheetDataSet.Tables["Roles"].Rows)
-                        {
-                            Roles.Add(new RSTable((int)DR["Role ID"], (string)DR["Role"], (bool)DR["Bim Role"], (int)DR["Function ID"]));
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-        }
-
         void LoadActivities()
         {
             Activities.Clear();
 
-            string ActivitiesDataQuery = "SELECT * FROM Activities";
-
-            DataTable DT = LoadDataFromTable("Activities", ActivitiesDataQuery);
-
-            if (DT.Rows.Count > 0)
+            if (TimeSheetDataSet.Tables["Activities"].Rows.Count > 0)
             {
-                foreach (DataRow DR in DT.Rows)
+                foreach (DataRow DR in TimeSheetDataSet.Tables["Activities"].Rows)
                 {
                     if (DR[3] == DBNull.Value)
                     {
@@ -394,27 +373,39 @@ namespace DataAdapter
         void LoadAdditionalTable()
         {
             AdditionalTables.Clear();
-            string ActivitiesDataQuery = "SELECT * FROM AdditionalTables";
 
-            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            try
             {
-                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(ActivitiesDataQuery, DBConnection);
-                try
+                if (TimeSheetDataSet.Tables["AdditionalTables"].Rows.Count > 0)
                 {
-                    DBConnection.Open();
-                    UserDataAdapter.Fill(TimeSheetDataSet, "AdditionalTables");
-                    if (TimeSheetDataSet.Tables["AdditionalTables"].Rows.Count > 0)
+                    foreach (DataRow DR in TimeSheetDataSet.Tables["AdditionalTables"].Rows)
                     {
-                        foreach (DataRow DR in TimeSheetDataSet.Tables["AdditionalTables"].Rows)
-                        {
-                            AdditionalTables.Add(new AdditionalTable((int)DR[0], (string)DR["Addtional Info"], (string)DR["Table Name"]));
-                        }
+                        AdditionalTables.Add(new AdditionalTable((int)DR[0], (string)DR["Addtional Info"], (string)DR["Table Name"]));
                     }
                 }
-                catch (Exception ex)
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        void LoadDomains()
+        {
+            Domains.Clear();
+            try
+            {
+                if (TimeSheetDataSet.Tables["Domains"].Rows.Count > 0)
                 {
-                    MessageBox.Show(ex.Message);
+                    foreach (DataRow DR in TimeSheetDataSet.Tables["Domains"].Rows)
+                    {
+                        Domains.Add(new DomainTable((int)DR[0], (string)DR[1]));
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -422,81 +413,57 @@ namespace DataAdapter
         {
             Functions.Clear();
 
-            string FunctionDataQuery = "SELECT * FROM Functions";
-
-            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            try
             {
-                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(FunctionDataQuery, DBConnection);
-                try
+                if (TimeSheetDataSet.Tables["Functions"].Rows.Count > 0)
                 {
-                    DBConnection.Open();
-                    UserDataAdapter.Fill(TimeSheetDataSet, "Functions");
-                    if (TimeSheetDataSet.Tables["Functions"].Rows.Count > 0)
+                    foreach (DataRow DR in TimeSheetDataSet.Tables["Functions"].Rows)
                     {
-                        foreach (DataRow DR in TimeSheetDataSet.Tables["Functions"].Rows)
-                        {
-                            Functions.Add(new FunctionTable((int)DR[0], (string)DR[1], (int)DR[2]));
-                        }
+                        Functions.Add(new FunctionTable((int)DR[0], (string)DR[1], (int)DR[2]));
                     }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
                 }
             }
-        }
-
-        void LoadDomains()
-        {
-            Domains.Clear();
-            string DomainDataQuery = "SELECT * FROM Domains";
-
-            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            catch (Exception ex)
             {
-                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(DomainDataQuery, DBConnection);
-                try
-                {
-                    DBConnection.Open();
-                    UserDataAdapter.Fill(TimeSheetDataSet, "Domains");
-                    if (TimeSheetDataSet.Tables["Domains"].Rows.Count > 0)
-                    {
-                        foreach (DataRow DR in TimeSheetDataSet.Tables["Domains"].Rows)
-                        {
-                            Domains.Add(new DomainTable((int)DR[0], (string)DR[1]));
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                MessageBox.Show(ex.Message);
             }
         }
 
         void LoadProjects()
         {
             Projects.Clear();
-            string ProjectDataQuery = "SELECT * FROM Projects";
-
-            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            try
             {
-                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(ProjectDataQuery, DBConnection);
-                try
+                if (TimeSheetDataSet.Tables["Projects"].Rows.Count > 0)
                 {
-                    DBConnection.Open();
-                    UserDataAdapter.Fill(TimeSheetDataSet, "Projects");
-                    if (TimeSheetDataSet.Tables["Projects"].Rows.Count > 0)
+                    foreach (DataRow DR in TimeSheetDataSet.Tables["Projects"].Rows)
                     {
-                        foreach (DataRow DR in TimeSheetDataSet.Tables["Projects"].Rows)
-                        {
-                            Projects.Add(new ProjectTable((int)DR["Project ID"], DR["Project Name"] == DBNull.Value ? "" : (string)DR["Project Name"], DR["Project Number"] == DBNull.Value ? "" : (string)DR["Project Number"], (bool)DR["Admin Only"]));
-                        }
+                        Projects.Add(new ProjectTable((int)DR["Project ID"], DR["Project Name"] == DBNull.Value ? "" : (string)DR["Project Name"], DR["Project Number"] == DBNull.Value ? "" : (string)DR["Project Number"], (bool)DR["Admin Only"]));
                     }
                 }
-                catch (Exception ex)
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        void LoadRoles()
+        {
+            Roles.Clear();
+            try
+            {
+                if (TimeSheetDataSet.Tables["Roles"].Rows.Count > 0)
                 {
-                    MessageBox.Show(ex.Message);
+                    foreach (DataRow DR in TimeSheetDataSet.Tables["Roles"].Rows)
+                    {
+                        Roles.Add(new RSTable((int)DR["Role ID"], (string)DR["Role"], (bool)DR["Bim Role"], (int)DR["Function ID"]));
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -535,13 +502,13 @@ namespace DataAdapter
         {
             TimeSheetEntries.Clear();
 
-            OleDbParameter[] parameters = { new OleDbParameter("?", UserID) };
-            parameters[0].Value = UserID;
-
             if (userID != -1)
             {
-                DataTable DT = LoadDataFromTable("TimeSheets", "SELECT * FROM TimeSheets WHERE [User ID] = ?", parameters);
+                OleDbParameter[] param = new OleDbParameter[1];
 
+                param[0] = new OleDbParameter("UID", userID);
+
+                DataTable DT = LoadDataFromTable("TimeSheets","SELECT * FROM TimeSheets WHERE [User ID] = ?", param);
 
                 if (DT.Rows.Count > 0)
                 {
@@ -621,30 +588,28 @@ namespace DataAdapter
         void LoadUserProjects()
         {
             UserProjectList.Clear();
-            string ProjectDataQuery = "SELECT * FROM UserProjects WHERE [User ID] = ?";
 
-            using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
+            OleDbParameter[] param = new OleDbParameter[1];
+
+            param[0] = new OleDbParameter("UID", userID);
+
+            DataTable DT = LoadDataFromTable("UserProjects", "SELECT * FROM UserProjects WHERE [User ID] = ?", param);
+
+            try
             {
-                OleDbDataAdapter UserDataAdapter = new OleDbDataAdapter(ProjectDataQuery, DBConnection);
-                UserDataAdapter.SelectCommand.Parameters.Add("@uid", OleDbType.Integer).Value = userID;
-                try
+                if (DT.Rows.Count > 0)
                 {
-                    DBConnection.Open();
-                    UserDataAdapter.Fill(TimeSheetDataSet, "UserProjects");
-                    if (TimeSheetDataSet.Tables["UserProjects"].Rows.Count > 0)
+                    foreach (DataRow DR in DT.Rows)
                     {
-                        foreach (DataRow DR in TimeSheetDataSet.Tables["UserProjects"].Rows)
-                        {
-                            int pid = (int)DR["Project ID"];
-                            string pn = Projects.Where(w => w.ID == pid).First().PName;
-                            UserProjectList.Add(new UserProjects { ID = (int)DR["ID"], ProjectID = pid, RoleID = DR["Role ID"] != DBNull.Value ? (int)DR["Role ID"] : -1, UserID = (int)DR["User ID"], PName = pn });
-                        }
+                        int pid = (int)DR["Project ID"];
+                        string pn = Projects.Where(w => w.ID == pid).First().PName;
+                        UserProjectList.Add(new UserProjects { ID = (int)DR["ID"], ProjectID = pid, RoleID = DR["Role ID"] != DBNull.Value ? (int)DR["Role ID"] : -1, UserID = (int)DR["User ID"], PName = pn });
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -684,12 +649,15 @@ namespace DataAdapter
         void LoadDescriptions()
         {
             Descriptions.Clear();
-            DataTable DT = LoadDataFromTable("Descriptions", "SELECT * FROM Descriptions");
-            foreach (DataRow DR in DT.Rows)
+            if (TimeSheetDataSet.Tables["Descriptions"].Rows.Count > 0)
             {
-                Descriptions.Add(new ItemDescriptions((string)DR["Item"], (string)DR["Description"]));
+                foreach (DataRow DR in TimeSheetDataSet.Tables["Descriptions"].Rows)
+                {
+                    Descriptions.Add(new ItemDescriptions((string)DR["Item"], (string)DR["Description"]));
+                }
             }
         }
+
     #endregion
 
     #region Management Data
@@ -746,7 +714,7 @@ namespace DataAdapter
 
         void LoadProjectData()
         {
-            DataTable pt = LoadDataFromTable("Projects", "SELECT * FROM Projects");
+            DataTable pt = TimeSheetDataSet.Tables["Projects"];
             foreach(DataRow dr in pt.Rows)
             {
                 int PID = (int)dr["Project ID"];

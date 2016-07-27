@@ -61,7 +61,7 @@ namespace MainManagementSystem
 
             gListBox2.DataSource = null;
             gListBox2.DisplayMember = "PName";
-            gListBox2.DataSource = dba.Projects.Where(w => dba.TimeSheetEntries.Where(ww => ww.WorkDate >= tsCalendar1.SelectedDays.Min() && ww.WorkDate <= tsCalendar1.SelectedDays.Max()).Select(s => s.ProjectID).Contains(w.ID)).ToList();
+            gListBox2.DataSource = dba.AllProjects.Where(w => dba.TimeSheetEntries.Where(ww => ww.WorkDate >= tsCalendar1.SelectedDays.Min() && ww.WorkDate <= tsCalendar1.SelectedDays.Max()).Select(s => s.ProjectID).Contains(w.ID)).ToList();
 
             EntryToList(dba.TimeSheetEntries[2]);
         }
@@ -70,7 +70,7 @@ namespace MainManagementSystem
         {
             string date = te.WorkDate.ToShortDateString();
             string hour = te.Time.ToString();
-            string project = dba.Projects.Where(w => te.ProjectID == w.ID).First().PName;
+            string project = dba.AllProjects.Where(w => te.ProjectID == w.ID).First().PName;
             string domain = dba.Domains.Where(w => te.DomainID == w.ID).First().Name;
             string function = dba.Functions.Where(w => w.ID == te.FunctionID).First().Name;
             string activity = dba.Activities.Where(w => w.ID == te.ActivityID).First().Name;

@@ -120,7 +120,7 @@ namespace TimesheetUserInterface
 
                 DomainTable dt = gListDomains.SelectedItem as DomainTable;
 
-                gListFunctions.DataSource = dba.Functions.Where(w => w.DomainID == dt.ID).ToList();
+                gListFunctions.DataSource = dba.Functions.Where(w => w.DomainID == dt.ID).OrderBy(o => o.Name).ToList();
 
                 UpdateProjects();
 
@@ -147,15 +147,17 @@ namespace TimesheetUserInterface
                 gListRole.ValueMember = "ID";
                 gListRole.DataSource = dba.Roles.Where(w => w.FunctionID == ft.ID).ToList();
 
+
+                gListActivities.DataSource = null;
+
                 gListActivities.DisplayMember = "Name";
                 gListActivities.ValueMember = "ID";
-                gListActivities.DataSource = dba.Activities.Where(w => w.FunctionID == ft.ID && w.BimRole == (gListRole.SelectedItem as RSTable).BimRole).ToList();
+                gListActivities.DataSource = dba.Activities.Where(w => w.FunctionID == ft.ID && w.BimRole == (gListRole.SelectedItem as RSTable).BimRole).OrderBy(o => o.Name).ToList();
 
                 if (gListActivities.Items.Count == 0)
                 {
                     gListAdditional.DataSource = null;
                 }
-
             }
         }
 
@@ -165,7 +167,7 @@ namespace TimesheetUserInterface
             {
                 gListAdditional.DisplayMember = "Name";
                 gListAdditional.ValueMember = "ID";
-                gListAdditional.DataSource = dba.AdditionalTables.Where(w => w.TableName == (gListActivities.SelectedItem as ActivitiesTable).AddTable).ToList();
+                gListAdditional.DataSource = dba.AdditionalTables.Where(w => w.TableName == (gListActivities.SelectedItem as ActivitiesTable).AddTable).OrderBy(o => o.Name).ToList();
             }
             else
             {
@@ -188,10 +190,6 @@ namespace TimesheetUserInterface
 
                 ProjectTable pt = dba.Projects.Where(w => w.ID == tse.ProjectID).First();
 
-
-
-
-
                 //MessageBox.Show(tse.ProjectID.ToString());
                 tsCalendar.CurrentDate = tse.WorkDate;
                 gListDomains.SelectedValue = tse.DomainID;
@@ -199,6 +197,7 @@ namespace TimesheetUserInterface
                 gListRole.SelectedValue = tse.RoleID;
                 gListActivities.SelectedValue = tse.ActivityID;
                 gListAdditional.SelectedValue = tse.AdditionalID;
+
                 numericUpDown1.Value = (decimal)tse.Time;
                 txtComments.Text = tse.Comments;
 
@@ -229,9 +228,10 @@ namespace TimesheetUserInterface
         {
             if (gListRole.SelectedIndex != -1)
             {
+                gListActivities.DataSource = null;
                 gListActivities.DisplayMember = "Name";
                 gListActivities.ValueMember = "ID";
-                gListActivities.DataSource = dba.Activities.Where(w => w.FunctionID == (gListFunctions.SelectedItem as FunctionTable).ID && w.BimRole == (gListRole.SelectedItem as RSTable).BimRole).ToList();
+                gListActivities.DataSource = dba.Activities.Where(w => w.FunctionID == (gListFunctions.SelectedItem as FunctionTable).ID && w.BimRole == (gListRole.SelectedItem as RSTable).BimRole).OrderBy(o => o.Name).ToList();
 
                 if (gListActivities.Items.Count == 0)
                 {
@@ -535,6 +535,11 @@ namespace TimesheetUserInterface
             Process LegacyProcess = new Process();
             LegacyProcess.StartInfo.FileName = Application.StartupPath + "/TimeSheets-Legacy.exe"  ;
             LegacyProcess.Start();
+        }
+
+        private void gListProjects_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 
