@@ -60,10 +60,10 @@ namespace MainManagementSystem
             gListBox1.DataSource = UserHour;
 
             gListBox2.DataSource = null;
-            gListBox2.DisplayMember = "PName";
-            gListBox2.DataSource = dba.AllProjects.Where(w => dba.TimeSheetEntries.Where(ww => ww.WorkDate >= tsCalendar1.SelectedDays.Min() && ww.WorkDate <= tsCalendar1.SelectedDays.Max()).Select(s => s.ProjectID).Contains(w.ID)).ToList();
+            gListBox2.DisplayMember = "Name";
+            gListBox2.DataSource = dba.BUList;
 
-            EntryToList(dba.TimeSheetEntries[2]);
+            //EntryToList(dba.TimeSheetEntries[2]);
         }
 
         void EntryToList(TimeSheetEntry te)

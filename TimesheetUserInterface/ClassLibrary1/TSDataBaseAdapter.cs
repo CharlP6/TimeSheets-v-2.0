@@ -88,101 +88,8 @@ namespace DataAdapter
             LoadAllTimeSheets();
         }
 
-        private void LoadAllData()
-        {
-            TimeSheetDataSet = new DataSet();
-            using (OleDbConnection conn = new OleDbConnection(dbConnectionString))
-            {
-                try
-                {
-                    conn.Open();
-                    OleDbCommand cmd = new OleDbCommand();
-                    cmd.Connection = conn;
-                    DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
 
-                    foreach (DataRow dr in dtSheet.Rows)
-                    {
-                        string sheetName = dr["TABLE_NAME"].ToString();
-
-                        if (!sheetName.Contains("MSys"))
-                        {
-                            cmd.CommandText = "SELECT * FROM [" + sheetName + "]";
-
-                            DataTable dt = new DataTable();
-                            dt.TableName = sheetName;
-
-                            try
-                            {
-                                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-                                da.Fill(dt);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
-                            }
-                            TimeSheetDataSet.Tables.Add(dt);
-                        }
-                    }
-
-                    cmd = null;
-                    conn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-        }
-
-        private void LoadUserData()
-        {
-            TimeSheetDataSet = new DataSet();
-            using (OleDbConnection conn = new OleDbConnection(dbConnectionString))
-            {
-                try
-                {
-                    conn.Open();
-                    OleDbCommand cmd = new OleDbCommand();
-                    cmd.Connection = conn;
-                    DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-
-                    foreach (DataRow dr in dtSheet.Rows)
-                    {
-                        string sheetName = dr["TABLE_NAME"].ToString();
-                        if (!sheetName.Contains("MSys"))
-                        {
-                            if (sheetName == "TimeSheets")
-                            {
-                                cmd.CommandText = "SELECT * FROM [" + sheetName + "] WHERE [User ID] = ?";
-                                cmd.Parameters.AddWithValue("UID", UserID);
-                            }
-                            else
-                            {
-                                cmd.CommandText = "SELECT * FROM [" + sheetName + "]";
-                            }
-
-                            DataTable dt = new DataTable();
-                            dt.TableName = sheetName;
-
-                            try
-                            {
-                                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-                                da.Fill(dt);
-                            }
-                            catch (Exception ex)
-                            { MessageBox.Show(ex.Message); }
-                            TimeSheetDataSet.Tables.Add(dt);
-                        }
-                    }
-
-                    cmd = null;
-                    conn.Close();
-                }
-                catch (Exception ex)
-                { MessageBox.Show(ex.Message); }
-            }
-        }
-
+    #region Maniplate Data
         /// <summary>
         /// A generic method for reading a data table from a database
         /// </summary>
@@ -349,6 +256,103 @@ namespace DataAdapter
                 MessageBox.Show("Error trying to update" + TableName + ". Column and data count mismatch");
             }
         }
+    #endregion
+
+        #region LoadAuxData
+        private void LoadAllData()
+        {
+            TimeSheetDataSet = new DataSet();
+            using (OleDbConnection conn = new OleDbConnection(dbConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    OleDbCommand cmd = new OleDbCommand();
+                    cmd.Connection = conn;
+                    DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+
+                    foreach (DataRow dr in dtSheet.Rows)
+                    {
+                        string sheetName = dr["TABLE_NAME"].ToString();
+
+                        if (!sheetName.Contains("MSys"))
+                        {
+                            cmd.CommandText = "SELECT * FROM [" + sheetName + "]";
+
+                            DataTable dt = new DataTable();
+                            dt.TableName = sheetName;
+
+                            try
+                            {
+                                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                                da.Fill(dt);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
+                            TimeSheetDataSet.Tables.Add(dt);
+                        }
+                    }
+
+                    cmd = null;
+                    conn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void LoadUserData()
+        {
+            TimeSheetDataSet = new DataSet();
+            using (OleDbConnection conn = new OleDbConnection(dbConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    OleDbCommand cmd = new OleDbCommand();
+                    cmd.Connection = conn;
+                    DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+
+                    foreach (DataRow dr in dtSheet.Rows)
+                    {
+                        string sheetName = dr["TABLE_NAME"].ToString();
+                        if (!sheetName.Contains("MSys"))
+                        {
+                            if (sheetName == "TimeSheets")
+                            {
+                                cmd.CommandText = "SELECT * FROM [" + sheetName + "] WHERE [User ID] = ?";
+                                cmd.Parameters.AddWithValue("UID", UserID);
+                            }
+                            else
+                            {
+                                cmd.CommandText = "SELECT * FROM [" + sheetName + "]";
+                            }
+
+                            DataTable dt = new DataTable();
+                            dt.TableName = sheetName;
+
+                            try
+                            {
+                                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                                da.Fill(dt);
+                            }
+                            catch (Exception ex)
+                            { MessageBox.Show(ex.Message); }
+                            TimeSheetDataSet.Tables.Add(dt);
+                        }
+                    }
+
+                    cmd = null;
+                    conn.Close();
+                }
+                catch (Exception ex)
+                { MessageBox.Show(ex.Message); }
+            }
+        }
 
         void LoadActivities()
         {
@@ -466,6 +470,7 @@ namespace DataAdapter
                 MessageBox.Show(ex.Message);
             }
         }
+    #endregion
 
     #region UserData
         void GetUserID()
@@ -727,16 +732,45 @@ namespace DataAdapter
                 int countryID = dr["Country ID"] == DBNull.Value ? -1 :(int)dr["Country ID"];
                 int contractID = dr["Contract ID"] == DBNull.Value ? -1 :(int)dr["Contract ID"];
                 int paymethod = dr["Pay Method ID"] == DBNull.Value ? -1 :(int)dr["Pay Method ID"];
+                bool visible = dr["Visible"] == DBNull.Value ? true : (bool)dr["Visible"];
 
-                AllProjects.Add(new ProjectTable(PID, pName, pNum, admin, buid, sectorID, countryID, contractID, paymethod));
+                AllProjects.Add(new ProjectTable(PID, pName, pNum, admin, buid, sectorID, countryID, contractID, paymethod, visible));
             }
 
+            PopulateBUList();
+
         }
+
+        public List<GenericTable> BUList = new List<GenericTable>();
+        void PopulateBUList()
+        {
+            BUList.Clear();
+            DataTable dt = TimeSheetDataSet.Tables["Business Units"];
+
+            if (dt.Rows.Count > 0)
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int id = (int)dr["Business Unit ID"];
+                    string name = dr["BU Name"] == DBNull.Value ? "" : (string)dr["BU Name"];
+                    BUList.Add(new GenericTable(id, name));
+                }
+        }
+
     #endregion
     }
 
 
+    public class GenericTable
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
 
+        public GenericTable(int id, string name)
+        {
+            ID = id;
+            Name = name;
+        }
+    }
 
     public class DomainTable
     {
@@ -820,6 +854,8 @@ namespace DataAdapter
 
         public int BUID, SectorID, ContractID, CountryID, PaymentMethod;
 
+        public bool Visible = true;
+
         public string PName
         {
             get
@@ -838,7 +874,7 @@ namespace DataAdapter
             AdminOnly = adminonly;
         }
 
-        public ProjectTable(int id, string name, string projectnum, bool adminonly, int buID, int sectorID, int countryID, int contractID, int paymethod)
+        public ProjectTable(int id, string name, string projectnum, bool adminonly, int buID, int sectorID, int countryID, int contractID, int paymethod, bool visible)
         {
             ID = id;
             Name = name;
@@ -850,6 +886,7 @@ namespace DataAdapter
             ContractID = contractID;
             CountryID = countryID;
             PaymentMethod = paymethod;
+            Visible = visible;
         }
 
 
