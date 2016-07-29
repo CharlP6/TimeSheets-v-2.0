@@ -225,7 +225,7 @@ namespace DataAdapter
 
                 change += string.Join("] = ?, [", ColumnHeaders) + "] = ?";
 
-                string UpdatetString = string.Format("UPDATE {0} SET {1} WHERE ID = ?", TableName, change);//, IDColumn);
+                string UpdatetString = string.Format("UPDATE {0} SET {1} WHERE [{2}] = ?", TableName, change, IDColumn);//, IDColumn);
 
                 using (OleDbConnection DBConnection = new OleDbConnection(dbConnectionString))
                 {

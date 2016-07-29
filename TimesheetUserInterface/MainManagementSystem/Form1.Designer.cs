@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            BaseForm.ColorPalette colorPalette1 = new BaseForm.ColorPalette();
             this.tsButton1 = new BaseForm.TSButton();
             this.gListBox1 = new BaseForm.GListBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -121,22 +120,9 @@
             this.tsButton2.Location = new System.Drawing.Point(242, 143);
             this.tsButton2.Name = "tsButton2";
             this.tsButton2.PaintOnlyTop = false;
-            colorPalette1.Palette = new System.Drawing.Color[] {
-        System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
-        System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
-        System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204))))),
-        System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230))))),
-        System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))))};
-            colorPalette1.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
-            colorPalette1.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
-            colorPalette1.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
-            colorPalette1.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
-            colorPalette1.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
-            this.tsButton2.Palette = colorPalette1;
-            this.tsButton2.Size = new System.Drawing.Size(88, 30);
+            this.tsButton2.Size = new System.Drawing.Size(85, 30);
             this.tsButton2.TabIndex = 10;
-            this.tsButton2.Text = "Load Excel";
-            this.tsButton2.Click += new System.EventHandler(this.tsButton2_Click);
+            this.tsButton2.Text = "tsButton2";
             // 
             // frmManagement
             // 
