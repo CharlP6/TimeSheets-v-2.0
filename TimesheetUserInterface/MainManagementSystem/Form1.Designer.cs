@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            BaseForm.ColorPalette colorPalette1 = new BaseForm.ColorPalette();
             this.tsButton1 = new BaseForm.TSButton();
             this.gListBox1 = new BaseForm.GListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tsCalendar1 = new BaseForm.TSCalendar();
             this.gListBox2 = new BaseForm.GListBox();
+            this.tsButton2 = new BaseForm.TSButton();
             this.SuspendLayout();
             // 
             // tsButton1
@@ -105,12 +107,44 @@
             this.gListBox2.Sorted = true;
             this.gListBox2.TabIndex = 9;
             // 
+            // tsButton2
+            // 
+            this.tsButton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            this.tsButton2.BackColorSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton2.BorderPaint = false;
+            this.tsButton2.BorderSwatch = BaseForm.Swatch.Shade1;
+            this.tsButton2.BorderWidth = 1;
+            this.tsButton2.ClickSwatch = BaseForm.Swatch.Tint1;
+            this.tsButton2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsButton2.ForeColor = System.Drawing.Color.White;
+            this.tsButton2.HoverSwatch = BaseForm.Swatch.Primary;
+            this.tsButton2.Location = new System.Drawing.Point(242, 143);
+            this.tsButton2.Name = "tsButton2";
+            this.tsButton2.PaintOnlyTop = false;
+            colorPalette1.Palette = new System.Drawing.Color[] {
+        System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))))};
+            colorPalette1.Primary = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(107)))), ((int)(((byte)(204)))));
+            colorPalette1.Shade1 = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(66)))), ((int)(((byte)(160)))));
+            colorPalette1.Shade2 = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(42)))), ((int)(((byte)(103)))));
+            colorPalette1.Tint1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(193)))), ((int)(((byte)(230)))));
+            colorPalette1.Tint2 = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(231)))), ((int)(((byte)(246)))));
+            this.tsButton2.Palette = colorPalette1;
+            this.tsButton2.Size = new System.Drawing.Size(88, 30);
+            this.tsButton2.TabIndex = 10;
+            this.tsButton2.Text = "Load Excel";
+            this.tsButton2.Click += new System.EventHandler(this.tsButton2_Click);
+            // 
             // frmManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(492, 567);
+            this.Controls.Add(this.tsButton2);
             this.Controls.Add(this.gListBox2);
             this.Controls.Add(this.tsCalendar1);
             this.Controls.Add(this.label2);
@@ -129,6 +163,7 @@
         private System.Windows.Forms.Label label2;
         private BaseForm.TSCalendar tsCalendar1;
         private BaseForm.GListBox gListBox2;
+        private BaseForm.TSButton tsButton2;
     }
 }
 

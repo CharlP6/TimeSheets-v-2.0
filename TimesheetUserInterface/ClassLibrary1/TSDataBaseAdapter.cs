@@ -742,9 +742,15 @@ namespace DataAdapter
         }
 
         public List<GenericTable> BUList = new List<GenericTable>();
+        public List<GenericTable> ContractList = new List<GenericTable>();
+        public List<GenericTable> CountryList = new List<GenericTable>();
+        public List<GenericTable> PaymentList = new List<GenericTable>();
+        public List<GenericTable> SectorList = new List<GenericTable>();
+
         void PopulateBUList()
         {
             BUList.Clear();
+
             DataTable dt = TimeSheetDataSet.Tables["Business Units"];
 
             if (dt.Rows.Count > 0)
@@ -754,6 +760,43 @@ namespace DataAdapter
                     string name = dr["BU Name"] == DBNull.Value ? "" : (string)dr["BU Name"];
                     BUList.Add(new GenericTable(id, name));
                 }
+
+            dt = TimeSheetDataSet.Tables["Contract Types"];
+            if (dt.Rows.Count > 0)
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int id = (int)dr["Contract ID"];
+                    string name = dr["Contract Type"] == DBNull.Value ? "" : (string)dr["Contract Type"];
+                    ContractList.Add(new GenericTable(id, name));
+                }
+
+            dt = TimeSheetDataSet.Tables["Countries"];
+            if (dt.Rows.Count > 0)
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int id = (int)dr["Country ID"];
+                    string name = dr["Country"] == DBNull.Value ? "" : (string)dr["Country"];
+                    CountryList.Add(new GenericTable(id, name));
+                }
+
+            dt = TimeSheetDataSet.Tables["Payment Methods"];
+            if (dt.Rows.Count > 0)
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int id = (int)dr["Pay Method ID"];
+                    string name = dr["Payment Method"] == DBNull.Value ? "" : (string)dr["Payment Method"];
+                    PaymentList.Add(new GenericTable(id, name));
+                }
+
+            dt = TimeSheetDataSet.Tables["Sectors"];
+            if (dt.Rows.Count > 0)
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int id = (int)dr["Sector ID"];
+                    string name = dr["Sector"] == DBNull.Value ? "" : (string)dr["Sector"];
+                    SectorList.Add(new GenericTable(id, name));
+                }
+
         }
 
     #endregion
