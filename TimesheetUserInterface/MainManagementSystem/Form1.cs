@@ -61,14 +61,14 @@ namespace MainManagementSystem
             gListBox1.DisplayMember = "DisplayString";
             gListBox1.DataSource = UserHour;
 
-            gListBox2.DataSource = null;
-            gListBox2.DisplayMember = "Name";
-            gListBox2.DataSource = dba.ContractList;
+            //gListBox2.DataSource = null;
+            //gListBox2.DisplayMember = "Name";
+            //gListBox2.DataSource = dba.ContractList;
 
-            EntryToList(dba.TimeSheetEntries[100]);
+            //EntryToList(dba.TimeSheetEntries[100]);
         }
 
-        void EntryToList(TimeSheetEntry te)
+        string EntryToList(TimeSheetEntry te)
         {
             string date = te.WorkDate.ToShortDateString();
             string hour = te.Time.ToString();
@@ -88,7 +88,14 @@ namespace MainManagementSystem
             string Country = dba.CountryList.Where(w => w.ID == pt.CountryID).First().Name;
             string Sector = dba.SectorList.Where(w => w.ID == pt.SectorID).First().Name;
 
-            MessageBox.Show(string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}", date, hour, project, domain, function, activity, recorded, employee, comments, contractType, BU, PM, Country, Sector));
+            string weekstartdate = te.WorkDate.StartOfWeek(DayOfWeek.Monday).ToLongDateString();
+
+            return string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13} ,{14}", date, hour, project, domain, function, activity, recorded, employee, comments, contractType, BU, PM, Country, Sector, weekstartdate);
+        }
+
+        private void tsButton2_Click(object sender, EventArgs e)
+        {
+
         }
 
 

@@ -34,6 +34,7 @@
             this.tsCalendar1 = new BaseForm.TSCalendar();
             this.gListBox2 = new BaseForm.GListBox();
             this.tsButton2 = new BaseForm.TSButton();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // tsButton1
@@ -52,7 +53,7 @@
             this.tsButton1.PaintOnlyTop = false;
             this.tsButton1.Size = new System.Drawing.Size(88, 30);
             this.tsButton1.TabIndex = 0;
-            this.tsButton1.Text = "tsButton1";
+            this.tsButton1.Text = "Overview";
             this.tsButton1.Click += new System.EventHandler(this.tsButton1_Click);
             // 
             // gListBox1
@@ -123,6 +124,15 @@
             this.tsButton2.Size = new System.Drawing.Size(85, 30);
             this.tsButton2.TabIndex = 10;
             this.tsButton2.Text = "tsButton2";
+            this.tsButton2.Click += new System.EventHandler(this.tsButton2_Click);
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(336, 75);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(144, 121);
+            this.listBox1.TabIndex = 11;
             // 
             // frmManagement
             // 
@@ -130,6 +140,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(492, 567);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.tsButton2);
             this.Controls.Add(this.gListBox2);
             this.Controls.Add(this.tsCalendar1);
@@ -150,6 +161,7 @@
         private BaseForm.TSCalendar tsCalendar1;
         private BaseForm.GListBox gListBox2;
         private BaseForm.TSButton tsButton2;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 
