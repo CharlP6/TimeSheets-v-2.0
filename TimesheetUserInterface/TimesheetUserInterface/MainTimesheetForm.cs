@@ -103,6 +103,7 @@ namespace TimesheetUserInterface
             UpdateProjects();
 
             tsCalendar.BoldDays = dba.TimeSheetEntries.Select(s => s.WorkDate).Distinct().ToList();
+            tsCalendar.DisplayDate = tsCalendar.CurrentDate;
             UpdateList();
         }
 
@@ -532,12 +533,17 @@ namespace TimesheetUserInterface
 
         private void tsButton2_Click(object sender, EventArgs e)
         {
-            Process LegacyProcess = new Process();
-            LegacyProcess.StartInfo.FileName = Application.StartupPath + "/TimeSheets-Legacy.exe"  ;
-            LegacyProcess.Start();
+            //Process LegacyProcess = new Process();
+            //LegacyProcess.StartInfo.FileName = Application.StartupPath + "/TimeSheets-Legacy.exe"  ;
+            //LegacyProcess.Start();
         }
 
         private void gListProjects_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MainTimesheetForm_Load(object sender, EventArgs e)
         {
 
         }

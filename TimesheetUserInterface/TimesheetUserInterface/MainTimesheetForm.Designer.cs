@@ -547,7 +547,7 @@
             this.tsButton2.SecondaryColor = System.Drawing.Color.AliceBlue;
             this.tsButton2.Size = new System.Drawing.Size(97, 23);
             this.tsButton2.TabIndex = 24;
-            this.tsButton2.Text = "Pre-July 2016";
+            this.tsButton2.Text = "Coming Soon";
             this.tsButton2.Click += new System.EventHandler(this.tsButton2_Click);
             // 
             // lblStatus
@@ -607,6 +607,7 @@
             this.Name = "MainTimesheetForm";
             this.SecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(212)))), ((int)(((byte)(255)))));
             this.Text = "G5 Engineering Timesheets";
+            this.Load += new System.EventHandler(this.MainTimesheetForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -11,7 +11,7 @@ namespace BaseForm
     {
         private int headerHeight = 17;
         private int width = 224;
-        private int height = 137;
+        private int height = 157;
 
         private Rectangle HeaderRectangle = new Rectangle(0, 0, 224, 17);
         private Rectangle DaysRectangle = new Rectangle(0, 17, 224, 20);
@@ -369,7 +369,7 @@ namespace BaseForm
             // TSCalendar
             // 
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Size = new System.Drawing.Size(224, 137);
+            this.Size = new System.Drawing.Size(224, 157);
             this.ResumeLayout(false);
 
         }

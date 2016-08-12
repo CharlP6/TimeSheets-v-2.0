@@ -35,6 +35,8 @@ namespace DataAdapter
         public List<UserData> AllUsers = new List<UserData>();
         public List<ProjectTable> AllProjects = new List<ProjectTable>();
 
+        public List<ProjectHours> ProjectHoursTable = new List<ProjectHours>();
+        
 
         private int userID = -1;
 
@@ -738,7 +740,7 @@ namespace DataAdapter
             }
 
             PopulateBUList();
-
+            PopulateHoursTable();
         }
 
         public List<GenericTable> BUList = new List<GenericTable>();
@@ -797,6 +799,19 @@ namespace DataAdapter
                     SectorList.Add(new GenericTable(id, name));
                 }
 
+        }
+
+        void PopulateHoursTable()
+        {
+            DataTable ht = TimeSheetDataSet.Tables["ProjectHours"];
+            foreach(DataRow dr in ht.Rows)
+            {
+                int id = (int)dr["ID"];
+                int PID = (int)dr["Project ID"];
+                int alloc = dr["Allocated Hours"] == DBNull.Value ? 0 : (int)dr["Allocated Hours"];
+                int target = dr["Target Hours"] == DBNull.Value ? 0 : (int)dr["Target Hours"];
+                ProjectHoursTable.Add(new ProjectHours(id, PID, target, alloc));
+            }
         }
 
     #endregion
@@ -933,6 +948,22 @@ namespace DataAdapter
         }
 
 
+    }
+
+    public class ProjectHours
+    {
+        public int ID { get; set; }
+        public int PID { get; set; }
+        public float TargetHours { get; set; }
+        public float AllocatedHours { get; set; }
+
+        public ProjectHours(int id, int pid, float target, float allocated)
+        {
+            ID = id;
+            PID = pid;
+            TargetHours = target;
+            AllocatedHours = allocated;
+        }
     }
 
     public class TimeSheetEntry
