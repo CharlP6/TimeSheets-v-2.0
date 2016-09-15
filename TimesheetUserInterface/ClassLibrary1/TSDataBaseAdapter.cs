@@ -35,8 +35,7 @@ namespace DataAdapter
         public List<UserData> AllUsers = new List<UserData>();
         public List<ProjectTable> AllProjects = new List<ProjectTable>();
 
-        public List<ProjectHours> ProjectHoursTable = new List<ProjectHours>();
-        
+        public List<WorkPackage> ProjectHoursTable = new List<WorkPackage>();        
 
         private int userID = -1;
 
@@ -260,7 +259,7 @@ namespace DataAdapter
         }
     #endregion
 
-        #region LoadAuxData
+    #region LoadAuxData
         private void LoadAllData()
         {
             TimeSheetDataSet = new DataSet();
@@ -721,26 +720,14 @@ namespace DataAdapter
 
         void LoadProjectData()
         {
+            PopulateBUList();
+            PopulateHoursTable();
+
             DataTable pt = TimeSheetDataSet.Tables["Projects"];
             foreach(DataRow dr in pt.Rows)
             {
-                int PID = (int)dr["Project ID"];
-                string pName = dr["Project Name"] == DBNull.Value ? "" : (string)dr["Project Name"];
-                string pNum = dr["Project Number"] == DBNull.Value ? "" : (string)dr["Project Number"];
-                bool admin = (bool)dr["Admin Only"];
-
-                int buid = dr["Business Unit ID"] == DBNull.Value ? -1 : (int)dr["Business Unit ID"];
-                int sectorID = dr["Sector ID"] == DBNull.Value ? -1 :(int)dr["Sector ID"];
-                int countryID = dr["Country ID"] == DBNull.Value ? -1 :(int)dr["Country ID"];
-                int contractID = dr["Contract ID"] == DBNull.Value ? -1 :(int)dr["Contract ID"];
-                int paymethod = dr["Pay Method ID"] == DBNull.Value ? -1 :(int)dr["Pay Method ID"];
-                bool visible = dr["Visible"] == DBNull.Value ? true : (bool)dr["Visible"];
-
-                AllProjects.Add(new ProjectTable(PID, pName, pNum, admin, buid, sectorID, countryID, contractID, paymethod, visible));
+                AllProjects.Add(new ProjectTable(dr, ProjectHoursTable));
             }
-
-            PopulateBUList();
-            PopulateHoursTable();
         }
 
         public List<GenericTable> BUList = new List<GenericTable>();
@@ -810,7 +797,7 @@ namespace DataAdapter
                 int PID = (int)dr["Project ID"];
                 int alloc = dr["Allocated Hours"] == DBNull.Value ? 0 : (int)dr["Allocated Hours"];
                 int target = dr["Target Hours"] == DBNull.Value ? 0 : (int)dr["Target Hours"];
-                ProjectHoursTable.Add(new ProjectHours(id, PID, target, alloc));
+                ProjectHoursTable.Add(new WorkPackage(id, PID, target, alloc));
             }
         }
 
@@ -912,6 +899,8 @@ namespace DataAdapter
 
         public int BUID, SectorID, ContractID, CountryID, PaymentMethod;
 
+        public List<WorkPackage> WorkPackages = new List<WorkPackage>();
+
         public bool Visible = true;
 
         public string PName
@@ -947,22 +936,47 @@ namespace DataAdapter
             Visible = visible;
         }
 
+        public ProjectTable(DataRow Datarow, List<WorkPackage> workPackages)
+        {
+            ID = (int)Datarow["Project ID"];
+            Name = Datarow["Project Name"] == DBNull.Value ? "" : (string)Datarow["Project Name"];
+            ProjectNumber = Datarow["Project Number"] == DBNull.Value ? "" : (string)Datarow["Project Number"];
+            AdminOnly = (bool)Datarow["Admin Only"];
 
+            BUID = Datarow["Business Unit ID"] == DBNull.Value ? -1 : (int)Datarow["Business Unit ID"];
+            SectorID = Datarow["Sector ID"] == DBNull.Value ? -1 : (int)Datarow["Sector ID"];
+            CountryID = Datarow["Country ID"] == DBNull.Value ? -1 : (int)Datarow["Country ID"];
+            ContractID = Datarow["Contract ID"] == DBNull.Value ? -1 : (int)Datarow["Contract ID"];
+            PaymentMethod = Datarow["Pay Method ID"] == DBNull.Value ? -1 : (int)Datarow["Pay Method ID"];
+            Visible = Datarow["Visible"] == DBNull.Value ? true : (bool)Datarow["Visible"];
+
+            WorkPackages = workPackages.Where(w => w.PID == ID).ToList();
+        }
     }
 
-    public class ProjectHours
+    public class WorkPackage
     {
         public int ID { get; set; }
         public int PID { get; set; }
+        public string Description { get; set; }
         public float TargetHours { get; set; }
         public float AllocatedHours { get; set; }
 
-        public ProjectHours(int id, int pid, float target, float allocated)
+        public WorkPackage(int id, int pid, float target, float allocated)
         {
             ID = id;
             PID = pid;
             TargetHours = target;
             AllocatedHours = allocated;
+        }
+
+        public WorkPackage(DataRow Datarow)
+        {
+            ID = (int)Datarow["ID"];
+            PID = (int)Datarow["Project ID"];
+            Description = Datarow["Description"] == DBNull.Value ? "" : (string)Datarow["Description"];
+            int alloc = Datarow["Allocated Hours"] == DBNull.Value ? 0 : (int)Datarow["Allocated Hours"];
+            int target = Datarow["Target Hours"] == DBNull.Value ? 0 : (int)Datarow["Target Hours"];
         }
     }
 
@@ -981,6 +995,7 @@ namespace DataAdapter
         public string SoftwarePackage { get; set; }
         public string Comments { get; set; }
         public DateTime TimeStamp { get; set; }
+        public int WorkPackageID { get; set; }
 
         public TimeSheetEntry()
         {

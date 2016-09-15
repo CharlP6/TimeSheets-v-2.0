@@ -142,11 +142,11 @@ namespace MainManagementSystem
                     string targethours = (th.Count() > 0 ? th.First().TargetHours.ToString() : "");
                     string allocatedhours = (th.Count() > 0 ? th.First().AllocatedHours.ToString() : "");
 
-                    return string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18}", date, hour, project, domain, function, activity, recorded, employee, comments, contractType, BU, PM, Country, Sector, weekstartdate, role, add,targethours,allocatedhours);
+                    return string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18}", date, hour, project, domain, function, activity, recorded, employee, comments, contractType, BU, PM, Country, Sector, weekstartdate, role, add, targethours, allocatedhours).Replace("\r\n", " ");
                 }
                 else
                 {
-                    return string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18}", date, hour, project, domain, function, activity, recorded, employee, comments, "proj error", "proj error", "proj error", "proj error", "proj error", weekstartdate, role, add, "proj error", "proj error");
+                    return string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18}", date, hour, project, domain, function, activity, recorded, employee, comments, "proj error", "proj error", "proj error", "proj error", "proj error", weekstartdate, role, add, "proj error", "proj error").Replace("\r\n", " ");
                 }
 
             }
@@ -167,8 +167,15 @@ namespace MainManagementSystem
                 {
                     using(StreamWriter sw = new StreamWriter(fs))
                     {
+                        int debugCount = 0;
                         foreach(TimeSheetEntry tse in dba.TimeSheetEntries)
                         {
+                            debugCount += 1;
+                            if(debugCount == 1131)
+                            {
+                                MessageBox.Show(tse.ID.ToString());
+                                MessageBox.Show(EntryToList(tse));
+                            }
                             sw.WriteLine(EntryToList(tse));
                         }
                     }
