@@ -121,7 +121,7 @@
             this.btnAddProject.PaintOnlyTop = false;
             this.btnAddProject.Size = new System.Drawing.Size(188, 30);
             this.btnAddProject.TabIndex = 5;
-            this.btnAddProject.Text = "Edit Poject List";
+            this.btnAddProject.Text = "Edit Project List";
             this.btnAddProject.Click += new System.EventHandler(this.btnAddProject_Click);
             // 
             // gListFunctions
